@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Treo Outreach Engine</title>
+<meta name="description" content="Treo Group sales and marketing operating system.">
+<meta name="theme-color" content="#171110">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#FBF8F7; --surface:#FFFFFF; --surface-2:#F4EFEE; --surface-3:#EDE5E3;
+  --ink:#171110; --ink-2:#3D3230; --muted:#756764;
+  --line:#E6DDDB; --line-strong:#D2C6C3;
+  --accent:#C8102E; --accent-deep:#8E0B21; --accent-wash:#FBEAED;
+  --warn:#9A6510; --warn-wash:#FBF0DA;
+  --ok:#256B4E; --ok-wash:#E3F0E9;
+  --cool:#3F5A78; --cool-wash:#E8EEF4;
+  --violet:#5B4B8A; --violet-wash:#EDE9F5;
+  --f-display:"Montserrat","Helvetica Neue",Arial,sans-serif;
+  --f-body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+:root[data-theme="dark"]{
+  --ground:#131010; --surface:#1C1817; --surface-2:#241E1D; --surface-3:#2E2726;
+  --ink:#F3EDEC; --ink-2:#D6CBC9; --muted:#9C8D8A;
+  --line:#332B2A; --line-strong:#463B39;
+  --accent:#F0455F; --accent-deep:#FF7188; --accent-wash:#2E1418;
+  --warn:#E0A94A; --warn-wash:#2E2312;
+  --ok:#6BC49B; --ok-wash:#12251C;
+  --cool:#9BB6D2; --cool-wash:#161E27;
+  --violet:#B0A0DC; --violet-wash:#1E1930;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--ground);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:var(--ink);background:none;border:none;cursor:pointer}
+a{color:var(--accent)}
+h1,h2,h3,h4{font-family:var(--f-display);margin:0;line-height:1.15;text-wrap:balance}
+.wrap{max-width:78rem;margin:0 auto;padding:0 clamp(.9rem,3vw,2rem)}
+.chev{color:var(--accent);font-weight:800;letter-spacing:-.08em}
+
+/* ── header ── */
+header.top{background:var(--ink);color:#F5F0EF;border-bottom:3px solid var(--accent);position:sticky;top:0;z-index:50}
+:root[data-theme="dark"] header.top{background:#0C0A0A}
+.top .wrap{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding-top:.85rem;padding-bottom:0}
+.brand{font-family:var(--f-display);font-weight:800;text-transform:uppercase;letter-spacing:-.01em;font-size:1.05rem;color:#F5F0EF}
+.brand small{display:block;font-family:var(--f-mono);font-size:.6rem;letter-spacing:.18em;color:#9C8D8A;font-weight:400;text-transform:uppercase;margin-top:.15rem}
+.today{margin-left:auto;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.06em;color:#9C8D8A;text-transform:uppercase}
+.themebtn{color:#9C8D8A;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .55rem;border:1px solid #3A3231;border-radius:2px}
+.themebtn:hover{color:#F5F0EF;border-color:#5A4E4C}
+nav.tabs{display:flex;gap:.15rem;overflow-x:auto;width:100%;margin-top:.7rem}
+nav.tabs button{color:#9C8D8A;font-family:var(--f-display);font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;padding:.7rem .95rem;border-bottom:2px solid transparent;white-space:nowrap}
+nav.tabs button:hover{color:#F5F0EF}
+nav.tabs button[aria-selected="true"]{color:#fff;border-bottom-color:var(--accent)}
+
+/* ── shared ── */
+main{padding:clamp(1.3rem,3vw,2.2rem) 0 4rem}
+.view{display:none}
+.view.on{display:block}
+.eyebrow{font-family:var(--f-mono);font-size:.66rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+h2.vh{font-size:clamp(1.3rem,2.8vw,1.8rem);font-weight:700;letter-spacing:-.015em}
+.lede{color:var(--muted);margin:.6rem 0 0;max-width:60ch;font-size:.95rem}
+.bar{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin:1.4rem 0 1rem}
+.bar .lbl{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-right:.3rem}
+.chip{font-family:var(--f-mono);font-size:.66rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:.3rem .6rem;border:1px solid var(--line-strong);border-radius:2px;color:var(--muted);background:var(--surface)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.chip:hover{border-color:var(--accent)}
+
+/* tag pills */
+.tag{font-family:var(--f-mono);font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.1rem .4rem;border-radius:2px;white-space:nowrap;display:inline-block}
+.t-EMAIL{background:var(--cool-wash);color:var(--cool)}
+.t-IM{background:var(--accent-wash);color:var(--accent)}
+.t-BOTH{background:var(--violet-wash);color:var(--violet)}
+.t-PROSP{background:var(--warn-wash);color:var(--warn)}
+.t-INBOUND{background:var(--ok-wash);color:var(--ok)}
+.tag.brand{background:transparent;border:1px solid var(--line-strong);color:var(--muted)}
+
+/* ── calendar ── */
+.calscroll{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}
+.cal{min-width:60rem;display:grid;grid-template-columns:4.6rem repeat(5,1fr);position:relative}
+.cal .dh{position:sticky;top:0;z-index:2;background:var(--ink);color:#F5F0EF;font-family:var(--f-display);font-weight:700;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.6rem .7rem;text-align:center}
+.cal .th{font-family:var(--f-mono);font-size:.63rem;color:var(--muted);padding:.2rem .5rem 0 0;text-align:right;border-top:1px solid var(--line);height:3.6rem}
+.cal .cell{border-top:1px solid var(--line);border-left:1px solid var(--line);height:3.6rem;position:relative}
+.blk{position:absolute;left:3px;right:3px;border-radius:2px;padding:.3rem .45rem;overflow:hidden;background:var(--surface-2);border-left:3px solid var(--accent);cursor:pointer;text-align:left;display:block;width:calc(100% - 6px)}
+.blk:hover{background:var(--surface-3)}
+.blk.sugg{border-left-style:dashed;border:1px dashed var(--line-strong);border-left:3px dashed var(--muted);background:transparent}
+.blk .bt{font-family:var(--f-display);font-weight:700;font-size:.73rem;line-height:1.2;color:var(--ink);display:block}
+.blk .bm{font-family:var(--f-mono);font-size:.58rem;color:var(--muted);letter-spacing:.04em;display:block;margin-top:.1rem}
+.blk .bg{display:flex;gap:.2rem;margin-top:.22rem;flex-wrap:wrap}
+.blk.dim{opacity:.18}
+.blk.short{padding:.28rem .45rem}
+.blk.short .bg{display:none}
+.blk.short .bt{font-size:.71rem}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1.3rem;margin-top:1rem;font-family:var(--f-mono);font-size:.66rem;color:var(--muted);letter-spacing:.03em;align-items:center}
+.legend .sw{display:inline-block;width:.8rem;height:.8rem;border-radius:2px;vertical-align:-2px;margin-right:.35rem}
+
+/* ── week list / campaign cards ── */
+.wkgrp{margin-top:1.8rem}
+.wkhd{display:flex;align-items:baseline;gap:.8rem;padding-bottom:.5rem;border-bottom:2px solid var(--ink)}
+.wkhd h3{font-size:1rem;font-weight:700;letter-spacing:.01em}
+.wkhd .rng{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);letter-spacing:.04em}
+.wkhd .cnt{margin-left:auto;font-family:var(--f-mono);font-size:.68rem;color:var(--muted)}
+.rows{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-top:none}
+.row{background:var(--surface);display:grid;grid-template-columns:4.6rem 1fr auto;gap:.9rem;padding:.75rem .9rem;align-items:start}
+.row:hover{background:var(--surface-2)}
+.row .cid{font-family:var(--f-mono);font-size:.75rem;font-weight:600;color:var(--accent)}
+.row .cn{font-family:var(--f-display);font-weight:700;font-size:.9rem}
+.row .ca{font-size:.82rem;color:var(--muted);margin-top:.15rem}
+.row .cg{display:flex;gap:.25rem;margin-top:.35rem;flex-wrap:wrap}
+.row .cd{font-family:var(--f-mono);font-size:.68rem;color:var(--muted);text-align:right;white-space:nowrap}
+.row .cd b{display:block;color:var(--ink);font-weight:600;font-size:.72rem}
+.pill{font-family:var(--f-mono);font-size:.6rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:.1rem .4rem;border-radius:2px}
+.p-crit{background:var(--accent);color:#fff}
+.p-high{background:var(--warn-wash);color:var(--warn)}
+.p-med{background:var(--ok-wash);color:var(--ok)}
+.p-block{background:var(--accent);color:#fff}
+.p-ns{background:var(--surface-3);color:var(--muted)}
+
+/* ── generic content blocks ── */
+.grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:1.4rem;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))}
+.card{background:var(--surface);padding:1.1rem 1.2rem;display:flex;flex-direction:column;gap:.4rem}
+.card h3{font-size:.95rem;font-weight:700}
+.card p{margin:0;font-size:.85rem;color:var(--muted);line-height:1.5}
+.card .ids{font-family:var(--f-mono);font-size:.7rem;color:var(--ink-2);margin-top:auto;padding-top:.5rem;border-top:1px dashed var(--line)}
+.note{margin-top:1.4rem;border-left:3px solid var(--accent);background:var(--surface);padding:1rem 1.2rem;font-size:.88rem;color:var(--ink-2);line-height:1.55}
+.note b{font-family:var(--f-display)}
+.tscroll{overflow-x:auto;border:1px solid var(--line);margin-top:1.4rem}
+table{border-collapse:collapse;width:100%;min-width:40rem;font-size:.85rem}
+th{background:var(--ink);color:#F5F0EF;font-family:var(--f-display);font-weight:700;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:.65rem .85rem;white-space:nowrap}
+:root[data-theme="dark"] th{background:#0C0A0A}
+:root[data-theme="dark"] .cal .dh{background:#0C0A0A}
+td{padding:.6rem .85rem;border-top:1px solid var(--line);color:var(--ink-2);vertical-align:top;line-height:1.45;background:var(--surface)}
+tbody tr:nth-child(even) td{background:var(--surface-2)}
+td.m{font-family:var(--f-mono);font-size:.75rem;color:var(--ink);white-space:nowrap}
+
+/* ── approval flow ── */
+.flow{display:flex;flex-wrap:wrap;gap:.5rem;align-items:stretch;margin-top:1.5rem}
+.step{flex:1 1 10rem;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--accent);padding:.9rem 1rem;position:relative;min-width:10rem}
+.step .n{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+.step h4{font-size:.88rem;font-weight:700;margin:.3rem 0 .3rem}
+.step p{margin:0;font-size:.78rem;color:var(--muted);line-height:1.45}
+.step .when{font-family:var(--f-mono);font-size:.63rem;color:var(--ink-2);margin-top:.45rem;display:block}
+.arrow{align-self:center;color:var(--accent);font-weight:800;font-size:1.1rem;letter-spacing:-.1em}
+@media(max-width:760px){.arrow{display:none}}
+
+/* ── detail drawer ── */
+.drawer{position:fixed;inset:auto 0 0 0;background:var(--surface);border-top:3px solid var(--accent);box-shadow:0 -12px 40px rgba(0,0,0,.22);max-height:70vh;overflow-y:auto;transform:translateY(101%);transition:transform .22s ease;z-index:60}
+.drawer.on{transform:translateY(0)}
+.drawer .inner{max-width:52rem;margin:0 auto;padding:1.3rem clamp(1rem,4vw,2rem) 2rem}
+.drawer h3{font-size:1.05rem;font-weight:700}
+.drawer .dl{display:grid;grid-template-columns:8rem 1fr;gap:.4rem 1rem;margin-top:1rem;font-size:.85rem}
+.drawer dt{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:.15rem}
+.drawer dd{margin:0;color:var(--ink-2)}
+.closebtn{position:absolute;right:1rem;top:.9rem;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line-strong);padding:.25rem .55rem;border-radius:2px}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .22s;z-index:55}
+.scrim.on{opacity:1;pointer-events:auto}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-family:var(--f-mono);font-size:.68rem;color:var(--muted);letter-spacing:.04em}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">Treo Outreach Engine <span class="chev">»»</span><small>Sales &amp; marketing operating system</small></div>
+    <div class="today" id="today"></div>
+    <button class="themebtn" id="themebtn">Dark</button>
+    <nav class="tabs" role="tablist">
+      <button data-v="week" aria-selected="true">Week</button>
+      <button data-v="camp" aria-selected="false">Campaigns</button>
+      <button data-v="appr" aria-selected="false">Approvals</button>
+      <button data-v="plan" aria-selected="false">The plan</button>
+      <button data-v="kpi" aria-selected="false">KPIs</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ WEEK ══════════ -->
+<section class="view on" id="v-week">
+  <div class="eyebrow">Weekly rhythm</div>
+  <h2 class="vh">The standing week</h2>
+  <p class="lede">Five fixed commitments and four suggested blocks. Solid borders are fixed; dashed ones fill the gaps and can be dropped without breaking the week. Click any block for detail.</p>
+
+  <div class="bar"><span class="lbl">Activity</span><span id="fact" style="display:flex;gap:.4rem;flex-wrap:wrap"></span></div>
+  <div class="bar" style="margin-top:-.5rem"><span class="lbl">Brand</span><span id="fbr" style="display:flex;gap:.4rem;flex-wrap:wrap"></span></div>
+
+  <div class="calscroll"><div class="cal" id="cal"></div></div>
+
+  <div class="legend">
+    <span><span class="sw" style="background:var(--surface-2);border-left:3px solid var(--accent)"></span>Fixed commitment</span>
+    <span><span class="sw" style="border:1px dashed var(--muted)"></span>Suggested block</span>
+    <span><span class="tag t-PROSP">PROSP</span> Prospecting outreach</span>
+    <span><span class="tag t-BOTH">EMAIL + IM</span> Campaign work</span>
+    <span><span class="tag t-INBOUND">INBOUND</span> Replies</span>
+  </div>
+
+  <div class="note"><b>The one block that decides everything.</b> Not Monday's drafting — the 14:00 inbound slot. A reply answered inside an hour converts several times better than the same reply answered in two days, and everything upstream of it just generates replies for someone to be slow with. Anyone who replies comes out of automation immediately.</div>
+
+  <div class="grid">
+    <div class="card"><h3>Monday is the pivot</h3><p>Agent call at 9, drafting at 10, approval by noon. If Monday slips, Wednesday's send slips, and the week is gone.</p><div class="ids">PROSP → EMAIL + IM</div></div>
+    <div class="card"><h3>Wednesday is the only send day</h3><p>One build-and-fire slot. Everything else in the week either feeds it or follows up on it.</p><div class="ids">09:00 · both channels</div></div>
+    <div class="card"><h3>Friday feeds Monday</h3><p>Log actuals, pick next week's theme. This is what turns Monday's 10:00 into an hour of writing instead of an hour of deciding.</p><div class="ids">Suggested · 10:00</div></div>
+    <div class="card"><h3>Two tag dimensions</h3><p>Every block carries an activity tag and a brand tag, independently. Filter either lane above to isolate what one person or one brand actually owns.</p><div class="ids">ACTIVITY × BRAND</div></div>
+  </div>
+</section>
+
+<!-- ══════════ CAMPAIGNS ══════════ -->
+<section class="view" id="v-camp">
+  <div class="eyebrow">Campaign runway</div>
+  <h2 class="vh">What launches, week by week</h2>
+  <p class="lede">Twenty campaigns across eight weeks. Expand any week to see the day-by-day actions; click a campaign for its audience, list source and dates.</p>
+
+  <div class="bar"><span class="lbl">Brand</span><span id="fcamp" style="display:flex;gap:.4rem;flex-wrap:wrap"></span></div>
+
+  <div id="weeks"></div>
+
+  <div class="eyebrow" style="margin-top:2.6rem">Webinars</div>
+  <h2 class="vh">The five sessions everything hangs off</h2>
+  <div class="tscroll"><table>
+    <thead><tr><th>Session</th><th>Brand</th><th>Speaker</th><th>Date</th><th>Time</th><th>Status</th><th>Campaigns feeding it</th></tr></thead>
+    <tbody id="webs"></tbody>
+  </table></div>
+</section>
+
+<!-- ══════════ APPROVALS ══════════ -->
+<section class="view" id="v-appr">
+  <div class="eyebrow">Content approval</div>
+  <h2 class="vh">Draft Monday, approved Tuesday, sent Wednesday</h2>
+  <p class="lede">One loop, run once a week. The deadline is what makes it work — content that misses Tuesday close slips a week rather than going out unapproved.</p>
+
+  <div class="flow">
+    <div class="step"><span class="n">Step 1 · Mon 10:00</span><h4>Draft</h4><p>Kelly writes the week's email and IM content against whatever campaign is live.</p><span class="when">1 hour</span></div>
+    <span class="arrow">»</span>
+    <div class="step"><span class="n">Step 2 · Mon 11:00</span><h4>Finalise</h4><p>Proof, merge fields, every registration link tested.</p><span class="when">1 hour</span></div>
+    <span class="arrow">»</span>
+    <div class="step"><span class="n">Step 3 · Mon 12:00</span><h4>Submit</h4><p>To the approver for that brand. Hard deadline.</p><span class="when">Noon</span></div>
+    <span class="arrow">»</span>
+    <div class="step"><span class="n">Step 4 · Tue 12:00</span><h4>Approve</h4><p>Comments back, or a clean approval. 24-hour SLA.</p><span class="when">24 hours</span></div>
+    <span class="arrow">»</span>
+    <div class="step"><span class="n">Step 5 · Wed 09:00</span><h4>Build &amp; fire</h4><p>Loaded into Expandi and HubSpot and launched.</p><span class="when">1 hour</span></div>
+  </div>
+
+  <div class="note"><b>Who sends what.</b> IM and Expandi campaigns go out from <b>Kyle</b>'s LinkedIn profile. Email campaigns go out from <b>Calvin</b>. That split is deliberate — the LinkedIn account is the asset that carries daily limits and restriction risk, and it should not be the same identity signing the email.</div>
+
+  <div class="tscroll"><table>
+    <thead><tr><th>Brand / product</th><th>Content type</th><th>Drafted by</th><th>Approved by</th><th>SLA</th><th>If no response</th></tr></thead>
+    <tbody id="appr"></tbody>
+  </table></div>
+
+  <div class="note"><b>Post-webinar sequences sit outside this loop on purpose.</b> They are pre-approved templates that go live within 24 hours of a session ending. Putting them through a Monday-to-Wednesday cycle would mean the follow-up lands five days late — which is exactly what happened with the July collision avoidance webinar.</div>
+</section>
+
+<!-- ══════════ PLAN ══════════ -->
+<section class="view" id="v-plan">
+  <div class="eyebrow">Channel logic</div>
+  <h2 class="vh">When Expandi, when HubSpot</h2>
+  <p class="lede">The two tools are not interchangeable, and running both at one contact is how you lose them. Four rules decide it.</p>
+
+  <div class="grid">
+    <div class="card"><h3>1 · Lawful basis to email?</h3><p>Yes → HubSpot leads. It scales, it reports, it costs no sender risk. No → LinkedIn is the only channel and Expandi leads.</p></div>
+    <div class="card"><h3>2 · Have they ignored email?</h3><p>Then email is not the answer again. Every "emailed, no response" segment moves to LinkedIn — non-openers only, and at least a week later.</p></div>
+    <div class="card"><h3>3 · Commercial or informational?</h3><p>Registrations scale over email. Renewals, revivals and demos convert better in a LinkedIn thread — a reply costs one line instead of a composed email.</p></div>
+    <div class="card"><h3>4 · Never both in seven days</h3><p>Enforced by list construction, not timing. EX-03 and HS-02 never share a contact. Nor do EX-04 and HS-03, or EX-06 and HS-05b.</p></div>
+  </div>
+
+  <div class="eyebrow" style="margin-top:2.6rem">Audiences</div>
+  <h2 class="vh">Ranked by how warm they are</h2>
+  <p class="lede">Warmth beats volume every time. Work down this list, not across it.</p>
+
+  <div class="grid">
+    <div class="card"><h3>METSIM webform inbound</h3><p>Filled in your form, worked once, no deal. Two METSIM sessions five weeks apart give you a reason to write that isn't another chase.</p><div class="ids">EX-03 track C · HS-02</div></div>
+    <div class="card"><h3>METSIM Client List — active</h3><p>Current licence holders. Clients, not prospects — the sessions go to them as a heads-up, not an invitation to be sold something.</p><div class="ids">EX-03 track A · HS-02</div></div>
+    <div class="card"><h3>Expired METSIM licences</h3><p>Known buyers who stopped paying. Modular licensing means the renewal conversation can start lower than the original.</p><div class="ids">EX-07 · HS-06</div></div>
+    <div class="card"><h3>CAS attendees &amp; no-shows</h3><p>Gave you an hour in July, or raised a hand and lost to their diary. Both have self-identified a collision avoidance problem.</p><div class="ids">EX-01 · EX-02 · HS-01</div></div>
+    <div class="card"><h3>MetalTech — messaged before</h3><p>There's a thread to pick back up and the product has genuinely changed since. Small enough to personalise by hand.</p><div class="ids">EX-09 · this week</div></div>
+    <div class="card"><h3>Closed-lost deals</h3><p>They know you, evaluated you, said no. What's changed since is the only question worth asking.</p><div class="ids">EX-10</div></div>
+    <div class="card"><h3>MetalTech — never messaged</h3><p>Connected on LinkedIn, never spoken to. The connection is a foot in the door you haven't used.</p><div class="ids">EX-08</div></div>
+    <div class="card"><h3>ISO 45001 certified operations</h3><p>Sales Navigator-built, not from your database. Cold — but the 29 September session was written for exactly these people.</p><div class="ids">EX-06 · EX-06b · HS-05a/b</div></div>
+    <div class="card"><h3>Every webinar audience, after</h3><p>Attendees and no-shows for all four upcoming sessions. Highest-converting sequences in the plan, and the easiest to let slip.</p><div class="ids">PW-01 to PW-04</div></div>
+  </div>
+
+  <div class="eyebrow" style="margin-top:2.6rem">Guardrails</div>
+  <h2 class="vh">The rules that protect the lists</h2>
+  <div class="tscroll"><table>
+    <thead><tr><th>#</th><th>Rule</th><th>Why it matters</th></tr></thead>
+    <tbody>
+      <tr><td class="m">1</td><td>No contact gets a HubSpot email and an Expandi message about the same offer within 7 days.</td><td>Reads as pursuit, not marketing. Fastest way to burn a good list.</td></tr>
+      <tr><td class="m">2</td><td>HS-06 email runs 27 Aug / 3 Sep / 10 Sep. EX-07 on LinkedIn does not start until 17 Sep.</td><td>Expired licences are your most valuable segment. A double-tap spends them for nothing.</td></tr>
+      <tr><td class="m">3</td><td>MCL lapsed licences are excluded from EX-03 and HS-02.</td><td>A renewal chase and a webinar invite in the same week undo each other.</td></tr>
+      <tr><td class="m">4</td><td>Anyone who replies leaves automation within 24 hours.</td><td>An automated message arriving after a human reply undoes the reply.</td></tr>
+      <tr><td class="m">5</td><td>"Not interested" = 6-month suppression, all campaigns, all brands.</td><td>A Treo Services no should not become a METSIM attempt next week.</td></tr>
+      <tr><td class="m">6</td><td>20–25 connection requests and 50–70 messages per LinkedIn profile per day.</td><td>The account is the asset. Exceeding the limit risks restriction.</td></tr>
+      <tr><td class="m">7</td><td>HS-05b does not send until POPIA lawful basis is confirmed in writing.</td><td>The only campaign built on an enriched rather than opted-in list.</td></tr>
+      <tr><td class="m">8</td><td>Post-webinar sequences are built the week before and live within 24 hours.</td><td>The July CAS webinar shows what a four-week delay costs.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ══════════ KPIs ══════════ -->
+<section class="view" id="v-kpi">
+  <div class="eyebrow">Measurement</div>
+  <h2 class="vh">What good looks like</h2>
+  <p class="lede">Planning benchmarks from B2B industrial outreach, not Treo's own history. Replace every one with your actuals after the first full cycle — that's what the KPI tab in the tracker is for.</p>
+
+  <div class="tscroll"><table>
+    <thead><tr><th>Metric</th><th>Target</th><th>Applies to</th><th>If it comes in low</th></tr></thead>
+    <tbody>
+      <tr><td>Connection accept rate</td><td class="m">30%</td><td>Cold Expandi campaigns</td><td>Targeting is off, or the connection note is doing too much work.</td></tr>
+      <tr><td>Reply rate — warm</td><td class="m">20%</td><td>EX-01, 02, 07, 09, 10 and every PW campaign</td><td>The opener asks for too much. Cut it to one question.</td></tr>
+      <tr><td>Reply rate — cold</td><td class="m">8%</td><td>EX-03 track D, 04, 06, 06b, 08</td><td>Below 4%, stop and rewrite. Don't scale a losing message.</td></tr>
+      <tr><td>Email open rate</td><td class="m">40%</td><td>All HubSpot sends</td><td>Subject line, sender name, list hygiene — in that order.</td></tr>
+      <tr><td>Click-to-open rate</td><td class="m">10%</td><td>All HubSpot sends</td><td>It opened but didn't earn the click. Weak CTA.</td></tr>
+      <tr><td>Click → registration</td><td class="m">30%</td><td>Webinar campaigns</td><td>The landing page is losing them. Check form length.</td></tr>
+      <tr><td>Registration → attendance</td><td class="m">40%</td><td>All four upcoming webinars</td><td>Reminder cadence. T-1 and day-of do most of the work.</td></tr>
+      <tr><td>Reply → meeting booked</td><td class="m">25%</td><td>Commercial campaigns</td><td>Reply handling, not copy. See the standing scripts.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="eyebrow" style="margin-top:2.6rem">Tracking</div>
+  <h2 class="vh">What each tool can actually tell you</h2>
+  <div class="grid">
+    <div class="card"><h3>Expandi</h3><p>Connection accept rate, reply rate and sentiment per step, sequence drop-off, daily sender load against the limit, blacklist hits.</p><div class="ids">Per campaign, per step</div></div>
+    <div class="card"><h3>HubSpot</h3><p>Delivered, open, click-to-open, unsubscribe and bounce per email; contact-level engagement history; which email in a sequence produced the meeting.</p><div class="ids">Per email, per contact</div></div>
+    <div class="card"><h3>Teams / webinar</h3><p>Registered vs attended, watch duration, drop-off point in the session, and the questions asked — the last of those is next quarter's content plan.</p><div class="ids">Per session</div></div>
+    <div class="card"><h3>The join everything hangs on</h3><p>Campaign ID written onto the HubSpot contact and deal. Without it you can report activity but never attribute a single rand of pipeline.</p><div class="ids">Do this before launch</div></div>
+  </div>
+
+  <div class="note"><b>The metric that actually decides this.</b> Not open rate — <b>time to respond to a reply</b>. A reply answered inside an hour converts several times better than the same reply answered in two days. Everything upstream of that is just generating replies for someone to be slow with.</div>
+</section>
+
+</main>
+
+<footer class="wrap">
+  Treo Group Holdings <span class="chev">»»»</span> Outreach Engine · 20 campaigns · Q3–Q4 2026 · Data current to 25 Aug 2026
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true">
+  <div class="inner">
+    <button class="closebtn" id="dclose">Close</button>
+    <h3 id="dtitle"></h3>
+    <dl class="dl" id="ddl"></dl>
+    <p id="dbody" style="margin-top:1.1rem;color:var(--muted);font-size:.88rem;line-height:1.55"></p>
+  </div>
+</aside>
+
+<script>
+const CAMPAIGNS=[{"id": "EX-01", "brand": "Treo Services", "channel": "Expandi", "name": "Post-Webinar: CAS — Attendees", "aud": "Attended 28 Jul CAS webinar", "src": "HubSpot / Teams attendee report", "steps": 5, "cta": "Book CAS readiness review", "build": "2026-08-25", "launch": "2026-08-26", "ends": "2026-09-10", "status": "Not started", "note": "URGENT — webinar ran 4 weeks ago. Send this week.", "act": "IM", "btag": "SERV"}, {"id": "EX-02", "brand": "Treo Services", "channel": "Expandi", "name": "Post-Webinar: CAS — No-Shows", "aud": "Registered 28 Jul, did not attend", "src": "HubSpot / Teams attendee report", "steps": 5, "cta": "Send recording → readiness review", "build": "2026-08-25", "launch": "2026-08-26", "ends": "2026-09-11", "status": "Not started", "note": "URGENT — same as EX-01.", "act": "IM", "btag": "SERV"}, {"id": "EX-03", "brand": "METSIM", "channel": "Expandi", "name": "METSIM Two-Session Series", "aud": "MCL active + worked webform inbound + Sales Nav METSIM targets", "src": "MCL + HubSpot forms + Sales Navigator", "steps": 6, "cta": "Register 8 Sept + 13 Oct", "build": "2026-08-25", "launch": "2026-08-26", "ends": "2026-10-06", "status": "Not started", "note": "Merges old EX-03 + EX-05 + EX-12. LinkedIn events: 7493248019019186176 (8 Sep) + 7493607657983873024 (13 Oct). MCL lapsed excluded.", "act": "IM", "btag": "METSIM"}, {"id": "EX-04", "brand": "Treo Services", "channel": "Expandi", "name": "Webinar Invite: Traffic Management", "aud": "Mine safety, SHEQ, mining engineers, ops mgrs", "src": "Sales Navigator", "steps": 5, "cta": "Register (15 Sept)", "build": "2026-08-28", "launch": "2026-09-01", "ends": "2026-09-17", "status": "Not started", "note": "T-14.", "act": "IM", "btag": "SERV"}, {"id": "EX-06", "brand": "Treo Services", "channel": "Expandi", "name": "ISO 45001 Certified → ISO 45001 Webinar", "aud": "Employees of ISO 45001 certified operations", "src": "Sales Navigator (manual company list)", "steps": 5, "cta": "Register (29 Sept) + ISO 45001 audit tool", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-10-06", "status": "Not started", "note": "Now points at its OWN webinar, not Traffic Management. A/B split 50/50 on message 1.", "act": "IM", "btag": "SERV + TECH"}, {"id": "EX-06b", "brand": "Treo Services", "channel": "Expandi", "name": "ISO 45001 Webinar — General Safety Audience", "aud": "Safety / SHEQ / risk roles NOT on the certified list", "src": "Sales Navigator", "steps": 5, "cta": "Register (29 Sept)", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-10-01", "status": "Not started", "note": "Suppress the EX-06 audience before launch or the two collide.", "act": "IM", "btag": "SERV"}, {"id": "EX-07", "brand": "METSIM", "channel": "Expandi", "name": "METSIM Licence Expired", "aud": "Lapsed METSIM licence holders", "src": "METSIM client list (licence DB)", "steps": 5, "cta": "Renewal quote / 15-min call", "build": "2026-09-14", "launch": "2026-09-17", "ends": "2026-10-05", "status": "Not started", "note": "Highest-value segment. Starts a clear week after HS-06 ends — do not compress that gap.", "act": "IM", "btag": "METSIM"}, {"id": "EX-08", "brand": "Treo Tech", "channel": "Expandi", "name": "MetalTech — Connected, Never Messaged", "aud": "1st-degree connections, no message history", "src": "LinkedIn connections export", "steps": 4, "cta": "Open a conversation → qualify", "build": "2026-09-03", "launch": "2026-09-08", "ends": "2026-09-26", "status": "Not started", "note": "No connection-request step — already connected.", "act": "IM", "btag": "TECH"}, {"id": "EX-09", "brand": "Treo Tech", "channel": "Expandi", "name": "MetalTech — Connected & Messaged (warm)", "aud": "Prior message history, engaged, no deal", "src": "LinkedIn + HubSpot cross-ref", "steps": 4, "cta": "Book 30-min MetalTech demo", "build": "2026-08-26", "launch": "2026-08-27", "ends": "2026-09-16", "status": "Not started", "note": "MOVED UP to this week. Small list — personalise opener manually. Worth the time.", "act": "IM", "btag": "TECH"}, {"id": "EX-10", "brand": "All", "channel": "Expandi", "name": "Closed-Lost Revival", "aud": "Closed-lost, email follow-up unanswered", "src": "HubSpot deals", "steps": 5, "cta": "Re-open scoping conversation", "build": "2026-08-28", "launch": "2026-09-01", "ends": "2026-09-22", "status": "Not started", "note": "Suppress anyone lost on price in last 90 days.", "act": "IM", "btag": "ALL"}, {"id": "HS-01", "brand": "Treo Services", "channel": "HubSpot", "name": "Post-Webinar: CAS (2 branches)", "aud": "CAS attendees + registered no-shows", "src": "HubSpot webinar list", "steps": 3, "cta": "Recording → readiness review", "build": "2026-08-25", "launch": "2026-08-26", "ends": "2026-08-31", "status": "Not started", "note": "URGENT. Two branches off one campaign.", "act": "EMAIL", "btag": "SERV"}, {"id": "HS-02", "brand": "METSIM", "channel": "HubSpot", "name": "METSIM Two-Session Series", "aud": "MCL active + webform inbound + opted-in METSIM contacts", "src": "MCL + HubSpot active list", "steps": 9, "cta": "Register 8 Sept + 13 Oct", "build": "2026-08-25", "launch": "2026-08-26", "ends": "2026-10-13", "status": "Not started", "note": "Merges old HS-02 + HS-04 + HS-07. Use the LinkedIn event links for both sessions. Registration removes from that session's reminders only.", "act": "EMAIL", "btag": "METSIM"}, {"id": "HS-03", "brand": "Treo Services", "channel": "HubSpot", "name": "Webinar Invite: Traffic Management", "aud": "Safety / SHEQ / operations contacts with consent", "src": "HubSpot active list", "steps": 4, "cta": "Register (15 Sept)", "build": "2026-08-28", "launch": "2026-09-01", "ends": "2026-09-15", "status": "Not started", "note": "Invite T-14, reminders T-7 / T-1 / T-0 08:00.", "act": "EMAIL", "btag": "SERV"}, {"id": "HS-05a", "brand": "Treo Services", "channel": "HubSpot", "name": "ISO 45001 Webinar — Opted-in Safety DB", "aud": "Safety / SHEQ / risk contacts with consent", "src": "HubSpot active list", "steps": 4, "cta": "Register (29 Sept)", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-29", "status": "Not started", "note": "Invite T-13, reminders T-7 / T-1 / T-0 08:00. Not blocked — this list is opted in.", "act": "EMAIL", "btag": "SERV + TECH"}, {"id": "HS-05b", "brand": "Treo Services", "channel": "HubSpot", "name": "ISO 45001 Webinar — Certified-Company List", "aud": "ISO 45001 certified operations, enriched emails", "src": "Sales Nav enrichment → HubSpot", "steps": 2, "cta": "Register (29 Sept) + audit tool", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-23", "status": "BLOCKED", "note": "POPIA: needs lawful-basis sign-off before send. If unresolved, run EX-06 on LinkedIn only.", "act": "EMAIL", "btag": "SERV + TECH"}, {"id": "HS-06", "brand": "METSIM", "channel": "HubSpot", "name": "METSIM Licence Expired", "aud": "Lapsed licence holders with valid email", "src": "METSIM licence DB → HubSpot", "steps": 3, "cta": "Renewal quote / 15-min call", "build": "2026-08-25", "launch": "2026-08-27", "ends": "2026-09-10", "status": "Not started", "note": "Day 0 / +7 / +14 — 27 Aug, 3 Sept, 10 Sept. EX-07 follows on 17 Sept.", "act": "EMAIL", "btag": "METSIM"}, {"id": "PW-01", "brand": "METSIM", "channel": "Both", "name": "Post-Webinar: METSIM Model Audits", "aud": "Attendees + registered no-shows, 8 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Model audit engagement", "build": "2026-09-03", "launch": "2026-09-09", "ends": "2026-09-18", "status": "Not started", "note": "Build the week BEFORE the webinar. Live within 24h. Send from Calvin where possible.", "act": "EMAIL + IM", "btag": "METSIM"}, {"id": "PW-02", "brand": "Treo Services", "channel": "Both", "name": "Post-Webinar: Traffic Management", "aud": "Attendees + registered no-shows, 15 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Traffic management review", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-25", "status": "Not started", "note": "Bridges to the ISO 45001 webinar on 29 Sept. Send from Samuel where possible.", "act": "EMAIL + IM", "btag": "SERV"}, {"id": "PW-03", "brand": "Treo Services", "channel": "Both", "name": "Post-Webinar: ISO 45001", "aud": "Attendees + registered no-shows, 29 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "ISO 45001 audit tool demo", "build": "2026-09-24", "launch": "2026-09-30", "ends": "2026-10-09", "status": "Not started", "note": "No further safety session — bridge to the tool demo, not another webinar.", "act": "EMAIL + IM", "btag": "SERV + TECH"}, {"id": "PW-04", "brand": "METSIM", "channel": "Both", "name": "Post-Webinar: Simulation 4.0", "aud": "Attendees + registered no-shows, 13 Oct", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Scoped AI pilot or model build", "build": "2026-10-08", "launch": "2026-10-14", "ends": "2026-10-23", "status": "Not started", "note": "Last session of the quarter. Bridge to Q1 2027, not another invite.", "act": "EMAIL + IM", "btag": "METSIM"}];
+const SCHEDULE=[{"date": "2026-08-26", "week": "W1", "id": "EX-03 · HS-02", "ch": "Both", "action": "LAUNCH — METSIM Two-Session Series, both channels", "pri": "High"}, {"date": "2026-08-26", "week": "W1", "id": "HS-01", "ch": "HubSpot", "action": "Post-webinar CAS — both branches (attended / no-show)", "pri": "CRITICAL"}, {"date": "2026-08-26", "week": "W1", "id": "EX-01/02", "ch": "Expandi", "action": "Post-webinar CAS — attendee + no-show sequences", "pri": "CRITICAL"}, {"date": "2026-08-27", "week": "W1", "id": "HS-06", "ch": "HubSpot", "action": "METSIM expired licences — email 1", "pri": "High"}, {"date": "2026-08-27", "week": "W1", "id": "EX-09", "ch": "Expandi", "action": "Launch — MetalTech warm signals (MOVED UP)", "pri": "High"}, {"date": "2026-09-01", "week": "W2", "id": "HS-03", "ch": "HubSpot", "action": "Invite send — Traffic Management (T-14)", "pri": "High"}, {"date": "2026-09-01", "week": "W2", "id": "EX-04", "ch": "Expandi", "action": "Launch — Traffic Management invite", "pri": "High"}, {"date": "2026-09-01", "week": "W2", "id": "EX-10", "ch": "Expandi", "action": "Launch — closed-lost revival", "pri": "Medium"}, {"date": "2026-09-01", "week": "W2", "id": "HS-02", "ch": "HubSpot", "action": "Reminder T-7 — METSIM Model Audits", "pri": "High"}, {"date": "2026-09-03", "week": "W2", "id": "PW-01", "ch": "Both", "action": "BUILD post-webinar sequence — before the webinar runs", "pri": "High"}, {"date": "2026-09-03", "week": "W2", "id": "HS-06", "ch": "HubSpot", "action": "METSIM expired licences — email 2", "pri": "High"}, {"date": "2026-09-07", "week": "W3", "id": "EX-03 · HS-02", "ch": "Both", "action": "Model Audits T-1 last call", "pri": "High"}, {"date": "2026-09-08", "week": "W3", "id": "HS-02", "ch": "HubSpot", "action": "Day-of send 08:00 — METSIM Model Audits", "pri": "High"}, {"date": "2026-09-08", "week": "W3", "id": "HS-03", "ch": "HubSpot", "action": "Reminder T-7 — Traffic Management", "pri": "High"}, {"date": "2026-09-08", "week": "W3", "id": "EX-08", "ch": "Expandi", "action": "Launch — MetalTech cold sequence", "pri": "Medium"}, {"date": "2026-09-08", "week": "W3", "id": "—", "ch": "Webinar", "action": "LIVE 10:00 — METSIM Model Audits (Calvin Morrison)", "pri": "CRITICAL"}, {"date": "2026-09-09", "week": "W3", "id": "PW-01", "ch": "Both", "action": "POST-WEBINAR LIVE — Model Audits, attendees + no-shows", "pri": "CRITICAL"}, {"date": "2026-09-10", "week": "W3", "id": "PW-02", "ch": "Both", "action": "BUILD post-webinar sequence — Traffic Management", "pri": "High"}, {"date": "2026-09-10", "week": "W3", "id": "PW-01", "ch": "Expandi", "action": "Post-webinar LinkedIn leg — Model Audits", "pri": "Medium"}, {"date": "2026-09-10", "week": "W3", "id": "HS-06", "ch": "HubSpot", "action": "METSIM expired licences — email 3 (recording of 8 Sept session)", "pri": "Medium"}, {"date": "2026-09-14", "week": "W4", "id": "HS-03", "ch": "HubSpot", "action": "Reminder T-1 — Traffic Management", "pri": "High"}, {"date": "2026-09-15", "week": "W4", "id": "HS-03", "ch": "HubSpot", "action": "Day-of send 08:00 — Traffic Management", "pri": "High"}, {"date": "2026-09-15", "week": "W4", "id": "—", "ch": "Webinar", "action": "LIVE 10:00 — Traffic Management (Samuel Pieterse)", "pri": "CRITICAL"}, {"date": "2026-09-16", "week": "W4", "id": "PW-02", "ch": "Both", "action": "POST-WEBINAR LIVE — Traffic Management, bridges to ISO 45001", "pri": "CRITICAL"}, {"date": "2026-09-16", "week": "W4", "id": "HS-05a", "ch": "HubSpot", "action": "Invite send — ISO 45001: Conformance ≠ Compliance (T-13)", "pri": "High"}, {"date": "2026-09-16", "week": "W4", "id": "EX-06/06b", "ch": "Expandi", "action": "Launch — ISO 45001 invite, certified list + general safety", "pri": "High"}, {"date": "2026-09-16", "week": "W4", "id": "HS-05b", "ch": "HubSpot", "action": "ISO 45001 certified-company email — HOLD until POPIA sign-off", "pri": "BLOCKED"}, {"date": "2026-09-17", "week": "W4", "id": "EX-07", "ch": "Expandi", "action": "Launch — METSIM expired licences on LinkedIn (a clear week after HS-06 ends)", "pri": "High"}, {"date": "2026-09-22", "week": "W5", "id": "HS-05a", "ch": "HubSpot", "action": "Reminder T-7 — ISO 45001", "pri": "High"}, {"date": "2026-09-24", "week": "W5", "id": "PW-03", "ch": "Both", "action": "BUILD post-webinar sequence — ISO 45001", "pri": "High"}, {"date": "2026-09-28", "week": "W6", "id": "HS-05a", "ch": "HubSpot", "action": "Reminder T-1 — ISO 45001", "pri": "High"}, {"date": "2026-09-29", "week": "W6", "id": "HS-02", "ch": "HubSpot", "action": "Simulation 4.0 T-14 reminder", "pri": "Medium"}, {"date": "2026-09-29", "week": "W6", "id": "HS-05a", "ch": "HubSpot", "action": "Day-of send 08:00 — ISO 45001", "pri": "High"}, {"date": "2026-09-29", "week": "W6", "id": "—", "ch": "Webinar", "action": "LIVE 10:00 — ISO 45001: Conformance ≠ Compliance", "pri": "CRITICAL"}, {"date": "2026-09-30", "week": "W6", "id": "PW-03", "ch": "Both", "action": "POST-WEBINAR LIVE — ISO 45001, bridges to the audit tool", "pri": "CRITICAL"}, {"date": "2026-10-06", "week": "W7", "id": "EX-03 · HS-02", "ch": "Both", "action": "Simulation 4.0 T-7 last push", "pri": "High"}, {"date": "2026-10-08", "week": "W7", "id": "PW-04", "ch": "Both", "action": "BUILD post-webinar sequence — Simulation 4.0", "pri": "High"}, {"date": "2026-10-12", "week": "W8", "id": "HS-02", "ch": "HubSpot", "action": "Simulation 4.0 T-1 last call", "pri": "High"}, {"date": "2026-10-13", "week": "W8", "id": "HS-02", "ch": "HubSpot", "action": "Day-of send 08:00 — Simulation 4.0", "pri": "High"}, {"date": "2026-10-13", "week": "W8", "id": "—", "ch": "Webinar", "action": "LIVE 10:00 — Simulation 4.0: Where METSIM Meets AI", "pri": "CRITICAL"}, {"date": "2026-10-14", "week": "W8", "id": "PW-04", "ch": "Both", "action": "POST-WEBINAR LIVE — Simulation 4.0, last of the quarter", "pri": "CRITICAL"}];
+const WEBINARS=[{"name": "Collision Avoidance in Mining: Barriers to Implementation in African Mining", "brand": "Treo Services", "speaker": "Samuel Pieterse", "date": "2026-07-28", "time": "10:00–11:00", "status": "RAN — follow-up overdue", "feeds": "EX-01, EX-02, HS-01"}, {"name": "METSIM Model Audits: Best Practice", "brand": "METSIM", "speaker": "Calvin Morrison", "date": "2026-09-08", "time": "10:00–11:00", "status": "Upcoming", "feeds": "EX-03, HS-02 → PW-01"}, {"name": "Traffic Management: Saving Millions, Preventing Losses", "brand": "Treo Services", "speaker": "Samuel Pieterse", "date": "2026-09-15", "time": "10:00–11:00", "status": "Upcoming", "feeds": "EX-04, HS-03 → PW-02"}, {"name": "ISO 45001: Conformance ≠ Compliance", "brand": "Treo Services", "speaker": "TBC", "date": "2026-09-29", "time": "10:00–11:00", "status": "Upcoming", "feeds": "EX-06, EX-06b, HS-05a/b → PW-03"}, {"name": "Simulation 4.0: Where METSIM Meets AI", "brand": "METSIM", "speaker": "TBC", "date": "2026-10-13", "time": "10:00–11:00", "status": "Upcoming", "feeds": "EX-03, HS-02 → PW-04"}];
+
+/* ─────────── weekly admin calendar ─────────── */
+const BLOCKS=[
+ {d:0,s:9,e:9.5,t:"Prospecting agent call",w:"Samuel + Kelly",act:"PROSP",br:"TECH",fixed:1,
+  detail:"ISO 45001 prospecting. Work the certified-company list, agree this week's targets, hand anything qualified straight to the EX-06 build."},
+ {d:0,s:10,e:11,t:"Draft the week's content",w:"Kelly",act:"EMAIL + IM",br:"VARIES",fixed:1,
+  detail:"Write the week's email campaign and IM campaign against whatever is live that week. Check the Campaigns tab first — the brand you draft for is set by what launches, not by rotation."},
+ {d:0,s:11,e:12,t:"Finalise for approval",w:"Kelly",act:"EMAIL + IM",br:"VARIES",fixed:0,
+  detail:"Proof, check merge fields, test every registration link. This block exists so the noon deadline is not a scramble."},
+ {d:0,s:12,e:12.5,t:"Send for approval",w:"Kelly → approver",act:"EMAIL + IM",br:"VARIES",fixed:1,
+  detail:"Goes to the approver named on the Approvals tab for that brand. METSIM and Technologies content does not send without it."},
+ {d:0,s:14,e:15,t:"Inbound triage",w:"Kelly",act:"INBOUND",br:"ALL",fixed:1,
+  detail:"Every reply answered inside 24 hours. Anyone who replies comes out of automation immediately — that is the single highest-leverage rule in the plan."},
+ {d:1,s:10,e:11,t:"Approval feedback",w:"Approver + Kelly",act:"EMAIL + IM",br:"VARIES",fixed:0,
+  detail:"Approver returns comments, Kelly reworks. Anything unresolved by Tuesday close slips a week rather than going out unapproved."},
+ {d:1,s:14,e:15,t:"Inbound triage",w:"Kelly",act:"INBOUND",br:"ALL",fixed:1,detail:"Daily inbound slot."},
+ {d:2,s:9,e:10,t:"Build and fire",w:"Kelly",act:"EMAIL + IM",br:"VARIES",fixed:1,
+  detail:"Campaign built in Expandi and HubSpot, then launched. Test every link before send — a dead link in message two costs the whole sequence."},
+ {d:2,s:14,e:15,t:"Inbound triage",w:"Kelly",act:"INBOUND",br:"ALL",fixed:1,
+  detail:"Daily inbound slot. Volume peaks here — the campaign went out this morning."},
+ {d:3,s:10,e:10.5,t:"Campaign follow-up",w:"Kelly",act:"EMAIL + IM",br:"VARIES",fixed:0,
+  detail:"Accept rates, opens, bounces, unsubscribes, sender limits. Pause anything misfiring before it scales."},
+ {d:3,s:14,e:15,t:"Inbound triage",w:"Kelly",act:"INBOUND",br:"ALL",fixed:1,detail:"Daily inbound slot."},
+ {d:4,s:10,e:11,t:"Weekly review",w:"Kelly (+ Samuel)",act:"PROSP",br:"ALL",fixed:0,
+  detail:"Log actuals into the KPI tab. Decide next week's theme. This is what makes Monday's drafting quick instead of a blank page."},
+ {d:4,s:14,e:15,t:"Inbound triage",w:"Kelly",act:"INBOUND",br:"ALL",fixed:1,
+  detail:"Daily inbound slot. Clear the week before it closes."},
+];
+const DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday"];
+const T0=9,T1=15.5;
+
+/* ─────────── approvals ─────────── */
+const APPROVALS=[
+ ["Treo Services","Email + IM","Kelly","Calvin","Mon 12:00 → Tue 12:00","Proceed as drafted, flag in the Friday review."],
+ ["METSIM","Email + IM","Kelly","Calvin","Mon 12:00 → Tue 12:00","Hold. Technical content does not send unapproved."],
+ ["Technologies — ISO 45001 tool","Email + IM","Kelly","Kelly and Samuel","Mon 12:00 → Tue 12:00","Hold until Samuel has seen it."],
+ ["Technologies — MetalTech","Email + IM","Kelly","Kelly and Franco","Mon 12:00 → Tue 12:00","Hold until Franco has seen it."],
+ ["Any brand","Post-webinar follow-up","Kelly","Pre-approved template","None — live within 24h","No approval step. Speed beats polish here."],
+ ["Any brand","Reply handling","Kelly","No approval","Within 24h","Standing scripts cover the common cases."],
+];
+
+/* ─────────── helpers ─────────── */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const store={get(k,f){try{const v=localStorage.getItem(k);return v===null?f:JSON.parse(v)}catch(e){return f}},
+             set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const parse=s=>{const[a,b,c]=s.split("-").map(Number);return new Date(a,b-1,c)};
+const fmt=s=>{const d=parse(s);return d.getDate()+" "+MON[d.getMonth()]};
+const fmtLong=s=>{const d=parse(s);return ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][d.getDay()]+" "+d.getDate()+" "+MON[d.getMonth()]+" "+d.getFullYear()};
+const WEEK_STARTS=["2026-08-24","2026-08-31","2026-09-07","2026-09-14","2026-09-21","2026-09-28","2026-10-05","2026-10-12"];
+function weekOf(ds){const d=parse(ds);for(let i=WEEK_STARTS.length-1;i>=0;i--){if(d>=parse(WEEK_STARTS[i]))return i}return 0}
+function tagClass(t){return t==="EMAIL + IM"?"t-BOTH":"t-"+t}
+
+/* ─────────── theme ─────────── */
+function setTheme(t){document.documentElement.setAttribute("data-theme",t);store.set("theme",t);
+  $("#themebtn").textContent=t==="dark"?"Light":"Dark"}
+setTheme(store.get("theme","light"));
+$("#themebtn").onclick=()=>setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark");
+
+/* ─────────── tabs ─────────── */
+$$("nav.tabs button").forEach(b=>b.onclick=()=>{
+  $$("nav.tabs button").forEach(x=>x.setAttribute("aria-selected",x===b));
+  $$(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+b.dataset.v));
+  window.scrollTo({top:0,behavior:"instant"});
+});
+
+/* ─────────── calendar ─────────── */
+let filt={act:new Set(),br:new Set()};
+function renderCal(){
+  const cal=$("#cal"); cal.innerHTML="";
+  const rows=Math.round((T1-T0)*2);
+  cal.style.gridTemplateRows="auto repeat("+rows+",3.6rem)";
+  cal.appendChild(el("div","dh",""));
+  DAYS.forEach(d=>cal.appendChild(el("div","dh",d)));
+  for(let r=0;r<rows;r++){
+    const t=T0+r*0.5;
+    const lab=el("div","th",t%1===0?String(t).padStart(2,"0")+":00":"");
+    lab.style.gridRow=r+2; lab.style.gridColumn=1; cal.appendChild(lab);
+    for(let c=0;c<5;c++){const cell=el("div","cell","");cell.style.gridRow=r+2;cell.style.gridColumn=c+2;
+      cell.dataset.r=r;cell.dataset.c=c;cal.appendChild(cell)}
+  }
+  BLOCKS.forEach(b=>{
+    const host=cal.querySelector(`.cell[data-r="${Math.round((b.s-T0)*2)}"][data-c="${b.d}"]`);
+    if(!host)return;
+    const btn=document.createElement("button");
+    btn.className="blk"+(b.fixed?"":" sugg")+((b.e-b.s)<=0.5?" short":"");
+    const dim=(filt.act.size&&!filt.act.has(b.act))||(filt.br.size&&!filt.br.has(b.br));
+    if(dim)btn.classList.add("dim");
+    btn.style.height=`calc(${(b.e-b.s)*2*3.6}rem - 6px)`;
+    btn.style.top="3px";
+    btn.innerHTML=`<span class="bt">${b.t}</span><span class="bm">${hhmm(b.s)}–${hhmm(b.e)} · ${b.w}</span>
+      <span class="bg"><span class="tag ${tagClass(b.act)}">${b.act}</span><span class="tag brand">${b.br}</span></span>`;
+    btn.onclick=()=>openDrawer(b.t,[["When",DAYS[b.d]+" "+hhmm(b.s)+"–"+hhmm(b.e)],["Who",b.w],
+      ["Activity",b.act],["Brand",b.br],["Type",b.fixed?"Fixed commitment":"Suggested block — drop it without breaking the week"]],b.detail);
+    host.appendChild(btn);
+  });
+}
+function hhmm(t){const h=Math.floor(t),m=(t%1)*60;return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")}
+function el(t,c,x){const e=document.createElement(t);e.className=c;e.textContent=x;return e}
+
+function buildChips(){
+  const acts=["PROSP","EMAIL + IM","INBOUND"], brs=["SERV","METSIM","TECH","VARIES","ALL"];
+  const a=$("#fact"),b=$("#fbr");
+  acts.forEach(t=>{const c=chip(t,()=>{tog(filt.act,t);renderCal();syncChips()});a.appendChild(c)});
+  brs.forEach(t=>{const c=chip(t,()=>{tog(filt.br,t);renderCal();syncChips()});b.appendChild(c)});
+}
+function chip(t,fn){const b=document.createElement("button");b.className="chip";b.textContent=t;b.dataset.t=t;
+  b.setAttribute("aria-pressed","false");b.onclick=fn;return b}
+function tog(s,t){s.has(t)?s.delete(t):s.add(t)}
+function syncChips(){
+  $$("#fact .chip").forEach(c=>c.setAttribute("aria-pressed",filt.act.has(c.dataset.t)));
+  $$("#fbr .chip").forEach(c=>c.setAttribute("aria-pressed",filt.br.has(c.dataset.t)));
+}
+
+/* ─────────── campaigns by week ─────────── */
+let cfilt=new Set();
+function renderWeeks(){
+  const host=$("#weeks"); host.innerHTML="";
+  WEEK_STARTS.forEach((ws,wi)=>{
+    const items=CAMPAIGNS.filter(c=>c.launch&&weekOf(c.launch)===wi)
+      .filter(c=>!cfilt.size||cfilt.has(c.btag.split(" + ")[0])||cfilt.has(c.btag));
+    const acts=SCHEDULE.filter(s=>weekOf(s.date)===wi);
+    if(!items.length&&!acts.length)return;
+    const g=document.createElement("section"); g.className="wkgrp";
+    const end=new Date(parse(ws)); end.setDate(end.getDate()+4);
+    g.innerHTML=`<div class="wkhd"><h3>Week ${wi+1}</h3>
+      <span class="rng">${fmt(ws)} – ${end.getDate()} ${MON[end.getMonth()]}</span>
+      <span class="cnt">${items.length} launching · ${acts.length} actions</span></div>`;
+    const rows=document.createElement("div"); rows.className="rows";
+    items.forEach(c=>{
+      const r=document.createElement("div"); r.className="row";
+      r.innerHTML=`<div class="cid">${c.id}</div>
+        <div><div class="cn">${c.name}</div><div class="ca">${c.aud}</div>
+        <div class="cg"><span class="tag ${tagClass(c.act)}">${c.act}</span><span class="tag brand">${c.btag}</span>
+        <span class="pill ${c.status==="BLOCKED"?"p-block":"p-ns"}">${c.status}</span></div></div>
+        <div class="cd">launch<b>${fmt(c.launch)}</b>ends ${fmt(c.ends)}</div>`;
+      r.onclick=()=>openDrawer(c.id+" · "+c.name,[["Brand",c.brand],["Channel",c.channel],["Audience",c.aud],
+        ["List source",c.src],["Steps",String(c.steps)],["CTA",c.cta],["Build due",fmtLong(c.build)],
+        ["Launch",fmtLong(c.launch)],["Sequence ends",fmtLong(c.ends)],["Tags",c.act+" · "+c.btag]],c.note);
+      rows.appendChild(r);
+    });
+    if(acts.length){
+      const d=document.createElement("details"); d.style.cssText="background:var(--surface);border:1px solid var(--line);border-top:none;padding:.6rem .9rem";
+      d.innerHTML=`<summary style="cursor:pointer;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">${acts.length} scheduled actions this week</summary>`;
+      const t=document.createElement("div"); t.style.cssText="margin-top:.6rem;display:flex;flex-direction:column;gap:.3rem";
+      acts.forEach(a=>{const li=document.createElement("div");
+        li.style.cssText="display:grid;grid-template-columns:5.5rem 5rem 1fr auto;gap:.6rem;font-size:.8rem;align-items:baseline";
+        li.innerHTML=`<span style="font-family:var(--f-mono);font-size:.72rem;color:var(--muted)">${fmtLong(a.date).slice(0,10)}</span>
+          <span style="font-family:var(--f-mono);font-size:.72rem;color:var(--accent)">${a.id}</span>
+          <span style="color:var(--ink-2)">${a.action}</span>
+          <span class="pill ${a.pri==="CRITICAL"||a.pri==="BLOCKED"?"p-crit":a.pri==="High"?"p-high":"p-med"}">${a.pri}</span>`;
+        t.appendChild(li)});
+      d.appendChild(t); rows.appendChild(d);
+    }
+    g.appendChild(rows); host.appendChild(g);
+  });
+}
+function buildCampChips(){
+  const host=$("#fcamp");
+  ["SERV","METSIM","TECH","ALL"].forEach(t=>{
+    const c=chip(t,()=>{tog(cfilt,t);renderWeeks();
+      $$("#fcamp .chip").forEach(x=>x.setAttribute("aria-pressed",cfilt.has(x.dataset.t)))});
+    host.appendChild(c)});
+}
+
+/* ─────────── webinars ─────────── */
+function renderWebinars(){
+  const b=$("#webs");
+  b.innerHTML=WEBINARS.map(w=>`<tr><td>${w.name}</td><td class="m">${w.brand}</td><td class="m">${w.speaker}</td>
+    <td class="m">${fmtLong(w.date)}</td><td class="m">${w.time}</td>
+    <td><span class="pill ${w.status.indexOf("RAN")===0?"p-crit":"p-med"}">${w.status}</span></td>
+    <td class="m">${w.feeds}</td></tr>`).join("");
+}
+
+/* ─────────── approvals ─────────── */
+function renderApprovals(){
+  $("#appr").innerHTML=APPROVALS.map(a=>`<tr><td>${a[0]}</td><td class="m">${a[1]}</td><td class="m">${a[2]}</td>
+    <td><b>${a[3]}</b></td><td class="m">${a[4]}</td><td>${a[5]}</td></tr>`).join("");
+}
+
+/* ─────────── drawer ─────────── */
+function openDrawer(title,pairs,body){
+  $("#dtitle").textContent=title;
+  $("#ddl").innerHTML=pairs.filter(p=>p[1]).map(p=>`<dt>${p[0]}</dt><dd>${p[1]}</dd>`).join("");
+  $("#dbody").textContent=body||"";
+  $("#drawer").classList.add("on"); $("#scrim").classList.add("on");
+}
+function closeDrawer(){$("#drawer").classList.remove("on");$("#scrim").classList.remove("on")}
+$("#scrim").onclick=closeDrawer; $("#dclose").onclick=closeDrawer;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer()});
+
+/* ─────────── boot ─────────── */
+buildChips(); buildCampChips(); renderCal(); renderWeeks(); renderWebinars(); renderApprovals();
+$("#today").textContent=new Date().toLocaleDateString("en-ZA",{weekday:"short",day:"numeric",month:"short",year:"numeric"});
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
+
+</script>
+</body>
+</html>
