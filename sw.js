@@ -1,5 +1,5 @@
 /* Bump CACHE on every index.html change or installed apps serve a stale copy forever. */
-const CACHE = "treo-outreach-v2";
+const CACHE = "treo-outreach-v4";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", e => {
