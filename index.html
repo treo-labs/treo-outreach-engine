@@ -308,22 +308,24 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
 .rlmsg{font-family:var(--f-mono);font-size:.7rem}
 .rlmsg.ok{color:#2E6A4F}.rlmsg.err{color:var(--accent)}
 .rl .hhd{align-items:flex-start}
+.rl .hbody{display:flex;flex-direction:column;gap:.75rem;align-items:stretch}
+.rlmeta{margin-left:auto}
 .rlname{font-family:var(--f-display);font-weight:700;font-size:1rem;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line-strong)}
 .rlname:hover{color:var(--accent);border-bottom-color:var(--accent)}
 .rlrole{font-size:.8rem;color:var(--muted);margin-top:.15rem}
 .rlmeta{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;justify-content:flex-end}
 .rlage{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.05em;color:var(--muted);white-space:nowrap}
 .rlage.hot{color:var(--accent);font-weight:600}
-.rlclash{font-size:.78rem;padding:.55rem .7rem;border-radius:2px;background:var(--surface-2,rgba(0,0,0,.04));color:var(--muted);margin-bottom:.7rem}
+.rlclash{font-size:.78rem;padding:.55rem .7rem;border-radius:2px;background:var(--surface-2,rgba(0,0,0,.04));color:var(--muted)}
 .rlclash.live{background:rgba(151,52,31,.1);color:var(--accent);font-weight:600}
-.rlthread{margin-bottom:.7rem}
+.rlthread{margin:0}
 .rlthread>summary{cursor:pointer;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .rlthread>summary:hover{color:var(--ink)}
 .rlmsgs{display:flex;flex-direction:column;gap:.5rem;margin-top:.6rem;padding-left:.7rem;border-left:2px solid var(--line-strong)}
 .rlm{font-size:.8rem;line-height:1.5}
 .rlm .w{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block}
 .rlm.them .w{color:var(--accent)}
-.rldraft{width:100%;font-family:var(--f-body);font-size:.85rem;line-height:1.55;padding:.6rem .7rem;border:1px solid var(--line-strong);background:var(--bg);color:var(--ink);border-radius:2px;min-height:7rem;resize:vertical}
+.rldraft{width:100%;font-family:var(--f-body);font-size:.85rem;line-height:1.55;padding:.6rem .7rem;border:1px solid var(--line-strong);background:var(--bg);color:var(--ink);border-radius:2px;min-height:5rem;resize:vertical;overflow:hidden}
 .rldraft:focus{outline:none;border-color:var(--accent)}
 .rlsent{display:flex;align-items:center;gap:.4rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);cursor:pointer}
 .rl[data-sent="1"]{opacity:.55}
@@ -2296,6 +2298,10 @@ function rFill(t){
   const d=($("#rldate")&&$("#rldate").value.trim())||"", k=($("#rllink")&&$("#rllink").value.trim())||"";
   return String(t||"").replace(/\[DATE\]/g,d||"[DATE]").replace(/\[LINK\]/g,k||"[LINK]");
 }
+/* Grow the box to the draft. Nobody should have to drag a corner to read
+   a message they are about to send. */
+function rGrow(ta){ if(!ta)return; ta.style.height="auto"; ta.style.height=(ta.scrollHeight+2)+"px" }
+function rGrowAll(){ $$("#rllist .rldraft").forEach(rGrow) }
 function rDays(L){
   if(!L.last)return null;
   return Math.floor((Date.now()-new Date(L.last).getTime())/86400000);
@@ -2385,6 +2391,7 @@ function renderReplies(){
       </div>
     </div>`;
   }).join("");
+  rGrowAll();
 }
 
 /* ── the console snippet ──────────────────────────────────────────────
@@ -2561,7 +2568,7 @@ function rImport(text){
       if(b.dataset.a==="tpl"){
         const ta=list.querySelector(`.rldraft[data-k="${CSS.escape(L.k)}"]`);
         const t=(RTPL[rBrand(L)]||"").replace(/\{first\}/g,L.fn||"");
-        if(ta){ ta.value=ta.value.trim()?ta.value+"\n\n"+t:t; L.d=ta.value; rSave() }
+        if(ta){ ta.value=ta.value.trim()?ta.value+"\n\n"+t:t; L.d=ta.value; rGrow(ta); rSave() }
       }
     });
     list.addEventListener("change",e=>{
@@ -2573,9 +2580,15 @@ function rImport(text){
     list.addEventListener("input",e=>{
       const ta=e.target.closest(".rldraft"); if(!ta)return;
       const L=LEADS.find(x=>x.k===ta.dataset.k); if(!L)return;
-      L.d=ta.value; L.updated_at=new Date().toISOString(); rSave();
+      L.d=ta.value; L.updated_at=new Date().toISOString(); rGrow(ta); rSave();
     });
   }
+  /* A textarea measures 0 while its tab is hidden, so size them again when
+     the tab is opened, and when the window resizes and the text rewraps. */
+  const rTab=document.querySelector('nav.tabs button[data-v="reply"]');
+  if(rTab)rTab.addEventListener("click",()=>setTimeout(rGrowAll,0));
+  let rRz; addEventListener("resize",()=>{clearTimeout(rRz);rRz=setTimeout(rGrowAll,120)});
+
   renderReplies();
 })();
 
