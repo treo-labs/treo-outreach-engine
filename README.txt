@@ -107,6 +107,74 @@ If index.html's own campaign list changes, bump CAMP_SEED_VERSION near
 the top of the script block. Campaigns nobody touched pick up the new
 version; edited ones keep the edit; deleted ones stay deleted.
 
+REPLIES TAB — ANSWERING THE PEOPLE WHO REPLY
+--------------------------------------------
+Campaigns produce replies and replies go stale. This tab is the list of
+people who answered and rated interested, one card each, with the thread
+they wrote above the draft going back to them.
+
+Getting the leads in. Expandi's inbox has no export and no "add to lead
+list", and its contact list is virtualised so scraping the page misses
+most of it. So the tab carries a console snippet instead:
+
+  1. Open the Expandi inbox and set the filters you want — replied,
+     interest rating interested, whichever tags.
+  2. Replies tab → Import from Expandi → Copy console snippet.
+  3. In Expandi press F12, Console, paste, Enter.
+  4. Click any one contact. The snippet borrows the auth header off the
+     page's own API call, then reads every contact and every thread in the
+     filtered list and downloads expandi-replies.json.
+  5. Paste that file's contents into the box and press Import.
+
+The snippet never sends anything anywhere — it reads the same endpoints
+the inbox reads and writes a file. Your access token stays in the browser.
+
+Import is safe to repeat. Leads are keyed on the LinkedIn /in/ slug, so a
+second import of the same person updates their details and thread rather
+than duplicating them, and a draft you have already written is never
+overwritten. The box also accepts a raw capture array or a threads-only
+object, so an older console capture still loads.
+
+THE CLASH CHECK — WHY THIS TAB IS NOT JUST A LIST
+--------------------------------------------------
+The app already holds every campaign and its dates. So when a lead comes
+in carrying the Expandi campaign they were enrolled in, the tab can match
+it against the plan and tell you whether that sequence is still running.
+
+A lead in a live sequence is called out at the top of the tab and on their
+own card, in red. Pause or remove them from the campaign before you answer
+by hand — otherwise your message and an automated step land on the same
+person in the same week, which is the single fastest way to make a warm
+lead go cold.
+
+A lead whose campaign has ended is marked safe to write to.
+
+DRAFTS
+------
+A lead arrives with whatever draft was written for it. Edit any draft in
+the box; it saves as you type. Where there is no draft, "Insert template"
+drops the opening pattern for that lead's brand — METSIM, Treo Tech or
+Treo Services — so someone can write without waiting on a chat. A template
+is a starting point, not a message: what makes these land is answering
+what the person actually said, which is what the thread above the box is
+there for.
+
+"Before sending" notes in grey are claims in the draft that need checking
+first — a licence record, a price, a product change. Do not send those
+until you have the answer.
+
+Session date and recording link at the top of the tab fill every [DATE]
+and [LINK] placeholder at the moment you press Copy draft, so one webinar
+date typed once covers the whole batch.
+
+Copy for Claude takes every unanswered lead, with their threads and
+current drafts, as text to paste into a chat when you want the drafts
+written or rewritten properly.
+
+Reply leads sync through Supabase like everything else, once
+sql/003_reply_leads.sql has been run. Same contract: later edit wins,
+deletes travel.
+
 HISTORY TAB — HOW SYNC WORKS
 ----------------------------
 Keep one folder per campaign inside your Campaigns folder:

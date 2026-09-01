@@ -297,6 +297,37 @@ table.ctable tbody tr{cursor:pointer}
 table.ctable tbody tr:hover td{background:var(--surface-3)}
 table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)}
 
+/* ─────────── replies ─────────── */
+.rlbar{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin:1.1rem 0 .5rem}
+.rlimport{border:1px solid var(--line-strong);background:var(--surface);border-radius:2px;margin:1rem 0 1.4rem}
+.rlimport>summary{cursor:pointer;padding:.65rem .8rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.rlimport>summary:hover{color:var(--ink)}
+.rlimport .in{padding:0 .8rem .9rem;display:flex;flex-direction:column;gap:.7rem}
+.rlimport textarea{width:100%;font-family:var(--f-mono);font-size:.72rem;padding:.5rem .6rem;border:1px solid var(--line-strong);background:var(--bg);color:var(--ink);border-radius:2px;min-height:6rem;resize:vertical}
+.rlimport textarea:focus{outline:none;border-color:var(--accent)}
+.rlmsg{font-family:var(--f-mono);font-size:.7rem}
+.rlmsg.ok{color:#2E6A4F}.rlmsg.err{color:var(--accent)}
+.rl .hhd{align-items:flex-start}
+.rlname{font-family:var(--f-display);font-weight:700;font-size:1rem;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line-strong)}
+.rlname:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.rlrole{font-size:.8rem;color:var(--muted);margin-top:.15rem}
+.rlmeta{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+.rlage{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.05em;color:var(--muted);white-space:nowrap}
+.rlage.hot{color:var(--accent);font-weight:600}
+.rlclash{font-size:.78rem;padding:.55rem .7rem;border-radius:2px;background:var(--surface-2,rgba(0,0,0,.04));color:var(--muted);margin-bottom:.7rem}
+.rlclash.live{background:rgba(151,52,31,.1);color:var(--accent);font-weight:600}
+.rlthread{margin-bottom:.7rem}
+.rlthread>summary{cursor:pointer;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.rlthread>summary:hover{color:var(--ink)}
+.rlmsgs{display:flex;flex-direction:column;gap:.5rem;margin-top:.6rem;padding-left:.7rem;border-left:2px solid var(--line-strong)}
+.rlm{font-size:.8rem;line-height:1.5}
+.rlm .w{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block}
+.rlm.them .w{color:var(--accent)}
+.rldraft{width:100%;font-family:var(--f-body);font-size:.85rem;line-height:1.55;padding:.6rem .7rem;border:1px solid var(--line-strong);background:var(--bg);color:var(--ink);border-radius:2px;min-height:7rem;resize:vertical}
+.rldraft:focus{outline:none;border-color:var(--accent)}
+.rlsent{display:flex;align-items:center;gap:.4rem;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);cursor:pointer}
+.rl[data-sent="1"]{opacity:.55}
+
 </style>
 </head>
 <body>
@@ -310,6 +341,7 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
       <button data-v="week" aria-selected="true">Week</button>
       <button data-v="camp" aria-selected="false">Campaigns</button>
       <button data-v="hist" aria-selected="false">History</button>
+      <button data-v="reply" aria-selected="false">Replies</button>
       <button data-v="appr" aria-selected="false">Approvals</button>
       <button data-v="plan" aria-selected="false">The plan</button>
       <button data-v="kpi" aria-selected="false">KPIs</button>
@@ -445,6 +477,68 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
   <div class="note" style="margin-top:2.2rem"><b>How the folder should look.</b> One folder per campaign inside <span class="ids" style="font-family:var(--f-mono)">Campaigns/</span>, named with the campaign ID where you have one — <span style="font-family:var(--f-mono)">EX-08 MetalTech Connect</span> matches EX-08 automatically. Drop the Expandi or HubSpot export (.xlsx or .csv) and the result screenshots straight in. Sync reads every spreadsheet for the metrics below, counts the list rows, and files every image as evidence against that campaign.</div>
 </section>
 
+<!-- ══════════ REPLIES ══════════ -->
+<section class="view" id="v-reply">
+  <div class="eyebrow">Inbound</div>
+  <h2 class="vh">Replies waiting on an answer</h2>
+  <p class="lede">Everyone who replied to a campaign and rated interested, with the thread they wrote, a draft to send back, and a check against the plan so nobody gets a hand-written message while a sequence is still firing at them.</p>
+
+  <div class="note" id="rlwarn" hidden></div>
+
+  <details class="rlimport" id="rlimport">
+    <summary>Import from Expandi</summary>
+    <div class="in">
+      <p class="lede" style="margin:0">Expandi's inbox has no export. This pulls the data out of the page instead. Open the inbox, set the filters you want (replied, interested, whichever tags), press F12 for the console, paste the snippet, then click any one contact so it can borrow the auth header. It fetches every contact and thread in the filtered list and downloads a JSON file. Paste that file's contents below.</p>
+      <div class="rlbar">
+        <button class="btn ghost sm" id="rlsnip">Copy console snippet</button>
+        <span class="rlmsg" id="rlsnipmsg"></span>
+      </div>
+      <textarea id="rljson" placeholder="Paste expandi-replies.json here, or a raw capture array, or a threads-only object"></textarea>
+      <div class="rlbar" style="margin:0">
+        <button class="btn" id="rlgo">Import</button>
+        <span class="rlmsg" id="rlimsg"></span>
+      </div>
+    </div>
+  </details>
+
+  <div class="filters">
+    <div class="frow2"><span class="lbl">Find</span><input type="search" id="rlq" placeholder="name, company, role, tag or anything they said…"></div>
+    <div class="frow2"><span class="lbl">Brand</span><span id="rlfbrand"></span></div>
+    <div class="frow2"><span class="lbl">State</span><span id="rlfstate"></span></div>
+    <div class="frow2 last"><span class="lbl">Sort</span>
+      <select id="rlsort">
+        <option value="last">Last reply</option><option value="name">Name</option>
+        <option value="company">Company</option><option value="brand">Brand</option>
+      </select>
+      <button class="rowbtn" id="rldir">↓ newest first</button>
+      <span class="ccount" id="rlcount"></span>
+      <button class="rowbtn" id="rlclear">Reset filters</button>
+    </div>
+  </div>
+
+  <div class="stats" id="rlstats"></div>
+
+  <div class="filters" style="margin-top:.6rem">
+    <div class="frow2 last"><span class="lbl">Fill</span>
+      <input type="text" id="rldate" placeholder="Session date, e.g. Thursday 18 September" style="min-width:16rem">
+      <input type="text" id="rllink" placeholder="Recording link" style="min-width:12rem">
+      <span class="lbl" style="margin:0">drops into every [DATE] and [LINK] on copy</span>
+    </div>
+  </div>
+
+  <div class="campbar">
+    <div class="pushright" style="display:flex;gap:.5rem;flex-wrap:wrap">
+      <button class="btn ghost sm" id="rlexp">Export JSON</button>
+      <button class="btn ghost sm" id="rlcopy">Copy for Claude</button>
+      <button class="btn ghost sm" id="rlreset">Reset to file</button>
+    </div>
+  </div>
+
+  <div id="rllist"></div>
+
+  <div class="note" style="margin-top:2.2rem"><b>Where the drafts come from.</b> A lead arrives with whatever draft was written for it. Where there is none, <b>Insert template</b> drops the opening pattern for that lead's brand so someone can write without waiting on a chat. Templates are a starting point, not a message: the drafts that land are the ones that answer what the person actually said, which is what the thread above each box is there for.</div>
+</section>
+
 <!-- ══════════ APPROVALS ══════════ -->
 <section class="view" id="v-appr">
   <div class="eyebrow">Content approval</div>
@@ -555,7 +649,7 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
 </main>
 
 <footer class="wrap">
-  Treo Group Holdings <span class="chev">»»»</span> Outreach Engine · <span id="footcount">18</span> campaigns · Q3–Q4 2026 · Data current to 1 Sept 2026 · campaign history syncs from the Campaigns folder
+  Treo Group Holdings <span class="chev">»»»</span> Outreach Engine · <span id="footcount">18</span> campaigns · Q3–Q4 2026 · Data current to 1 Sept 2026 · campaign history syncs from the Campaigns folder · replies import from the Expandi inbox
 </footer>
 
 <div class="scrim" id="scrim"></div>
@@ -1858,6 +1952,64 @@ async function cloudSync(mode){
       if(error)clog("warn","schedule push: "+error.message);else clog("ok",`pushed ${schedRows.length} scheduled actions`);
     }
 
+    /* ── reply leads ──────────────────────────────────────────────────
+       Same contract as campaigns: later edit wins per record, remote
+       deletes travel, and a draft written here is a normal edit. The
+       thread is carried as jsonb because it is read, never queried. */
+    try{
+      const leadRow=L=>({
+        lead_key:L.k, name:L.n||"", first_name:L.fn||"", job_title:L.t||"",
+        company:L.co||"", industry:L.ind||"", profile_link:L.u||"",
+        tags:L.tags||[], brand:rBrand(L), expandi_campaign:L.camp||"",
+        campaign_active:!!L.ca, last_reply_at:L.last||null,
+        thread:L.th||[], draft:L.d||"", verify:L.v||"", note:L.note||"",
+        sent:!!L.sent, sent_at:L.sent_at||null, is_deleted:false,
+        updated_at:L.updated_at||EPOCH, updated_by:who
+      });
+      const rowLead=r=>({
+        k:r.lead_key, n:r.name, fn:r.first_name, t:r.job_title, co:r.company,
+        ind:r.industry, u:r.profile_link, tags:r.tags||[], camp:r.expandi_campaign,
+        ca:!!r.campaign_active, last:r.last_reply_at, th:r.thread||[],
+        d:r.draft||"", v:r.verify||"", note:r.note||"", sent:!!r.sent,
+        sent_at:r.sent_at, updated_at:r.updated_at
+      });
+      if(pull){
+        const {data,error}=await client.from("reply_leads").select("*");
+        if(error)clog("warn","reply leads: "+error.message);
+        else{
+          const remote=data||[];
+          clog("dim",`read ${remote.length} reply lead${remote.length===1?"":"s"}`);
+          remote.filter(r=>r.is_deleted).forEach(r=>{
+            const i=LEADS.findIndex(L=>L.k===r.lead_key);
+            if(i>=0&&upAt(r)>upAt(LEADS[i])){LEADS.splice(i,1);RDEL.add(r.lead_key);
+              clog("warn",`${r.name} was removed elsewhere — removed here too`)}
+          });
+          let took=0;
+          remote.filter(r=>!r.is_deleted&&!RDEL.has(r.lead_key)).forEach(r=>{
+            const i=LEADS.findIndex(L=>L.k===r.lead_key);
+            if(i<0){LEADS.push(rowLead(r));took++}
+            else if(upAt(r)>upAt(LEADS[i])){Object.assign(LEADS[i],rowLead(r));took++}
+          });
+          if(took)clog("ok",`took ${took} newer reply lead record${took===1?"":"s"} from Supabase`);
+        }
+      }
+      if(push){
+        const rows=LEADS.map(leadRow);
+        if(rows.length){
+          const {error}=await client.from("reply_leads").upsert(rows,{onConflict:"lead_key"});
+          if(error)clog("warn","reply leads push: "+error.message);
+          else clog("ok",`pushed ${rows.length} reply leads`);
+        }
+        if(RDEL.size){
+          const del=[...RDEL].map(k=>({lead_key:k,name:"(deleted)",is_deleted:true,
+            updated_at:stampNow(),updated_by:who}));
+          const {error}=await client.from("reply_leads").upsert(del,{onConflict:"lead_key"});
+          if(error)clog("warn","reply lead delete markers: "+error.message);
+        }
+      }
+      rSave(); if(typeof renderReplies==="function")renderReplies();
+    }catch(e){ clog("warn","reply leads: "+e.message) }
+
     /* ── webinars ── */
     if(push){
       const wr=WEBINARS.map(w=>({slug:slug(w.name),name:w.name,brand:w.brand,speaker:w.speaker,
@@ -1978,6 +2130,455 @@ async function syncShots(client,who,pull,push){
   }
 }
 
+/* ══════════════════════════════════════════════════════════════════════
+   REPLIES — inbound leads who answered a campaign
+   ────────────────────────────────────────────────────────────────────
+   Leads arrive from the Expandi inbox via the console snippet on the
+   Replies tab (Expandi has no export). A lead carries the thread the
+   person wrote, so a draft can answer what they actually said, and the
+   Expandi campaign they came from, so the app can tell you when a
+   sequence is still running at someone you are about to message by hand.
+
+   Seed below is the 1 Sept 2026 batch: replied + interest rating
+   Interested. Bump RSEED_VERSION when you change it — untouched leads
+   pick up the new version, edited ones keep the edit, deleted ones
+   stay deleted. Same contract as CAMPAIGNS_SEED.
+   ══════════════════════════════════════════════════════════════════ */
+const RSEED_VERSION="2026-09-01a";
+const RKEY="oe.replies.v1", RDKEY="oe.replies.del.v1";
+const M=(at,f,b)=>({at,f,b});
+const REPLIES_SEED=[
+{k:"gareth-peachey-4050038",n:"Gareth Peachey",fn:"Gareth",t:"Principal Processing",co:"Harmony Gold Mining Company Limited",ind:"Mining & Metals",u:"https://www.linkedin.com/in/gareth-peachey-4050038/",tags:["Metaltech opportunity","Metsim opportunity"],camp:"Metsim Connects (non-mobile)",ca:false,last:"2026-08-28T20:54:24Z",
+th:[M("2026-03-31T12:33","us","Hi Gareth, I'm with Metsim International (VP) and regularly connect with professionals working in mineral processing and simulation. Thought it would be good to connect"),M("2026-04-02T09:33","us","Thanks for connecting, Gareth.\n\nI'm always interested to understand how teams are using simulation — are you currently using Metsim, or looking at it for a particular project or for optimisation?"),M("2026-08-28T22:46","them","Hi Calvin,  I have used Metsim heavily in the past as a design engineer but not for many years.  I have only just started a new role and this site has a Metsim model but I'm in the early stages of finding out if anyone uses it or knows how to. When I find out, I will be interested in finding out if there has been new features/updates/user friendly additions or is it the mostly same as I remember.  I'm working in ops presently so will be looking at a tool for scenario testing and early project valuation type work mostly I'd expect."),M("2026-08-28T22:54","them","If I'm allowed to get more technical, I'll be looking at options/possibility/feasibility of integrating good modelling into real time process control and predictive dynamics")],
+d:"Hi Gareth, that is useful context. On updates, there has been steady development rather than a rewrite, so the core will feel familiar and most of the movement has been on the interface and model handling side. Easiest way to judge it is to see the current build, and we are running a live session on [DATE] if you want to sit in.\n\nFor scenario testing and early project valuation, that is the Costing and Dynamic modules. If the model on site is structurally sound it may only need validating rather than rebuilding, which is a much smaller job than it sounds. Worth me checking who the Harmony licence is registered to so you know who holds the key.\n\nThe real time control question is the bigger one. Taking a steady state model toward predictive dynamics is doable, and it is the space our MetalTech side works in, with digital twin models and set point guidance built off live plant data. Happy to get into that properly if it is a direction you are serious about.",
+v:"Confirm what has actually shipped since he last used it, and who holds the Harmony licence."},
+
+{k:"ntshirane-alphios-malekana",n:"Ntshirane Alphios Malekana",fn:"Ntshirane",t:"Section Engineer",co:"Northam Platinum",ind:"Mining & Metals",u:"https://www.linkedin.com/in/ntshirane-alphios-malekana-mba-mcompm-gcc-pmp-®-2016b915/",tags:["Treo opportunity"],camp:"CAS & Safety Connection Builder",ca:true,last:"2026-08-16T13:59:59Z",
+th:[M("2026-08-15T08:39","us","Hi Ntshirane Alphios, regularly connect with professionals such as yourself. Thought it would be good to connect"),M("2026-08-16T09:19","us","Thanks for connecting, Ntshirane Alphios.\n\nMost operations we speak to are still running CAS under an exemption plan rather than full Level 9 intervention. We ran a webinar last week on the barriers that stall implementation on African mines, and what's actually worked to get past them.\n\nNext ones cover traffic management and PDS/VDS rollout.\n\nWant me to send you the recording?"),M("2026-08-16T15:59","them","Good day Calvin,\nYes, please send me the recording")],
+d:"Good day Ntshirane, apologies for the delay in getting this across. Here is the recording from the CAS session: [LINK]\n\nThe traffic management webinar is next, with PDS/VDS after that, and I will add you to the invite list for both. If traffic management is live for you at Northam, we have run reviews against EMESRT and ICMM standards at a few operations and I am happy to talk through what those turned up.",
+v:"He asked on 16 August and it was never sent."},
+
+{k:"daviemalizhi",n:"Davie Malizhi",fn:"Davie",t:"Geo Metallurgist",co:"Barrick Mining Corporation",ind:"Mining & Metals",u:"https://www.linkedin.com/in/daviemalizhi/",tags:["Metsim opportunity"],camp:"Reply to Sender",ca:false,last:"2026-08-16T10:24:44Z",
+th:[M("2026-08-16T12:23","us","Hi Davie,\n\nGot your request for METSIM trial key.\n\nAre you aware that Lumwana already has a METSIM license?\n\nRegards,\nCalvin Morrison\nVP METSIM"),M("2026-08-16T12:24","them","How do I get access?"),M("2026-08-16T12:24","them","I'm not aware Lumwana has METSIM license.")],
+d:"Hi Davie, apologies for the slow reply. Lumwana does show on our licence records, so the key is registered to someone on site already. I am pulling the details of who it sits with and will come back to you with a name so you can get added as a user. If that turns out to be a dead end, I can set you up with a trial key in the meantime.\n\nWhat flowsheet are you looking to model?",
+v:"Check the licence register for Lumwana before sending. He asked on 16 August."},
+
+{k:"colette-warden-5474749",n:"Colette Warden",fn:"Colette",t:"Group Metallurgist",co:"First Quantum Minerals",ind:"Mining & Metals",u:"https://www.linkedin.com/in/colette-warden-5474749/",tags:["Metsim opportunity"],camp:"Metsim Connects (non-mobile)",ca:false,last:"2026-05-06T23:49:56Z",
+th:[M("2026-04-21T16:49","us","Hi Colette, I'm with Metsim International (VP) and regularly connect with professionals working in mineral processing and simulation. Thought it would be good to connect"),M("2026-05-06T11:21","us","Thanks for connecting, Colette.\n\nI'm always interested to understand how teams are using simulation — are you currently using Metsim, or looking at it for a particular project or for optimisation?"),M("2026-05-07T01:49","them","Hi Calvin\n\nFQM currently use MetSim in isolation, I am hoping to change this to using it as a standard on all of our sites - it does require a culture change though, so this will take time.")],
+d:"Hi Colette, standardising across sites is the right goal, and you are right that the culture piece is harder than the software. What tends to work is picking one site with a willing metallurgist, building a model that visibly answers a question that site already cares about, then letting the other sites ask for it rather than pushing it out from group. Training moves people further than a mandate does.\n\nIf it is useful I can put together what a phased rollout across FQM sites would look like, including licence structure and where the training load falls. We are also running a live session on [DATE] if you want to put a few site people in front of it without committing to anything.",
+v:""},
+
+{k:"stepan-bakhvalov-2423b9171",n:"Stepan Bakhvalov",fn:"Stepan",t:"Senior Process Engineer",co:"AMG Lithium GmbH",ind:"Mining & Metals",u:"https://www.linkedin.com/in/stepan-bakhvalov-2423b9171/",tags:["Metsim opportunity"],camp:"ALTA Perth 2026",ca:false,last:"2026-04-26T11:39:19Z",
+th:[M("2026-04-25T16:17","us","Hi Stepan\n\nAre you attending ALTA in May?\n\nIf so, I'd really appreciate the opportunity to connect with you in-person - I think there may be areas where our businesses could align or collaborate."),M("2026-04-26T13:39","them","Hi Calvin,\n\nI'm not attending ALTA in May unfortunately. I have contacted your colleagues 2 years ago and discussed the Metsim process simulation package. Let me know if have some topics to discuss online.\n\nBest regards,\nStepan")],
+d:"Hi Stepan, understood on ALTA. Since you have looked at METSIM once already, the useful question is what stopped it two years ago, whether that was price, fit or timing.\n\nAMG Lithium is a different flowsheet to most of what gets modelled, and lithium conversion with the calcination and leach steps is where the chemistry handling earns its keep. We are running a live session on [DATE], or I can do something shorter and specific to your circuit. Which would be more use?",
+v:"Worth checking what the 2024 conversation covered before you reply."},
+
+{k:"sergey-lunkov-metallurgist",n:"Sergey Lunkov",fn:"Sergey",t:"Manager, New Advanced Products",co:"Maaden",ind:"Mining & Metals",u:"https://www.linkedin.com/in/sergey-lunkov-metallurgist/",tags:["Metaltech opportunity","Metsim opportunity","Treo opportunity"],camp:"Metsim Connects (non-mobile)",ca:false,last:"2026-04-25T07:57:01Z",
+th:[M("2026-04-17T07:44","us","Hi Sergey, I'm with Metsim International (VP) and regularly connect with professionals working in mineral processing and simulation. Thought it would be good to connect"),M("2026-04-20T08:05","us","Thanks for connecting, Sergey.\n\nI'm always interested to understand how teams are using simulation — are you currently using Metsim, or looking at it for a particular project or for optimisation?"),M("2026-04-25T09:57","them","Hi Calvin,\n\nThanks for reaching out!\nWe're currently involved in a few exciting projects, where accurate techno-economic assessment supported by robust material and energy balances is a key focus. Simulation tools like Metsim are definitely relevant in that space, particularly for flowsheet validation and optimisation.\n\nAt this stage, we're keeping an open view on tools and approaches depending on project requirements. I'll certainly keep this in mind and get back to you once something more specific comes up where it could add value. Thank you")],
+d:"Hi Sergey, that makes sense, and techno economic assessment built off a robust mass and energy balance is exactly the use case.\n\nRather than wait for a specific project to land, we are running a live session on [DATE] that covers flowsheet validation and the costing side. No commitment, and it means when something does come up you will already know whether METSIM fits it. Want me to send the details?",
+v:""},
+
+{k:"karel-osten-35087018",n:"Karel Osten",fn:"Karel",t:"Consulting Metallurgist",co:"METTKO Pty Ltd",ind:"Mining & Metals",u:"https://www.linkedin.com/in/karel-osten-35087018/",tags:["Metsim opportunity"],camp:"Metsim Connects (non-mobile)",ca:false,last:"2026-04-21T22:49:25Z",
+th:[M("2026-04-19T15:45","us","Hi Karel, I'm with Metsim International (VP) and regularly connect with professionals working in mineral processing and simulation. Thought it would be good to connect"),M("2026-04-21T11:27","us","Thanks for connecting, Karel.\n\nI'm always interested to understand how teams are using simulation — are you currently using Metsim, or looking at it for a particular project or for optimisation?"),M("2026-04-22T00:49","them","Hi Calvin. Yes I've been using Metsim since the DOS days. There have been some recent improvements but I was disappointed when the functionality changed without notice not allowing a version without a Sentinel key to simply read Metsim files without additional setup.")],
+d:"Hi Karel, that is a fair complaint and you are not the first long term user to raise it. The change to read only access caught people out and it was not communicated well.\n\nLet me find out exactly where that sits in the current build and what the workaround is for opening files without a key, then come back to you properly rather than guess at it. Using it since the DOS days is a long run with the software, so if there is anything else that has got worse rather than better, I would rather hear it.",
+v:"The draft promises him a real answer on Sentinel key read access. Get it before sending."},
+
+{k:"mohammedjadidi",n:"Mohammed Jadidi",fn:"Mohammed",t:"Manager Open Pit",co:"Maaden",ind:"Mining & Metals",u:"https://www.linkedin.com/in/mohammedjadidi/",tags:["Metaltech opportunity","Metsim opportunity","Treo opportunity"],camp:"Metsim Connects (non-mobile)",ca:false,last:"2026-04-16T09:24:53Z",
+th:[M("2026-03-12T14:53","us","Hi Mohammed, I'm with Metsim International (VP) and regularly connect with professionals working in mineral processing and simulation. Thought it would be good to connect"),M("2026-04-16T11:24","them","Hi Calvin,\nThank you for reaching out.\nIt's a pleasure to connect with professionals working in mineral processing and simulation.\nI look forward to exchanging insights and staying connected.\n\nBest regards.")],
+d:"Hi Mohammed, likewise. You are on the mining side rather than processing, so simulation may not be part of your day to day.\n\nIf it is relevant, the Mine module handles pit to plant material flow and blending, which is usually where the two sides end up arguing. We are running a live session on [DATE] if you want to see it. Otherwise, is grade or blend variability something you are wrestling with at the moment?",
+v:""},
+
+{k:"alireza-rabieh-35707934",n:"Alireza Rabieh",fn:"Alireza",t:"Chief Technology Officer",co:"Austvolt",ind:"Mining & Metals",u:"https://www.linkedin.com/in/alireza-rabieh-35707934/",tags:["Metsim opportunity"],camp:"Metsim Connects (non-mobile)",ca:false,last:"2026-04-12T07:21:30Z",
+th:[M("2026-04-08T17:04","us","Hi Alireza, I'm with Metsim International (VP) and regularly connect with professionals working in mineral processing and simulation. Thought it would be good to connect"),M("2026-04-10T09:15","us","Thanks for connecting, Alireza.\n\nI'm always interested to understand how teams are using simulation — are you currently using Metsim, or looking at it for a particular project or for optimisation?"),M("2026-04-12T09:21","them","Hi Calvin,\n\nThank you for reaching out.\n\nCurrently, I am using HSC Chemistry, as it provides a comprehensive and reliable thermodynamic database for chemical reaction calculations. This is particularly critical for my work on precursor NMC hydroxide cathode materials for lithium-ion batteries, where accurate equilibrium and speciation modelling strongly influence process design, impurity control, and optimisation of co-precipitation conditions.\n\nAt this stage, HSC Chemistry offers the level of chemical accuracy required for transition-metal systems (Ni-Co-Mn), complex aqueous chemistry, and stability predictions, which are central to precursor synthesis.\n\nThat said, I am always open to understanding how other platforms such as MetSim could complement process optimisation workflows, particularly if there are advantages in flowsheet integration or scale-up modelling.\n\nKind regards,\nAlireza")],
+d:"Hi Alireza, HSC is the right tool for the thermodynamics and speciation work you are describing and I would not try to talk you out of it. The two sit at different levels.\n\nMETSIM earns its place once that chemistry goes into a full flowsheet, with recycle streams, water and reagent balances, equipment sizing and scale up, which is where a pure thermodynamic package runs out of road. A fair number of people run both, with HSC informing the reaction blocks. For NMC co precipitation the interesting part is closing the balance around the reactor and the downstream washing and filtration.\n\nWe are running a live session on [DATE] if you want to see how that is put together.",
+v:""},
+
+{k:"elham-aghaei-8b25a199",n:"Elham Aghaei",fn:"Elham",t:"Project Metallurgist",co:"Norton Gold Fields Pty Ltd",ind:"Mining & Metals",u:"https://www.linkedin.com/in/elham-aghaei-8b25a199/",tags:["Metsim opportunity"],camp:"Metsim Connects (non-mobile)",ca:false,last:"2026-04-12T01:42:12Z",
+th:[M("2026-04-03T13:03","us","Hi Elham, I'm with Metsim International (VP) and regularly connect with professionals working in mineral processing and simulation. Thought it would be good to connect"),M("2026-04-04T08:35","us","Thanks for connecting, Elham.\n\nI'm always interested to understand how teams are using simulation — are you currently using Metsim, or looking at it for a particular project or for optimisation?"),M("2026-04-11T01:01","them","Hi Calvin, I've never used Metsim and not very familiar with the software."),M("2026-04-12T03:42","them","I'd like to learn about this software, its application and benefits.")],
+d:"Hi Elham, the easiest way in is to see a model built on a flowsheet you already recognise. Norton is gold, so cyanidation and the ADR circuit would be the relevant one.\n\nWe are running a live session on [DATE], which is the low commitment way to get a feel for it. If you want to go further than that, the Basic Introductory course runs four days and covers building your own model rather than watching someone else's. Want me to send the session details?",
+v:""},
+
+{k:"rejayogesh",n:"Yogesh Reja",fn:"Yogesh",t:"Technical Manager - Australia",co:"Derrick Corporation",ind:"Mining & Metals",u:"https://www.linkedin.com/in/rejayogesh/",tags:["Metsim opportunity"],camp:"Metsim Connects (non-mobile)",ca:false,last:"2026-04-09T09:28:16Z",
+th:[M("2026-04-08T14:44","us","Hi Yogesh, I'm with Metsim International (VP) and regularly connect with professionals working in mineral processing and simulation. Thought it would be good to connect"),M("2026-04-09T11:14","us","Thanks for connecting, Yogesh.\n\nI'm always interested to understand how teams are using simulation — are you currently using Metsim, or looking at it for a particular project or for optimisation?"),M("2026-04-09T11:27","them","Thanks for connecting. I used Metsim at Hatch. Currently, work on Usimpac"),M("2026-04-09T11:28","them","I learnt from Alex")],
+d:"Hi Yogesh, that is good lineage, and plenty of people learnt it the same way.\n\nUSIM PAC and METSIM overlap on the balance work but diverge once you get into reaction chemistry and dynamic behaviour, so which one fits depends on what Derrick's work actually needs. Given Derrick sits on the screening side, the question I would ask is whether you are modelling to size equipment or to predict circuit response, because those pull in different directions.\n\nWe are running a live session on [DATE] if you want to see where the current build has got to since your Hatch days.",
+v:"You will know who Alex is. Worth naming him if the relationship is good."},
+
+{k:"barry-tindall-089921aa",n:"Barry Tindall",fn:"Barry",t:"Technical Director - Process Engineering",co:"GHD",ind:"Mining & Metals",u:"https://www.linkedin.com/in/barry-tindall-089921aa/",tags:["Metsim opportunity"],camp:"Metsim Connects (non-mobile)",ca:false,last:"2026-04-06T21:30:52Z",
+th:[M("2026-04-06T07:44","us","Hi Barry, I'm with Metsim International (VP) and regularly connect with professionals working in mineral processing and simulation. Thought it would be good to connect"),M("2026-04-06T23:30","them","Hi Calvin\nThanks for the connection request. Metsim is always something I wanted to learn to use, but I have never had the chance. The companies I worked for either didn't have it, or the licenses are restricted. Besides now I am far enough up the tree that the juniors use it. I am very familiar with simulation software, ProII in the old days then AspenPlus when I worked in hydrocarbons")],
+d:"Hi Barry, the licence restriction is the interesting part of that. If the juniors are the ones building models, run time only licences usually solve it, since they let people open and interrogate a model without needing a full seat.\n\nComing from ProII and AspenPlus the logic will be familiar. The real difference is how METSIM handles solids and particle size distributions, which is where the hydrocarbon packages struggle.\n\nWe are running a live session on [DATE] if you want to see it without booking training.",
+v:"Check run time licence pricing before implying it is cheap."},
+
+{k:"rob-coleman-735a3013",n:"Rob Coleman",fn:"Rob",t:"Managing Director",co:"Core Resources Pty Ltd",ind:"Mining & Metals",u:"https://www.linkedin.com/in/rob-coleman-735a3013/",tags:["Metaltech opportunity","Metsim opportunity"],camp:"Metsim Connects (non-mobile)",ca:false,last:"2026-03-24T21:45:03Z",
+th:[M("2026-03-21T13:33","us","Hi Rob, I'm with Metsim International (VP) and regularly connect with professionals working in mineral processing and simulation. Thought it would be good to connect"),M("2026-03-24T08:12","us","Thanks for connecting, Rob.\n\nI'm always interested to understand how teams are using simulation — are you currently using Metsim, or looking at it for a particular project or for optimisation?"),M("2026-03-24T22:45","them","Hi Calvin\n\nThanks for connecting. Yes we are Metsim users and have a number of super users in our team. We use Metsim extensively for our projects.")],
+d:"Hi Rob, that is good to know, and a team with several super users is rarer than you would think.\n\nTwo things worth raising. If your people are using it that heavily, the Advanced Chemistry Reactions and Dynamic modules are usually where experienced users find they have been working around a gap rather than through it. We are running a live session on [DATE] if any of them want to sit in.\n\nSeparately, given the project and study work Core Resources does, there may be something in a closer arrangement on model builds. Worth a short call?",
+v:""},
+
+{k:"kim-n-2260963",n:"Kim N.",fn:"Kim",t:"Team Lead Minerals Processing APAC",co:"Worley",ind:"Mining & Metals",u:"https://www.linkedin.com/in/kim-n-2260963/",tags:["Metsim opportunity"],camp:"Metsim Connects (non-mobile)",ca:false,last:"2026-03-24T10:05:47Z",
+th:[M("2026-03-22T12:34","us","Hi Kim, I'm with Metsim International (VP) and regularly connect with professionals working in mineral processing and simulation. Thought it would be good to connect"),M("2026-03-24T10:32","us","Thanks for connecting, Kim.\n\nI'm always interested to understand how teams are using simulation — are you currently using Metsim, or looking at it for a particular project or for optimisation?"),M("2026-03-24T11:05","them","Hi Calvin, we are using both SysCAD and Metsim as our main simulation tools across a number of projects and studies.")],
+d:"Hi Kim, running both is common at that scale, and the split usually comes down to what the study lead trained on rather than a technical call.\n\nWhere METSIM tends to pull ahead is complex chemistry, heap leach and smelting circuits, where the reaction handling does more of the work for you. We are running a live session on [DATE] and your team is welcome.\n\nWhich commodities is APAC weighted toward at the moment?",
+v:"Comparative claim against SysCAD. Make sure you are comfortable defending it."},
+
+{k:"yasar-alp-yigit-024250193",n:"Yaşar Alp Yiğit",fn:"Yaşar Alp",t:"Process Engineer",co:"Eti Bakır A.Ş. Küre İşletmeleri",ind:"Mining & Metals",u:"https://www.linkedin.com/in/yaşar-alp-yiğit-024250193/",tags:["Metsim opportunity"],camp:"Metsim Connects (non-mobile)",ca:false,last:"2026-03-15T08:58:32Z",
+th:[M("2026-03-14T13:33","us","Hi Yaşar Alp, I'm with Metsim International (VP) and regularly connect with professionals working in mineral processing and simulation. Thought it would be good to connect"),M("2026-03-15T08:03","us","Thanks for connecting, Yaşar Alp.\n\nI'm always interested to understand how teams are using simulation — are you currently using Metsim, or looking at it for a particular project or for optimisation?"),M("2026-03-15T09:58","them","Hi calvin\n\nTo answer your question, I am not currently using Metsim. However, as a Mining Engineer, I am quite interested in its capabilities, especially regarding process simulation and optimization. I'd be happy to learn more about how it's being applied in the industry today.")],
+d:"Hi Yaşar Alp, the most relevant application for Eti Bakır would be on the copper side, concentrate roasting and flash smelting balances, and heap leach if that is in scope.\n\nWe are running a live session on [DATE] that walks through an actual model rather than slides, which is the fastest way to judge whether it is worth your time. Want me to send you the details?",
+v:""}
+];
+
+/* Brand: the campaign a lead came from is the better signal than the tag,
+   because a contact can carry three opportunity tags and still only ever
+   have had one conversation. Tags are the fallback. */
+const RBRAND_TAG={"Metsim opportunity":"METSIM","Metaltech opportunity":"Treo Tech","Treo opportunity":"Treo Services"};
+const RBRANDS=["METSIM","Treo Tech","Treo Services"];
+function rBrand(L){
+  const c=(L.camp||"").toLowerCase();
+  if(/metsim/.test(c))return "METSIM";
+  if(/metaltech|metal tech/.test(c))return "Treo Tech";
+  if(/cas|safety|traffic|iso|treo/.test(c))return "Treo Services";
+  for(const b of RBRANDS){ if((L.tags||[]).some(t=>RBRAND_TAG[t]===b))return b }
+  return "Treo Services";
+}
+
+/* Opening patterns, not messages. Enough to start from when a lead
+   arrives without a draft and nobody wants to wait on a chat. */
+const RTPL={
+  "METSIM":"Hi {first}, \n\nAnswer their actual question first. Name the module, licence type or process that fits what they described (Costing, Dynamic, Advanced Chemistry Reactions, Mine, Heap Leach; full, academic or run time only) rather than talking about simulation software in general.\n\nOne next step, matched to how warm they are: a live session, a model scoping call, or a training date.",
+  "Treo Tech":"Hi {first}, \n\nOpen on the specific plant data problem they raised, not on digital transformation. Name the one MetalTech capability that fits it: metal accounting reconciliation, the dashboards, downtime management, LIMS, digital twins or set point guidance.\n\nOne next step: a look at their current reconciliation, or a walkthrough of that one module.",
+  "Treo Services":"Hi {first}, \n\nGive them the real answer first. One proof point at most, the one closest to their situation.\n\nOne small next step: send the thing they asked for, or a short call."
+};
+
+const RDEL=new Set(store.get(RDKEY,[]));
+function rLoad(){
+  const saved=store.get(RKEY,null);
+  const base=REPLIES_SEED.map(l=>({...l,sent:false,note:"",_v:RSEED_VERSION}));
+  if(!saved||!saved.items)return base.filter(l=>!RDEL.has(l.k));
+  const by=Object.fromEntries(base.map(l=>[l.k,l]));
+  const out=[];
+  Object.values(saved.items).forEach(l=>{ if(!RDEL.has(l.k))out.push(l); delete by[l.k] });
+  Object.values(by).forEach(l=>{ if(!RDEL.has(l.k))out.push(l) });
+  return out;
+}
+let LEADS=rLoad();
+function rSave(){
+  store.set(RKEY,{v:RSEED_VERSION,at:new Date().toISOString(),
+    items:Object.fromEntries(LEADS.map(l=>[l.k,l]))});
+  store.set(RDKEY,[...RDEL]);
+}
+
+/* Clash: is a sequence still running at someone you are about to write to
+   by hand. Two sources — the flag Expandi gave us at capture time, and the
+   plan itself, which this app already holds. */
+function rStageOf(c){
+  const t=iso(new Date());
+  if(c.ends&&c.ends<t)return "ended";
+  if(c.launch&&c.launch<=t)return "live";
+  return "upcoming";
+}
+function rClash(L){
+  const name=(L.camp||"").trim();
+  if(!name)return null;
+  const camps=(typeof ALL_CAMPS!=="undefined"?ALL_CAMPS:[]);
+  const hit=camps.find(c=>c.id===name)||camps.find(c=>{
+    const a=(c.name||"").toLowerCase(), b=name.toLowerCase();
+    return a&&b&&(a===b||a.includes(b)||b.includes(a));
+  });
+  const planStage=hit?rStageOf(hit):null;
+  const planLive=hit&&!hit.parked&&(planStage==="live"||planStage==="upcoming");
+  if(L.ca||planLive){
+    const which=hit?`${hit.id} · ${hit.name}`:name;
+    return {live:true,text:`Still enrolled in ${which}${planStage?" ("+STAGE_LABEL[planStage].toLowerCase()+")":""}. Pause or remove ${L.fn} before you send, or Expandi fires an automated step on top of your message.`};
+  }
+  return {live:false,text:`Came from ${hit?hit.id+" · "+hit.name:name}, which has finished. Safe to write by hand.`};
+}
+
+const RF={q:"",brand:new Set(),state:new Set(),sort:"last",dir:-1};
+const rEsc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function rFill(t){
+  const d=($("#rldate")&&$("#rldate").value.trim())||"", k=($("#rllink")&&$("#rllink").value.trim())||"";
+  return String(t||"").replace(/\[DATE\]/g,d||"[DATE]").replace(/\[LINK\]/g,k||"[LINK]");
+}
+function rDays(L){
+  if(!L.last)return null;
+  return Math.floor((Date.now()-new Date(L.last).getTime())/86400000);
+}
+function rAge(L){
+  const d=rDays(L); if(d===null)return "";
+  const dt=new Date(L.last);
+  const when=dt.getDate()+" "+MON[dt.getMonth()];
+  if(d<1)return when+" · today";
+  if(d<31)return when+" · "+d+" day"+(d===1?"":"s");
+  const m=Math.round(d/30.4);
+  return when+" · "+m+" month"+(m===1?"":"s");
+}
+
+function renderReplies(){
+  const q=RF.q.toLowerCase();
+  let rows=LEADS.filter(L=>{
+    if(RF.brand.size&&!RF.brand.has(rBrand(L)))return false;
+    if(RF.state.size){
+      const cl=rClash(L);
+      const st=L.sent?"sent":(rDays(L)>7?"overdue":"open");
+      const ok=[...RF.state].some(s=>s==="live"?(cl&&cl.live):s===st);
+      if(!ok)return false;
+    }
+    if(!q)return true;
+    return [L.n,L.t,L.co,L.camp,(L.tags||[]).join(" "),L.d,(L.th||[]).map(m=>m.b).join(" ")]
+      .join(" ").toLowerCase().includes(q);
+  });
+  const key=RF.sort;
+  rows.sort((a,b)=>{
+    let x,y;
+    if(key==="last"){x=a.last||"";y=b.last||""}
+    else if(key==="brand"){x=rBrand(a);y=rBrand(b)}
+    else if(key==="company"){x=a.co||"";y=b.co||""}
+    else {x=a.n||"";y=b.n||""}
+    return x<y?-RF.dir:x>y?RF.dir:0;
+  });
+
+  const live=LEADS.filter(L=>{const c=rClash(L);return c&&c.live}).length;
+  const unsent=LEADS.filter(L=>!L.sent).length;
+  const overdue=LEADS.filter(L=>!L.sent&&rDays(L)>7).length;
+  const st=$("#rlstats");
+  if(st)st.innerHTML=[["Waiting",unsent,"not yet answered"],["Overdue",overdue,"a week or more since they wrote"],
+    ["In a live sequence",live,"pause before writing by hand"],["Sent",LEADS.length-unsent,"of "+LEADS.length]]
+    .map(([l,v,s])=>`<div class="stat"><b>${v}</b><span>${rEsc(l)}</span><small>${rEsc(s)}</small></div>`).join("");
+
+  const warn=$("#rlwarn");
+  if(warn){
+    if(live){warn.hidden=false;
+      warn.innerHTML=`<b>${live} lead${live===1?" is":"s are"} still in a running sequence.</b> Expandi will keep sending to ${live===1?"them":"them"} on its own schedule. Pause or remove ${live===1?"that lead":"those leads"} from the campaign before you answer by hand, or your message and an automated step land on the same person in the same week.`;
+    } else warn.hidden=true;
+  }
+
+  const c=$("#rlcount");
+  if(c)c.textContent=`${rows.length} of ${LEADS.length} lead${LEADS.length===1?"":"s"}${rows.length!==LEADS.length?" match":""}`;
+
+  const host=$("#rllist"); if(!host)return;
+  if(!rows.length){host.innerHTML=`<p class="hempty">Nothing matches. Reset the filters, or import a batch from Expandi above.</p>`;return}
+  host.innerHTML=rows.map(L=>{
+    const cl=rClash(L), br=rBrand(L), d=rDays(L);
+    const hot=!L.sent&&d>7;
+    return `<div class="card hcard rl" data-k="${rEsc(L.k)}" data-sent="${L.sent?1:0}">
+      <div class="hhd">
+        <div>
+          <a class="rlname" href="${rEsc(L.u)}" target="_blank" rel="noopener">${rEsc(L.n)}</a>
+          <div class="rlrole">${rEsc(L.t)}${L.co?" · "+rEsc(L.co):""}</div>
+        </div>
+        <div class="rlmeta">
+          <span class="tag ${br==="METSIM"?"t-IM":br==="Treo Tech"?"t-EMAIL":"t-BOTH"}">${rEsc(br)}</span>
+          <span class="rlage${hot?" hot":""}">${rEsc(rAge(L))}</span>
+        </div>
+      </div>
+      <div class="hbody">
+        ${cl?`<div class="rlclash${cl.live?" live":""}">${rEsc(cl.text)}</div>`:""}
+        ${L.v?`<div class="rlclash">Before sending: ${rEsc(L.v)}</div>`:""}
+        <details class="rlthread"><summary>What they said · ${(L.th||[]).length} message${(L.th||[]).length===1?"":"s"}</summary>
+          <div class="rlmsgs">${(L.th||[]).map(m=>`<div class="rlm ${m.f==="them"?"them":""}"><span class="w">${m.f==="them"?rEsc(L.fn):"Us"} · ${rEsc(String(m.at).slice(0,10))}</span>${rEsc(m.b)}</div>`).join("")}</div>
+        </details>
+        <textarea class="rldraft" data-k="${rEsc(L.k)}" placeholder="No draft yet. Insert template, or bring the thread to a chat.">${rEsc(L.d||"")}</textarea>
+      </div>
+      <div class="hft">
+        <button class="btn ghost sm" data-a="copy" data-k="${rEsc(L.k)}">Copy draft</button>
+        <button class="btn ghost sm" data-a="tpl" data-k="${rEsc(L.k)}">Insert template</button>
+        <div class="pushright">
+          <label class="rlsent"><input type="checkbox" data-a="sent" data-k="${rEsc(L.k)}" ${L.sent?"checked":""}> Sent</label>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+/* ── the console snippet ──────────────────────────────────────────────
+   Expandi has no export and its inbox list is virtualised, so scraping
+   the DOM misses most of it. This borrows the auth header off the page's
+   own API call instead, then reads the same endpoints the inbox reads.
+   Nothing leaves the browser except the file it downloads. */
+const RSNIPPET=`(async () => {
+  const of = window.fetch; let auth = null; const seen = new Map();
+  const grab = (u, t) => { if (!/liaufa\\.com/.test(u)) return;
+    try { const j = JSON.parse(t);
+      if (j && j.results && /messenger\\/\\?/.test(u)) j.results.forEach(r => seen.set(r.id, r));
+    } catch (e) {} };
+  window.fetch = function (...a) {
+    const u = (a[0] && a[0].url) || String(a[0]);
+    try { const h = (a[1] && a[1].headers) || (a[0] && a[0].headers);
+      const v = h ? (typeof h.get === 'function' ? h.get('Authorization') : (h.Authorization || h.authorization)) : null;
+      if (v) auth = v; } catch (e) {}
+    return of.apply(this, a).then(r => { try { r.clone().text().then(t => grab(u, t)); } catch (e) {} return r; });
+  };
+  const osrh = XMLHttpRequest.prototype.setRequestHeader,
+        oo = XMLHttpRequest.prototype.open, os = XMLHttpRequest.prototype.send;
+  XMLHttpRequest.prototype.setRequestHeader = function (k, v) { if (/^authorization$/i.test(k) && v) auth = v; return osrh.apply(this, arguments); };
+  XMLHttpRequest.prototype.open = function (m, u, ...r) { this.__u = u; return oo.call(this, m, u, ...r); };
+  XMLHttpRequest.prototype.send = function (...a) { this.addEventListener('load', () => grab(this.__u || '', this.responseText || '')); return os.apply(this, a); };
+  console.log('%c ready — re-apply a filter, then click any one contact ', 'background:#0a0;color:#fff');
+  const t0 = Date.now();
+  while ((!auth || !seen.size) && Date.now() - t0 < 180000) await new Promise(r => setTimeout(r, 500));
+  if (!auth || !seen.size) return console.error('Nothing captured. Re-apply a filter and click a contact, then run again.');
+  console.log('reading ' + seen.size + ' contacts...');
+  const out = { contacts: [], threads: {} };
+  for (const [id, r] of seen) {
+    const c = r.contact || {}, ci = (c.campaigninstancecontacts_set || [])[0] || {};
+    out.contacts.push({ id, name: c.name, first_name: c.first_name,
+      job_title: c.job_title || c.headline, company: c.company_name,
+      industry: (c.industry || {}).industry_name, profile: c.profile_link, email: c.email,
+      tags: (c.tagcontact_set || []).map(t => t.tag.name),
+      campaign: ci.campaign_instance_name || '', campaign_active: !!ci.campaign_instance_active,
+      last: r.last_datetime || null });
+    try {
+      const q = await of('https://api.liaufa.com/api/v1/linkedin/messenger/' + id + '/action_history/?messenger_id=' + id + '&page_size=100&page=1', { headers: { Authorization: auth } });
+      const j = await q.json();
+      out.threads[c.name] = (j.results || []).filter(a => a.action_type === 'ChatMessage')
+        .map(a => ({ at: a.sent_or_received_at, from: a.send_by_id ? 'us' : 'them', body: a.body })).reverse();
+      console.log(c.name, (out.threads[c.name] || []).length, 'messages');
+    } catch (e) { console.error(c.name, e.message); }
+    await new Promise(r => setTimeout(r, 350));
+  }
+  const b = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'expandi-replies.json'; a.click();
+  console.log('%c done — ' + out.contacts.length + ' contacts ', 'background:#0a0;color:#fff');
+})();`;
+
+const rSlug=u=>{const m=/\/in\/([^/?]+)/.exec(String(u||""));return m?decodeURIComponent(m[1]).toLowerCase():""};
+const rKeyOf=(c)=>rSlug(c.profile)||String(c.name||"").toLowerCase().replace(/[^a-z0-9]+/g,"-");
+
+/* Accepts three shapes: what the snippet downloads, a raw capture array of
+   {url, body}, or a threads-only object keyed by name. Anything already
+   here is updated rather than duplicated, and a draft you have written is
+   never overwritten by an import. */
+function rImport(text){
+  let j; try{ j=JSON.parse(text) }catch(e){ return {err:"That is not valid JSON. Paste the whole file, including the outer braces."} }
+  let contacts=[], threads={};
+  if(Array.isArray(j)&&j.length&&j[0]&&j[0].url!==undefined){
+    j.forEach(x=>{ try{
+      const b=JSON.parse(x.body);
+      if(/messenger\/\?/.test(x.url)&&b&&b.results)b.results.forEach(r=>{
+        const c=r.contact||{}, ci=(c.campaigninstancecontacts_set||[])[0]||{};
+        contacts.push({id:r.id,name:c.name,first_name:c.first_name,job_title:c.job_title||c.headline,
+          company:c.company_name,industry:(c.industry||{}).industry_name,profile:c.profile_link,
+          email:c.email,tags:(c.tagcontact_set||[]).map(t=>t.tag.name),
+          campaign:ci.campaign_instance_name||"",campaign_active:!!ci.campaign_instance_active,
+          last:r.last_datetime||null});
+      });
+    }catch(e){} });
+  } else if(j&&(j.contacts||j.threads)){ contacts=j.contacts||[]; threads=j.threads||{}; }
+  else if(j&&typeof j==="object"&&Object.values(j).every(v=>Array.isArray(v))){ threads=j; }
+  else return {err:"Unrecognised shape. Expected the file the snippet downloads, a raw capture array, or a threads object."};
+
+  let added=0, updated=0, thr=0;
+  contacts.forEach(c=>{
+    const k=rKeyOf(c); if(!k)return;
+    let L=LEADS.find(x=>x.k===k);
+    const patch={k,n:c.name||k,fn:c.first_name||String(c.name||"").split(" ")[0],
+      t:c.job_title||"",co:c.company||"",ind:c.industry||"",u:c.profile||"",
+      tags:c.tags||[],camp:c.campaign||"",ca:!!c.campaign_active,last:c.last||null};
+    if(L){ Object.assign(L,patch); updated++ }
+    else { LEADS.push(Object.assign({th:[],d:"",v:"",sent:false,note:""},patch)); added++; RDEL.delete(k) }
+  });
+  Object.entries(threads).forEach(([name,msgs])=>{
+    if(!Array.isArray(msgs)||!msgs.length)return;
+    const nm=String(name).toLowerCase();
+    const L=LEADS.find(x=>String(x.n).toLowerCase()===nm)||LEADS.find(x=>String(x.n).toLowerCase().startsWith(nm.split(" ")[0]+" "));
+    if(!L)return;
+    L.th=msgs.map(m=>({at:m.at||m.sent_or_received_at||"",f:(m.from||m.f)==="us"?"us":"them",b:m.body||m.b||""}));
+    if(!L.last&&L.th.length)L.last=L.th[L.th.length-1].at;
+    thr++;
+  });
+  rSave(); renderReplies();
+  return {ok:`${added} new, ${updated} updated, ${thr} thread${thr===1?"":"s"} attached.`};
+}
+
+/* ── wiring ── */
+(function(){
+  const brandHost=$("#rlfbrand"), stateHost=$("#rlfstate");
+  if(brandHost)RBRANDS.forEach(b=>brandHost.appendChild(chip(b,()=>{tog(RF.brand,b);rSyncChips();renderReplies()})));
+  if(stateHost)[["open","Waiting"],["overdue","Overdue"],["live","In a live sequence"],["sent","Sent"]]
+    .forEach(([v,l])=>{const c=chip(l,()=>{tog(RF.state,v);rSyncChips();renderReplies()});c.dataset.v=v;stateHost.appendChild(c)});
+  function rSyncChips(){
+    $$("#rlfbrand .chip").forEach(c=>c.setAttribute("aria-pressed",RF.brand.has(c.dataset.t)));
+    $$("#rlfstate .chip").forEach(c=>c.setAttribute("aria-pressed",RF.state.has(c.dataset.v)));
+  }
+  const q=$("#rlq"); if(q)q.oninput=()=>{RF.q=q.value;renderReplies()};
+  const so=$("#rlsort"); if(so)so.onchange=()=>{RF.sort=so.value;renderReplies()};
+  const dir=$("#rldir"); if(dir)dir.onclick=()=>{RF.dir=-RF.dir;
+    dir.textContent=RF.dir===-1?"↓ newest first":"↑ oldest first";renderReplies()};
+  const cl=$("#rlclear"); if(cl)cl.onclick=()=>{RF.q="";RF.brand.clear();RF.state.clear();
+    if(q)q.value="";rSyncChips();renderReplies()};
+  ["rldate","rllink"].forEach(id=>{const e=$("#"+id);if(e)e.oninput=()=>{}});
+
+  const snip=$("#rlsnip"); if(snip)snip.onclick=async()=>{
+    try{ await navigator.clipboard.writeText(RSNIPPET) }catch(e){
+      const t=document.createElement("textarea");t.value=RSNIPPET;document.body.appendChild(t);t.select();
+      try{document.execCommand("copy")}catch(e2){}t.remove(); }
+    const m=$("#rlsnipmsg"); if(m){m.className="rlmsg ok";m.textContent="Copied. Paste it into the Expandi inbox console.";
+      setTimeout(()=>{m.textContent=""},4000)}
+  };
+  const go=$("#rlgo"); if(go)go.onclick=()=>{
+    const ta=$("#rljson"), m=$("#rlimsg"); if(!ta||!m)return;
+    if(!ta.value.trim()){m.className="rlmsg err";m.textContent="Nothing pasted.";return}
+    const r=rImport(ta.value);
+    if(r.err){m.className="rlmsg err";m.textContent=r.err}
+    else{m.className="rlmsg ok";m.textContent=r.ok;ta.value=""}
+  };
+
+  const exp=$("#rlexp"); if(exp)exp.onclick=()=>{
+    const b=new Blob([JSON.stringify({v:RSEED_VERSION,at:new Date().toISOString(),leads:LEADS},null,2)],{type:"application/json"});
+    const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="treo-replies.json";a.click();URL.revokeObjectURL(a.href);
+  };
+  const cp=$("#rlcopy"); if(cp)cp.onclick=async()=>{
+    const txt=LEADS.filter(L=>!L.sent).map(L=>{
+      const c=rClash(L);
+      return `### ${L.n} — ${L.t}, ${L.co}\nBrand: ${rBrand(L)} | Tags: ${(L.tags||[]).join(", ")} | Last reply: ${L.last||"?"}\nCampaign: ${L.camp||"—"}${c&&c.live?" (STILL RUNNING)":""}\n${L.u}\n\nThread:\n`+
+        (L.th||[]).map(m=>`  [${String(m.at).slice(0,10)}] ${m.f==="us"?"US":"THEM"}: ${m.b}`).join("\n")+
+        `\n\nCurrent draft:\n${L.d||"(none)"}\n`;
+    }).join("\n---\n\n");
+    const head=`Treo Outreach Engine — ${LEADS.filter(L=>!L.sent).length} unanswered replies, exported ${new Date().toISOString().slice(0,10)}.\nWrite a reply to each in the right brand voice, answering what they actually said.\n\n`;
+    try{ await navigator.clipboard.writeText(head+txt) }catch(e){
+      const t=document.createElement("textarea");t.value=head+txt;document.body.appendChild(t);t.select();
+      try{document.execCommand("copy")}catch(e2){}t.remove(); }
+    cp.textContent="Copied";setTimeout(()=>{cp.textContent="Copy for Claude"},1600);
+  };
+  const rs=$("#rlreset"); if(rs)rs.onclick=()=>{
+    if(rs.dataset.armed!=="1"){rs.dataset.armed="1";rs.textContent="Tap again to discard edits";
+      setTimeout(()=>{rs.dataset.armed="0";rs.textContent="Reset to file"},3000);return}
+    rs.dataset.armed="0";rs.textContent="Reset to file";
+    RDEL.clear();try{localStorage.removeItem(RKEY)}catch(e){}
+    LEADS=rLoad();rSave();renderReplies();
+  };
+
+  const list=$("#rllist");
+  if(list){
+    list.addEventListener("click",async e=>{
+      const b=e.target.closest("[data-a]"); if(!b||b.tagName==="INPUT")return;
+      const L=LEADS.find(x=>x.k===b.dataset.k); if(!L)return;
+      if(b.dataset.a==="copy"){
+        const ta=list.querySelector(`.rldraft[data-k="${CSS.escape(L.k)}"]`);
+        const text=rFill(ta?ta.value:L.d);
+        try{ await navigator.clipboard.writeText(text) }catch(err){
+          const t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();
+          try{document.execCommand("copy")}catch(e2){}t.remove(); }
+        b.textContent="Copied";setTimeout(()=>{b.textContent="Copy draft"},1600);
+      }
+      if(b.dataset.a==="tpl"){
+        const ta=list.querySelector(`.rldraft[data-k="${CSS.escape(L.k)}"]`);
+        const t=(RTPL[rBrand(L)]||"").replace(/\{first\}/g,L.fn||"");
+        if(ta){ ta.value=ta.value.trim()?ta.value+"\n\n"+t:t; L.d=ta.value; rSave() }
+      }
+    });
+    list.addEventListener("change",e=>{
+      const b=e.target.closest('[data-a="sent"]'); if(!b)return;
+      const L=LEADS.find(x=>x.k===b.dataset.k); if(!L)return;
+      L.sent=b.checked; L.sent_at=b.checked?new Date().toISOString():null;
+      rSave(); renderReplies();
+    });
+    list.addEventListener("input",e=>{
+      const ta=e.target.closest(".rldraft"); if(!ta)return;
+      const L=LEADS.find(x=>x.k===ta.dataset.k); if(!L)return;
+      L.d=ta.value; L.updated_at=new Date().toISOString(); rSave();
+    });
+  }
+  renderReplies();
+})();
+
 /* ─────────── cloud panel ─────────── */
 function cloudStateLine(){
   const c=cloudCfg();
@@ -2020,7 +2621,7 @@ async function openCloud(){
         <button class="btn ghost" id="cl_out">Sign out</button>
       </div>
       <h4>What syncs</h4>
-      <p class="hempty">Campaigns, the day-by-day plan, webinars, campaign results and the typed-in numbers, and the evidence screenshots into the <span style="font-family:var(--f-mono)">campaign-evidence</span> bucket. What does not sync: which weeks you have collapsed and which folder you picked for the sync — those stay local, they are yours.</p>
+      <p class="hempty">Campaigns, the day-by-day plan, webinars, campaign results and the typed-in numbers, reply leads with their threads and drafts, and the evidence screenshots into the <span style="font-family:var(--f-mono)">campaign-evidence</span> bucket. What does not sync: which weeks you have collapsed and which folder you picked for the sync — those stay local, they are yours.</p>
       <div class="synclog" id="cllog"></div>`
     :`
       <p class="hempty">Sign in with your Treo email. Supabase sends a six-digit code — no password to remember, and the tables stay closed to anyone who is not signed in.</p>

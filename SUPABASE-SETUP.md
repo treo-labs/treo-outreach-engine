@@ -242,3 +242,17 @@ they have two owners and will drift. Either this becomes the owner and the
 spreadsheet stops carrying them, or campaign results live in their own
 section of the dashboard and leave the KPIs alone. Worth a five-minute
 conversation with Calvin, not a guess.
+
+## Update 003 — reply leads
+
+Run `sql/003_reply_leads.sql` once, after 001 and 002. It adds the
+`reply_leads` table behind the Replies tab, with the same Treo-domain RLS
+as everything else, plus a `v_reply_leads` view for anything reading the
+answering backlog from outside the app (the Monday dashboard, a chart, a
+CSV export). The view leaves the message threads out on purpose — it
+carries the counts, the state and the days since each person wrote.
+
+Until you run it, the Replies tab works exactly as before, local to the
+browser. Sync simply logs a warning for that one table and carries on with
+the rest.
+
