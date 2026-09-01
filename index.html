@@ -238,6 +238,65 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-fa
 .hnote{font-size:.83rem;color:var(--ink-2);line-height:1.5;border-left:2px solid var(--line-strong);padding-left:.7rem;margin-top:.2rem}
 @media(max-width:620px){.frow{grid-template-columns:7rem 1fr 3.8rem}.hhd .hdates{margin-left:0;width:100%}}
 
+/* ══════════ campaign editor ══════════ */
+.form{display:grid;gap:.85rem 1rem;grid-template-columns:repeat(auto-fit,minmax(12.5rem,1fr));margin-top:.9rem}
+.form .fw{grid-column:1/-1}
+.fld label{display:block;font-family:var(--f-mono);font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.28rem}
+.fld input,.fld select,.fld textarea{width:100%;font-family:var(--f-body);font-size:.86rem;padding:.44rem .55rem;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:2px}
+.fld textarea{min-height:6.5rem;resize:vertical;line-height:1.5}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--accent)}
+.fld input[readonly]{background:var(--surface-2);color:var(--muted);font-family:var(--f-mono)}
+.fld .hint{font-family:var(--f-mono);font-size:.6rem;color:var(--muted);margin-top:.22rem;line-height:1.4}
+.formerr{color:var(--accent);font-size:.82rem;margin-top:.9rem;font-weight:600}
+.formact{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-top:1.5rem;padding-top:1.1rem;border-top:1px solid var(--line)}
+.formact .danger{border-color:var(--accent);color:var(--accent)}
+.formact .danger:hover{background:var(--accent);color:#fff}
+.rowbtn{font-family:var(--f-mono);font-size:.61rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line-strong);padding:.22rem .48rem;border-radius:2px;white-space:nowrap;background:var(--surface)}
+.rowbtn:hover{border-color:var(--accent);color:var(--accent)}
+.row{grid-template-columns:4.6rem 1fr auto auto!important}
+.row .cact{display:flex;flex-direction:column;gap:.3rem;align-items:flex-end}
+.campbar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:1.4rem 0 .2rem}
+.parkwrap{margin-top:2.4rem;border:1px solid var(--line);background:var(--surface)}
+.parkwrap summary{cursor:pointer;padding:.75rem .9rem;font-family:var(--f-display);font-weight:700;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.parkwrap summary span{font-family:var(--f-mono);font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);font-size:.72rem}
+.parkrow{display:grid;grid-template-columns:4.6rem 1fr auto;gap:.9rem;padding:.62rem .9rem;border-top:1px solid var(--line);align-items:center}
+.parkrow .cid{font-family:var(--f-mono);font-size:.74rem;font-weight:600;color:var(--muted)}
+.parkrow .pn{font-size:.86rem;color:var(--ink-2)}
+.parkrow .pa{display:flex;gap:.35rem}
+@media(max-width:620px){.row{grid-template-columns:4.6rem 1fr auto!important}.row .cact{flex-direction:row}}
+
+/* ══════════ filter + sort bar ══════════ */
+.filters{border:1px solid var(--line);border-left:3px solid var(--line-strong);background:var(--surface);padding:.75rem .95rem;margin-top:1.4rem;display:flex;flex-direction:column;gap:.45rem}
+.frow2{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+.frow2>.lbl{font-family:var(--f-mono);font-size:.62rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);min-width:4.8rem}
+.frow2 input[type=search],.frow2 input[type=date],.frow2 select{font-family:var(--f-body);font-size:.82rem;padding:.33rem .45rem;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:2px}
+.frow2 input[type=search]{flex:1;min-width:12rem;max-width:28rem}
+.frow2 input:focus,.frow2 select:focus{outline:none;border-color:var(--accent)}
+.frow2.last{border-top:1px dashed var(--line);padding-top:.55rem;margin-top:.15rem}
+.ccount{font-family:var(--f-mono);font-size:.66rem;color:var(--muted);margin-left:auto;padding-right:.4rem}
+.chip.sm2{font-size:.62rem;padding:.26rem .5rem}
+
+/* ══════════ collapsible weeks ══════════ */
+summary{list-style:none}
+summary::-webkit-details-marker{display:none}
+summary.wkhd{cursor:pointer;user-select:none}
+summary.wkhd:hover .tw{color:var(--accent)}
+.wkhd .tw{font-family:var(--f-mono);font-weight:700;font-size:.95rem;color:var(--line-strong);width:.9rem;text-align:center;flex:none}
+details[open]>.wkhd .tw::after{content:"–"}
+details:not([open])>.wkhd .tw::after{content:"+"}
+details:not([open])>.wkhd{border-bottom-color:var(--line-strong);opacity:.72}
+.wkdone{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ok);background:var(--ok-wash);padding:.1rem .4rem;border-radius:2px}
+
+/* ══════════ sortable list view ══════════ */
+table.ctable{min-width:56rem}
+table.ctable th{cursor:pointer;user-select:none}
+table.ctable th:hover{color:var(--accent)}
+table.ctable th .ar{opacity:.45;font-family:var(--f-mono)}
+table.ctable th[aria-sort] .ar{opacity:1;color:var(--accent)}
+table.ctable tbody tr{cursor:pointer}
+table.ctable tbody tr:hover td{background:var(--surface-3)}
+table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)}
+
 </style>
 </head>
 <body>
@@ -245,6 +304,7 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-fa
   <div class="wrap">
     <div class="brand">Treo Outreach Engine <span class="chev">»»</span><small>Sales &amp; marketing operating system</small></div>
     <div class="today" id="today"></div>
+    <button class="themebtn" id="cloudbtn">Cloud</button>
     <button class="themebtn" id="themebtn">Dark</button>
     <nav class="tabs" role="tablist">
       <button data-v="week" aria-selected="true">Week</button>
@@ -292,12 +352,47 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-fa
 <section class="view" id="v-camp">
   <div class="eyebrow">Campaign runway</div>
   <h2 class="vh">What launches, week by week</h2>
-  <p class="lede"><span id="campcount">18</span> campaigns across eight weeks. Expand any week to see the day-by-day actions; click a campaign for its audience, list source and dates.</p>
-  <div class="note"><b>METSIM is parked.</b> EX-03, EX-07, HS-02, HS-06, PW-01 and PW-04 came out of the plan on 1 Sept and nothing below renders them. The two METSIM webinars still run on 8 Sept and 13 Oct, and PRE-01 and PRE-04 remind whoever registered on the LinkedIn events — so the sessions are not orphaned, but there is no METSIM invite, renewal or post-webinar activity while the programme is on hold. The definitions are kept in the file under <span style="font-family:var(--f-mono)">PARKED</span> and come back by moving them across.</div>
+  <p class="lede"><span id="campcount">18</span> campaigns across <span id="wkcount">8</span> weeks. Expand any week to see the day-by-day actions; click a campaign for its audience, list source and dates.</p>
+  <div class="note"><b>METSIM is parked.</b> EX-03, EX-07, HS-02, HS-06, PW-01 and PW-04 came out of the plan on 1 Sept and nothing below renders them. The two METSIM webinars still run on 8 Sept and 13 Oct, and PRE-01 and PRE-04 remind whoever registered on the LinkedIn events — so the sessions are not orphaned, but there is no METSIM invite, renewal or post-webinar activity while the programme is on hold. They are listed under <b>Parked</b> at the bottom of this tab and come back with one click.</div>
 
-  <div class="bar"><span class="lbl">Brand</span><span id="fcamp" style="display:flex;gap:.4rem;flex-wrap:wrap"></span></div>
+  <div class="filters">
+    <div class="frow2"><span class="lbl">Find</span><input type="search" id="cq" placeholder="ID, name, audience, list source, CTA or note…"></div>
+    <div class="frow2"><span class="lbl">Brand</span><span id="fcamp"></span></div>
+    <div class="frow2"><span class="lbl">Type</span><span id="ftype"></span></div>
+    <div class="frow2"><span class="lbl">Stage</span><span id="fstage"></span></div>
+    <div class="frow2"><span class="lbl">Status</span><span id="fstatus"></span></div>
+    <div class="frow2"><span class="lbl">Launching</span><input type="date" id="cfrom"><span class="lbl" style="margin:0">to</span><input type="date" id="cto"><button class="rowbtn" id="cdclear">Clear dates</button></div>
+    <div class="frow2 last">
+      <span class="lbl">View</span><span id="fview"></span>
+      <span class="lbl" style="margin-left:.8rem">Sort</span>
+      <select id="csort">
+        <option value="launch">Launch date</option><option value="ends">End date</option>
+        <option value="build">Build date</option><option value="id">Campaign ID</option>
+        <option value="name">Name</option><option value="brand">Brand</option>
+        <option value="status">Status</option><option value="steps">Steps</option>
+      </select>
+      <button class="rowbtn" id="cdir" title="Reverse the sort">↑ oldest first</button>
+      <span class="ccount" id="ccount"></span>
+      <button class="rowbtn" id="cclear">Reset filters</button>
+    </div>
+  </div>
+
+  <div class="campbar">
+    <button class="btn" id="newcamp">+ New campaign</button>
+    <div class="pushright" style="display:flex;gap:.5rem;flex-wrap:wrap">
+      <button class="btn ghost sm" id="campexp">Export campaigns</button>
+      <button class="btn ghost sm" id="campcopy">Copy for Claude</button>
+      <button class="btn ghost sm" id="campreset">Reset to file</button>
+    </div>
+  </div>
+  <div class="syncmeta" id="campmeta" style="margin-bottom:.4rem"></div>
 
   <div id="weeks"></div>
+
+  <details class="parkwrap" id="parkwrap">
+    <summary>Parked <span id="parkcount"></span></summary>
+    <div id="parklist"></div>
+  </details>
 
   <div class="eyebrow" style="margin-top:2.6rem">Webinars</div>
   <h2 class="vh">The five sessions everything hangs off</h2>
@@ -328,7 +423,22 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-fa
 
   <div class="stats" id="hstats"></div>
 
-  <div class="bar" style="margin-top:1.6rem"><span class="lbl">Show</span><span id="fhist" style="display:flex;gap:.4rem;flex-wrap:wrap"></span></div>
+  <div class="filters" style="margin-top:1.8rem">
+    <div class="frow2"><span class="lbl">Show</span><span id="fhist"></span></div>
+    <div class="frow2"><span class="lbl">Brand</span><span id="fhbrand"></span></div>
+    <div class="frow2"><span class="lbl">Type</span><span id="fhtype"></span></div>
+    <div class="frow2 last"><span class="lbl">Sort</span>
+      <select id="hsort">
+        <option value="launch">Launch date</option><option value="ends">End date</option>
+        <option value="id">Campaign ID</option><option value="replies">Replies</option>
+        <option value="reply_rate">Reply rate</option><option value="list">List size</option>
+        <option value="opens">Opens</option>
+      </select>
+      <button class="rowbtn" id="hdir">↑ oldest first</button>
+      <span class="ccount" id="hcount"></span>
+      <button class="rowbtn" id="hclear">Reset filters</button>
+    </div>
+  </div>
 
   <div id="hlist"></div>
 
@@ -469,10 +579,19 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-fa
 <div class="lightbox" id="lightbox"><img id="lbimg" alt=""><div class="cap" id="lbcap"></div></div>
 
 <script>
-const CAMPAIGNS=[{"id": "EX-01", "brand": "Treo Services", "channel": "Expandi", "name": "Post-Webinar: CAS — Attendees", "aud": "Attended 28 Jul CAS webinar", "src": "HubSpot / Teams attendee report", "steps": 5, "cta": "Book CAS readiness review", "build": "2026-08-25", "launch": "2026-08-26", "ends": "2026-09-10", "status": "Not started", "note": "URGENT — webinar ran 4 weeks ago. Send this week.", "act": "IM", "btag": "SERV"}, {"id": "EX-02", "brand": "Treo Services", "channel": "Expandi", "name": "Post-Webinar: CAS — No-Shows", "aud": "Registered 28 Jul, did not attend", "src": "HubSpot / Teams attendee report", "steps": 5, "cta": "Send recording → readiness review", "build": "2026-08-25", "launch": "2026-08-26", "ends": "2026-09-11", "status": "Not started", "note": "URGENT — same as EX-01.", "act": "IM", "btag": "SERV"}, {"id": "EX-04", "brand": "Treo Services", "channel": "Expandi", "name": "Webinar Invite: Traffic Management", "aud": "Mine safety, SHEQ, mining engineers, ops mgrs", "src": "Sales Navigator", "steps": 4, "cta": "Register (15 Sept)", "build": "2026-08-26", "launch": "2026-08-27", "ends": "2026-09-17", "status": "Not started", "note": "MOVED UP to this week — T-19. Connect first, wait 3 days per contact, then the IM invite. Two short follow-ups after.", "act": "IM", "btag": "SERV"}, {"id": "EX-06", "brand": "Treo Services", "channel": "Expandi", "name": "ISO 45001 Certified → ISO 45001 Webinar", "aud": "Employees of ISO 45001 certified operations", "src": "Sales Navigator (manual company list)", "steps": 5, "cta": "Register (29 Sept) + ISO 45001 audit tool", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-10-06", "status": "Not started", "note": "Now points at its OWN webinar, not Traffic Management. A/B split 50/50 on message 1.", "act": "IM", "btag": "SERV + TECH"}, {"id": "EX-06b", "brand": "Treo Services", "channel": "Expandi", "name": "ISO 45001 Webinar — General Safety Audience", "aud": "Safety / SHEQ / risk roles NOT on the certified list", "src": "Sales Navigator", "steps": 5, "cta": "Register (29 Sept)", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-10-01", "status": "Not started", "note": "Suppress the EX-06 audience before launch or the two collide.", "act": "IM", "btag": "SERV"}, {"id": "EX-08", "brand": "Treo Tech", "channel": "Expandi", "name": "MetalTech — Connected, Never Messaged", "aud": "1st-degree connections, no message history", "src": "LinkedIn connections export", "steps": 4, "cta": "Open a conversation → qualify", "build": "2026-09-03", "launch": "2026-09-08", "ends": "2026-09-26", "status": "Not started", "note": "No connection-request step — already connected. COLLISION: HS-08 emails the same MetalTech audience on 2 Sept. Suppress every HS-08 recipient from this list before launch, or push the launch to 23 Sept. Guardrail 2.", "act": "IM", "btag": "TECH"}, {"id": "EX-09", "brand": "Treo Tech", "channel": "Expandi", "name": "MetalTech — Connected & Messaged (warm)", "aud": "Prior message history, engaged, no deal", "src": "LinkedIn + HubSpot cross-ref", "steps": 4, "cta": "Book 30-min MetalTech demo", "build": "2026-08-26", "launch": "2026-08-27", "ends": "2026-09-16", "status": "Not started", "note": "MOVED UP to this week. Small list — personalise opener manually. Worth the time.", "act": "IM", "btag": "TECH"}, {"id": "EX-10", "brand": "All", "channel": "Expandi", "name": "Closed-Lost Revival", "aud": "Closed-lost, email follow-up unanswered", "src": "HubSpot deals", "steps": 5, "cta": "Re-open scoping conversation", "build": "2026-09-04", "launch": "2026-09-08", "ends": "2026-09-29", "status": "Not started", "note": "MOVED to w/c 7 Sept. Suppress anyone lost on price in last 90 days.", "act": "IM", "btag": "ALL"}, {"id": "HS-03", "brand": "Treo Services", "channel": "HubSpot", "name": "Webinar Invite: Traffic Management", "aud": "Safety / SHEQ / operations contacts with consent", "src": "HubSpot active list", "steps": 4, "cta": "Register (15 Sept)", "build": "2026-08-28", "launch": "2026-09-01", "ends": "2026-09-15", "status": "Not started", "note": "Invite T-14, reminders T-7 / T-1 / T-0 08:00.", "act": "EMAIL", "btag": "SERV"}, {"id": "HS-05a", "brand": "Treo Services", "channel": "HubSpot", "name": "ISO 45001 Webinar — Opted-in Safety DB", "aud": "Safety / SHEQ / risk contacts with consent", "src": "HubSpot active list", "steps": 4, "cta": "Register (29 Sept)", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-29", "status": "Not started", "note": "Invite T-13, reminders T-7 / T-1 / T-0 08:00. Not blocked — this list is opted in.", "act": "EMAIL", "btag": "SERV + TECH"}, {"id": "HS-05b", "brand": "Treo Services", "channel": "HubSpot", "name": "ISO 45001 Webinar — Certified-Company List", "aud": "ISO 45001 certified operations, enriched emails", "src": "Sales Nav enrichment → HubSpot", "steps": 2, "cta": "Register (29 Sept) + audit tool", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-23", "status": "BLOCKED", "note": "POPIA: needs lawful-basis sign-off before send. If unresolved, run EX-06 on LinkedIn only.", "act": "EMAIL", "btag": "SERV + TECH"}, {"id": "HS-08", "brand": "Treo Tech", "channel": "HubSpot", "name": "MetalTech — Website Visit → Demo Booking", "aud": "MetalTech target contacts with lawful basis to email", "src": "HubSpot CRM export — campaign targets (27 Aug 2026)", "steps": 3, "cta": "Read the MetalTech page → book a 30-min demo", "build": "2026-09-01", "launch": "2026-09-02", "ends": "2026-09-16", "status": "Not started", "note": "NEW this week. Three emails — 2, 9 and 16 Sept — each landing on the MetalTech page with one CTA: book a 30-minute demo. Franco has to sign off before Wednesday's build slot; MetalTech content does not send without him. COLLISION: EX-08 puts the same MetalTech offer on LinkedIn on 8 Sept, six days after email 1. Build EX-08's list to exclude everyone who receives this, or move EX-08 to 23 Sept. Guardrail 2 covers it.", "act": "EMAIL", "btag": "TECH"}, {"id": "PRE-01", "brand": "METSIM", "channel": "Expandi", "name": "Pre-Webinar Reminder: METSIM Model Audits", "aud": "LinkedIn event registrants, 8 Sept session", "src": "LinkedIn event 7493248019019186176", "steps": 3, "cta": "Confirm attendance + email address for the recording", "build": "2026-09-02", "launch": "2026-09-03", "ends": "2026-09-08", "status": "Not started", "note": "LinkedIn event registration hands you a profile, not an email address — so without this campaign the recording has nowhere to go. Three touches: T-5 reminder that asks for the address, T-1 last call with the joining link, day-of 08:00. Every address captured goes onto the HubSpot contact before the session starts, which is the only thing that makes a post-webinar sequence possible.", "act": "IM", "btag": "METSIM"}, {"id": "PRE-02", "brand": "Treo Services", "channel": "Expandi", "name": "Pre-Webinar Reminder: Traffic Management", "aud": "LinkedIn event registrants, 15 Sept session", "src": "LinkedIn event + HS-03 registration list (for suppression)", "steps": 3, "cta": "Confirm attendance + email address for the recording", "build": "2026-09-09", "launch": "2026-09-10", "ends": "2026-09-15", "status": "Not started", "note": "HS-03 already holds email addresses for everyone who registered by email, so this leg works the LinkedIn side only. Suppress the HubSpot registrants — they get the T-7 and T-1 email reminders and do not need both channels chasing them about the same session.", "act": "IM", "btag": "SERV"}, {"id": "PRE-03", "brand": "Treo Services", "channel": "Expandi", "name": "Pre-Webinar Reminder: ISO 45001", "aud": "LinkedIn event registrants, 29 Sept session", "src": "LinkedIn event + HS-05a registration list (for suppression)", "steps": 3, "cta": "Confirm attendance + email address for the recording", "build": "2026-09-23", "launch": "2026-09-24", "ends": "2026-09-29", "status": "Not started", "note": "Same split as PRE-02 — LinkedIn registrants only, HubSpot registrants excluded. This is the coldest of the four audiences, so the reminder will do more work than the invite did. Attendance, not registration, is the number that matters here.", "act": "IM", "btag": "SERV + TECH"}, {"id": "PRE-04", "brand": "METSIM", "channel": "Expandi", "name": "Pre-Webinar Reminder: Simulation 4.0", "aud": "LinkedIn event registrants, 13 Oct session", "src": "LinkedIn event 7493607657983873024", "steps": 3, "cta": "Confirm attendance + email address for the recording", "build": "2026-10-07", "launch": "2026-10-08", "ends": "2026-10-13", "status": "Not started", "note": "Last session of the quarter, and the only live METSIM activity while the METSIM programme is parked. Capture addresses even from people who never attend — that list is the starting point for whatever restarts METSIM in Q1 2027.", "act": "IM", "btag": "METSIM"}, {"id": "PW-02", "brand": "Treo Services", "channel": "Both", "name": "Post-Webinar: Traffic Management", "aud": "Attendees + registered no-shows, 15 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Traffic management review", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-25", "status": "Not started", "note": "Bridges to the ISO 45001 webinar on 29 Sept. Send from Samuel where possible.", "act": "EMAIL + IM", "btag": "SERV"}, {"id": "PW-03", "brand": "Treo Services", "channel": "Both", "name": "Post-Webinar: ISO 45001", "aud": "Attendees + registered no-shows, 29 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "ISO 45001 audit tool demo", "build": "2026-09-24", "launch": "2026-09-30", "ends": "2026-10-09", "status": "Not started", "note": "No further safety session — bridge to the tool demo, not another webinar.", "act": "EMAIL + IM", "btag": "SERV + TECH"}];
+/* ═══════════════════════════════════════════════════════════════════
+   CONFIG — paste these two from Supabase → Settings → API.
+   Leave them empty and the app runs exactly as before, local only.
+   The anon key is public by design; row level security is the
+   protection. NEVER put the service_role key in here.
+   ═══════════════════════════════════════════════════════════════════ */
+const SUPABASE_URL  = "https://bejxvsxlbwpsxkkygske.supabase.co";
+const SUPABASE_ANON = "sb_publishable_6vNeTF31-z_bfUtoiH-KyA_dQ30JyeW";
+
+const CAMPAIGNS_SEED=[{"id": "EX-01", "brand": "Treo Services", "channel": "Expandi", "name": "Post-Webinar: CAS — Attendees", "aud": "Attended 28 Jul CAS webinar", "src": "HubSpot / Teams attendee report", "steps": 5, "cta": "Book CAS readiness review", "build": "2026-08-25", "launch": "2026-08-26", "ends": "2026-09-10", "status": "Not started", "note": "URGENT — webinar ran 4 weeks ago. Send this week.", "act": "IM", "btag": "SERV"}, {"id": "EX-02", "brand": "Treo Services", "channel": "Expandi", "name": "Post-Webinar: CAS — No-Shows", "aud": "Registered 28 Jul, did not attend", "src": "HubSpot / Teams attendee report", "steps": 5, "cta": "Send recording → readiness review", "build": "2026-08-25", "launch": "2026-08-26", "ends": "2026-09-11", "status": "Not started", "note": "URGENT — same as EX-01.", "act": "IM", "btag": "SERV"}, {"id": "EX-04", "brand": "Treo Services", "channel": "Expandi", "name": "Webinar Invite: Traffic Management", "aud": "Mine safety, SHEQ, mining engineers, ops mgrs", "src": "Sales Navigator", "steps": 4, "cta": "Register (15 Sept)", "build": "2026-08-26", "launch": "2026-08-27", "ends": "2026-09-17", "status": "Not started", "note": "MOVED UP to this week — T-19. Connect first, wait 3 days per contact, then the IM invite. Two short follow-ups after.", "act": "IM", "btag": "SERV"}, {"id": "EX-06", "brand": "Treo Services", "channel": "Expandi", "name": "ISO 45001 Certified → ISO 45001 Webinar", "aud": "Employees of ISO 45001 certified operations", "src": "Sales Navigator (manual company list)", "steps": 5, "cta": "Register (29 Sept) + ISO 45001 audit tool", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-10-06", "status": "Not started", "note": "Now points at its OWN webinar, not Traffic Management. A/B split 50/50 on message 1.", "act": "IM", "btag": "SERV + TECH"}, {"id": "EX-06b", "brand": "Treo Services", "channel": "Expandi", "name": "ISO 45001 Webinar — General Safety Audience", "aud": "Safety / SHEQ / risk roles NOT on the certified list", "src": "Sales Navigator", "steps": 5, "cta": "Register (29 Sept)", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-10-01", "status": "Not started", "note": "Suppress the EX-06 audience before launch or the two collide.", "act": "IM", "btag": "SERV"}, {"id": "EX-08", "brand": "Treo Tech", "channel": "Expandi", "name": "MetalTech — Connected, Never Messaged", "aud": "1st-degree connections, no message history", "src": "LinkedIn connections export", "steps": 4, "cta": "Open a conversation → qualify", "build": "2026-09-03", "launch": "2026-09-08", "ends": "2026-09-26", "status": "Not started", "note": "No connection-request step — already connected. COLLISION: HS-08 emails the same MetalTech audience on 2 Sept. Suppress every HS-08 recipient from this list before launch, or push the launch to 23 Sept. Guardrail 2.", "act": "IM", "btag": "TECH"}, {"id": "EX-09", "brand": "Treo Tech", "channel": "Expandi", "name": "MetalTech — Connected & Messaged (warm)", "aud": "Prior message history, engaged, no deal", "src": "LinkedIn + HubSpot cross-ref", "steps": 4, "cta": "Book 30-min MetalTech demo", "build": "2026-08-26", "launch": "2026-08-27", "ends": "2026-09-16", "status": "Not started", "note": "MOVED UP to this week. Small list — personalise opener manually. Worth the time.", "act": "IM", "btag": "TECH"}, {"id": "EX-10", "brand": "All", "channel": "Expandi", "name": "Closed-Lost Revival", "aud": "Closed-lost, email follow-up unanswered", "src": "HubSpot deals", "steps": 5, "cta": "Re-open scoping conversation", "build": "2026-09-04", "launch": "2026-09-08", "ends": "2026-09-29", "status": "Not started", "note": "MOVED to w/c 7 Sept. Suppress anyone lost on price in last 90 days.", "act": "IM", "btag": "ALL"}, {"id": "HS-03", "brand": "Treo Services", "channel": "HubSpot", "name": "Webinar Invite: Traffic Management", "aud": "Safety / SHEQ / operations contacts with consent", "src": "HubSpot active list", "steps": 4, "cta": "Register (15 Sept)", "build": "2026-08-28", "launch": "2026-09-01", "ends": "2026-09-15", "status": "Not started", "note": "Invite T-14, reminders T-7 / T-1 / T-0 08:00.", "act": "EMAIL", "btag": "SERV"}, {"id": "HS-05a", "brand": "Treo Services", "channel": "HubSpot", "name": "ISO 45001 Webinar — Opted-in Safety DB", "aud": "Safety / SHEQ / risk contacts with consent", "src": "HubSpot active list", "steps": 4, "cta": "Register (29 Sept)", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-29", "status": "Not started", "note": "Invite T-13, reminders T-7 / T-1 / T-0 08:00. Not blocked — this list is opted in.", "act": "EMAIL", "btag": "SERV + TECH"}, {"id": "HS-05b", "brand": "Treo Services", "channel": "HubSpot", "name": "ISO 45001 Webinar — Certified-Company List", "aud": "ISO 45001 certified operations, enriched emails", "src": "Sales Nav enrichment → HubSpot", "steps": 2, "cta": "Register (29 Sept) + audit tool", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-23", "status": "BLOCKED", "note": "POPIA: needs lawful-basis sign-off before send. If unresolved, run EX-06 on LinkedIn only.", "act": "EMAIL", "btag": "SERV + TECH"}, {"id": "HS-08", "brand": "Treo Tech", "channel": "HubSpot", "name": "MetalTech — Website Visit → Demo Booking", "aud": "MetalTech target contacts with lawful basis to email", "src": "HubSpot CRM export — campaign targets (27 Aug 2026)", "steps": 3, "cta": "Read the MetalTech page → book a 30-min demo", "build": "2026-09-01", "launch": "2026-09-02", "ends": "2026-09-16", "status": "Not started", "note": "NEW this week. Three emails — 2, 9 and 16 Sept — each landing on the MetalTech page with one CTA: book a 30-minute demo. Franco has to sign off before Wednesday's build slot; MetalTech content does not send without him. COLLISION: EX-08 puts the same MetalTech offer on LinkedIn on 8 Sept, six days after email 1. Build EX-08's list to exclude everyone who receives this, or move EX-08 to 23 Sept. Guardrail 2 covers it.", "act": "EMAIL", "btag": "TECH"}, {"id": "PRE-01", "brand": "METSIM", "channel": "Expandi", "name": "Pre-Webinar Reminder: METSIM Model Audits", "aud": "LinkedIn event registrants, 8 Sept session", "src": "LinkedIn event 7493248019019186176", "steps": 3, "cta": "Confirm attendance + email address for the recording", "build": "2026-09-02", "launch": "2026-09-03", "ends": "2026-09-08", "status": "Not started", "note": "LinkedIn event registration hands you a profile, not an email address — so without this campaign the recording has nowhere to go. Three touches: T-5 reminder that asks for the address, T-1 last call with the joining link, day-of 08:00. Every address captured goes onto the HubSpot contact before the session starts, which is the only thing that makes a post-webinar sequence possible.", "act": "IM", "btag": "METSIM"}, {"id": "PRE-02", "brand": "Treo Services", "channel": "Expandi", "name": "Pre-Webinar Reminder: Traffic Management", "aud": "LinkedIn event registrants, 15 Sept session", "src": "LinkedIn event + HS-03 registration list (for suppression)", "steps": 3, "cta": "Confirm attendance + email address for the recording", "build": "2026-09-09", "launch": "2026-09-10", "ends": "2026-09-15", "status": "Not started", "note": "HS-03 already holds email addresses for everyone who registered by email, so this leg works the LinkedIn side only. Suppress the HubSpot registrants — they get the T-7 and T-1 email reminders and do not need both channels chasing them about the same session.", "act": "IM", "btag": "SERV"}, {"id": "PRE-03", "brand": "Treo Services", "channel": "Expandi", "name": "Pre-Webinar Reminder: ISO 45001", "aud": "LinkedIn event registrants, 29 Sept session", "src": "LinkedIn event + HS-05a registration list (for suppression)", "steps": 3, "cta": "Confirm attendance + email address for the recording", "build": "2026-09-23", "launch": "2026-09-24", "ends": "2026-09-29", "status": "Not started", "note": "Same split as PRE-02 — LinkedIn registrants only, HubSpot registrants excluded. This is the coldest of the four audiences, so the reminder will do more work than the invite did. Attendance, not registration, is the number that matters here.", "act": "IM", "btag": "SERV + TECH"}, {"id": "PRE-04", "brand": "METSIM", "channel": "Expandi", "name": "Pre-Webinar Reminder: Simulation 4.0", "aud": "LinkedIn event registrants, 13 Oct session", "src": "LinkedIn event 7493607657983873024", "steps": 3, "cta": "Confirm attendance + email address for the recording", "build": "2026-10-07", "launch": "2026-10-08", "ends": "2026-10-13", "status": "Not started", "note": "Last session of the quarter, and the only live METSIM activity while the METSIM programme is parked. Capture addresses even from people who never attend — that list is the starting point for whatever restarts METSIM in Q1 2027.", "act": "IM", "btag": "METSIM"}, {"id": "PW-02", "brand": "Treo Services", "channel": "Both", "name": "Post-Webinar: Traffic Management", "aud": "Attendees + registered no-shows, 15 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Traffic management review", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-25", "status": "Not started", "note": "Bridges to the ISO 45001 webinar on 29 Sept. Send from Samuel where possible.", "act": "EMAIL + IM", "btag": "SERV"}, {"id": "PW-03", "brand": "Treo Services", "channel": "Both", "name": "Post-Webinar: ISO 45001", "aud": "Attendees + registered no-shows, 29 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "ISO 45001 audit tool demo", "build": "2026-09-24", "launch": "2026-09-30", "ends": "2026-10-09", "status": "Not started", "note": "No further safety session — bridge to the tool demo, not another webinar.", "act": "EMAIL + IM", "btag": "SERV + TECH"}];
 /* METSIM programme parked 1 Sept 2026 — kept here so it can be restored
    by moving entries back into CAMPAIGNS. Nothing renders from PARKED. */
-const PARKED=[{"id": "EX-03", "brand": "METSIM", "channel": "Expandi", "name": "METSIM Two-Session Series", "aud": "MCL active + worked webform inbound + Sales Nav METSIM targets", "src": "MCL + HubSpot forms + Sales Navigator", "steps": 6, "cta": "Register 8 Sept + 13 Oct", "build": "2026-08-31", "launch": "2026-09-02", "ends": "2026-10-06", "status": "Not started", "note": "MOVED to w/c 31 Aug. Merges old EX-03 + EX-05 + EX-12. LinkedIn events: 7493248019019186176 (8 Sep) + 7493607657983873024 (13 Oct). MCL lapsed excluded.", "act": "IM", "btag": "METSIM"}, {"id": "EX-07", "brand": "METSIM", "channel": "Expandi", "name": "METSIM Licence Expired", "aud": "Lapsed METSIM licence holders", "src": "METSIM client list (licence DB)", "steps": 5, "cta": "Renewal quote / 15-min call", "build": "2026-09-28", "launch": "2026-10-01", "ends": "2026-10-19", "status": "Not started", "note": "Pushed to 1 Oct to stay a clear week behind HS-06, which now ends 24 Sept.", "act": "IM", "btag": "METSIM"}, {"id": "HS-02", "brand": "METSIM", "channel": "HubSpot", "name": "METSIM Two-Session Series", "aud": "MCL active + webform inbound + opted-in METSIM contacts", "src": "MCL + HubSpot active list", "steps": 9, "cta": "Register 8 Sept + 13 Oct", "build": "2026-08-28", "launch": "2026-09-02", "ends": "2026-10-13", "status": "Not started", "note": "MOVED to w/c 31 Aug. Merges old HS-02 + HS-04 + HS-07. Use the LinkedIn event links for both sessions. Registration removes from that session's reminders only.", "act": "EMAIL", "btag": "METSIM"}, {"id": "HS-06", "brand": "METSIM", "channel": "HubSpot", "name": "METSIM Licence Expired", "aud": "Lapsed licence holders with valid email", "src": "METSIM licence DB → HubSpot", "steps": 3, "cta": "Renewal quote / 15-min call", "build": "2026-09-04", "launch": "2026-09-10", "ends": "2026-09-24", "status": "Not started", "note": "MOVED to w/c 7 Sept. Day 0 / +7 / +14 — 10, 17, 24 Sept. EX-07 follows on 1 Oct.", "act": "EMAIL", "btag": "METSIM"}, {"id": "PW-01", "brand": "METSIM", "channel": "Both", "name": "Post-Webinar: METSIM Model Audits", "aud": "Attendees + registered no-shows, 8 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Model audit engagement", "build": "2026-09-03", "launch": "2026-09-09", "ends": "2026-09-18", "status": "Not started", "note": "Build the week BEFORE the webinar. Live within 24h. Send from Calvin where possible.", "act": "EMAIL + IM", "btag": "METSIM"}, {"id": "PW-04", "brand": "METSIM", "channel": "Both", "name": "Post-Webinar: Simulation 4.0", "aud": "Attendees + registered no-shows, 13 Oct", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Scoped AI pilot or model build", "build": "2026-10-08", "launch": "2026-10-14", "ends": "2026-10-23", "status": "Not started", "note": "Last session of the quarter. Bridge to Q1 2027, not another invite.", "act": "EMAIL + IM", "btag": "METSIM"}];
+const PARKED_SEED=[{"id": "EX-03", "brand": "METSIM", "channel": "Expandi", "name": "METSIM Two-Session Series", "aud": "MCL active + worked webform inbound + Sales Nav METSIM targets", "src": "MCL + HubSpot forms + Sales Navigator", "steps": 6, "cta": "Register 8 Sept + 13 Oct", "build": "2026-08-31", "launch": "2026-09-02", "ends": "2026-10-06", "status": "Not started", "note": "MOVED to w/c 31 Aug. Merges old EX-03 + EX-05 + EX-12. LinkedIn events: 7493248019019186176 (8 Sep) + 7493607657983873024 (13 Oct). MCL lapsed excluded.", "act": "IM", "btag": "METSIM"}, {"id": "EX-07", "brand": "METSIM", "channel": "Expandi", "name": "METSIM Licence Expired", "aud": "Lapsed METSIM licence holders", "src": "METSIM client list (licence DB)", "steps": 5, "cta": "Renewal quote / 15-min call", "build": "2026-09-28", "launch": "2026-10-01", "ends": "2026-10-19", "status": "Not started", "note": "Pushed to 1 Oct to stay a clear week behind HS-06, which now ends 24 Sept.", "act": "IM", "btag": "METSIM"}, {"id": "HS-02", "brand": "METSIM", "channel": "HubSpot", "name": "METSIM Two-Session Series", "aud": "MCL active + webform inbound + opted-in METSIM contacts", "src": "MCL + HubSpot active list", "steps": 9, "cta": "Register 8 Sept + 13 Oct", "build": "2026-08-28", "launch": "2026-09-02", "ends": "2026-10-13", "status": "Not started", "note": "MOVED to w/c 31 Aug. Merges old HS-02 + HS-04 + HS-07. Use the LinkedIn event links for both sessions. Registration removes from that session's reminders only.", "act": "EMAIL", "btag": "METSIM"}, {"id": "HS-06", "brand": "METSIM", "channel": "HubSpot", "name": "METSIM Licence Expired", "aud": "Lapsed licence holders with valid email", "src": "METSIM licence DB → HubSpot", "steps": 3, "cta": "Renewal quote / 15-min call", "build": "2026-09-04", "launch": "2026-09-10", "ends": "2026-09-24", "status": "Not started", "note": "MOVED to w/c 7 Sept. Day 0 / +7 / +14 — 10, 17, 24 Sept. EX-07 follows on 1 Oct.", "act": "EMAIL", "btag": "METSIM"}, {"id": "PW-01", "brand": "METSIM", "channel": "Both", "name": "Post-Webinar: METSIM Model Audits", "aud": "Attendees + registered no-shows, 8 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Model audit engagement", "build": "2026-09-03", "launch": "2026-09-09", "ends": "2026-09-18", "status": "Not started", "note": "Build the week BEFORE the webinar. Live within 24h. Send from Calvin where possible.", "act": "EMAIL + IM", "btag": "METSIM"}, {"id": "PW-04", "brand": "METSIM", "channel": "Both", "name": "Post-Webinar: Simulation 4.0", "aud": "Attendees + registered no-shows, 13 Oct", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Scoped AI pilot or model build", "build": "2026-10-08", "launch": "2026-10-14", "ends": "2026-10-23", "status": "Not started", "note": "Last session of the quarter. Bridge to Q1 2027, not another invite.", "act": "EMAIL + IM", "btag": "METSIM"}];
 const SCHEDULE=[{"date": "2026-08-26", "week": "W1", "id": "EX-01/02", "ch": "Expandi", "action": "Post-webinar CAS — attendee + no-show sequences (LinkedIn only)", "pri": "CRITICAL"}, {"date": "2026-08-27", "week": "W1", "id": "EX-04", "ch": "Expandi", "action": "Launch — Traffic Management connection requests (invite fires 3 days after each accept)", "pri": "High"}, {"date": "2026-08-27", "week": "W1", "id": "EX-09", "ch": "Expandi", "action": "Launch — MetalTech warm signals (MOVED UP)", "pri": "High"}, {"date": "2026-09-01", "week": "W2", "id": "HS-03", "ch": "HubSpot", "action": "Invite send — Traffic Management, email leg (T-14)", "pri": "High"}, {"date": "2026-09-01", "week": "W2", "id": "HS-08", "ch": "HubSpot", "action": "BUILD + Franco sign-off — MetalTech email campaign (gate for tomorrow's send)", "pri": "High"}, {"date": "2026-09-02", "week": "W2", "id": "HS-08", "ch": "HubSpot", "action": "LAUNCH — MetalTech email 1 → website + demo booking", "pri": "High"}, {"date": "2026-09-02", "week": "W2", "id": "PRE-01", "ch": "Expandi", "action": "BUILD pre-webinar reminder — METSIM Model Audits", "pri": "High"}, {"date": "2026-09-03", "week": "W2", "id": "PRE-01", "ch": "Expandi", "action": "LAUNCH — Model Audits T-5 reminder + email capture", "pri": "High"}, {"date": "2026-09-07", "week": "W3", "id": "PRE-01", "ch": "Expandi", "action": "T-1 last call + email capture — Model Audits", "pri": "High"}, {"date": "2026-09-08", "week": "W3", "id": "EX-08", "ch": "Expandi", "action": "Launch — MetalTech cold sequence", "pri": "Medium"}, {"date": "2026-09-08", "week": "W3", "id": "EX-10", "ch": "Expandi", "action": "Launch — closed-lost revival", "pri": "Medium"}, {"date": "2026-09-08", "week": "W3", "id": "HS-03", "ch": "HubSpot", "action": "Reminder T-7 — Traffic Management", "pri": "High"}, {"date": "2026-09-08", "week": "W3", "id": "PRE-01", "ch": "Expandi", "action": "Day-of 08:00 — joining link, last ask for the address", "pri": "CRITICAL"}, {"date": "2026-09-08", "week": "W3", "id": "—", "ch": "Webinar", "action": "LIVE 10:00 — METSIM Model Audits (Calvin Morrison)", "pri": "CRITICAL"}, {"date": "2026-09-09", "week": "W3", "id": "HS-08", "ch": "HubSpot", "action": "MetalTech email 2 — demo booking", "pri": "Medium"}, {"date": "2026-09-09", "week": "W3", "id": "PRE-02", "ch": "Expandi", "action": "BUILD pre-webinar reminder — Traffic Management", "pri": "High"}, {"date": "2026-09-10", "week": "W3", "id": "PRE-02", "ch": "Expandi", "action": "LAUNCH — Traffic Management T-5 reminder + email capture", "pri": "High"}, {"date": "2026-09-10", "week": "W3", "id": "PW-02", "ch": "Both", "action": "BUILD post-webinar sequence — Traffic Management", "pri": "High"}, {"date": "2026-09-14", "week": "W4", "id": "HS-03", "ch": "HubSpot", "action": "Reminder T-1 — Traffic Management", "pri": "High"}, {"date": "2026-09-14", "week": "W4", "id": "PRE-02", "ch": "Expandi", "action": "T-1 last call + email capture — Traffic Management", "pri": "High"}, {"date": "2026-09-15", "week": "W4", "id": "HS-03", "ch": "HubSpot", "action": "Day-of send 08:00 — Traffic Management", "pri": "High"}, {"date": "2026-09-15", "week": "W4", "id": "PRE-02", "ch": "Expandi", "action": "Day-of 08:00 — joining link, last ask for the address", "pri": "CRITICAL"}, {"date": "2026-09-15", "week": "W4", "id": "—", "ch": "Webinar", "action": "LIVE 10:00 — Traffic Management (Samuel Pieterse)", "pri": "CRITICAL"}, {"date": "2026-09-16", "week": "W4", "id": "EX-06/06b", "ch": "Expandi", "action": "Launch — ISO 45001 invite, certified list + general safety", "pri": "High"}, {"date": "2026-09-16", "week": "W4", "id": "HS-05a", "ch": "HubSpot", "action": "Invite send — ISO 45001: Conformance ≠ Compliance (T-13)", "pri": "High"}, {"date": "2026-09-16", "week": "W4", "id": "HS-05b", "ch": "HubSpot", "action": "ISO 45001 certified-company email — HOLD until POPIA sign-off", "pri": "BLOCKED"}, {"date": "2026-09-16", "week": "W4", "id": "HS-08", "ch": "HubSpot", "action": "MetalTech email 3 — final demo push", "pri": "Medium"}, {"date": "2026-09-16", "week": "W4", "id": "PW-02", "ch": "Both", "action": "POST-WEBINAR LIVE — Traffic Management, bridges to ISO 45001", "pri": "CRITICAL"}, {"date": "2026-09-22", "week": "W5", "id": "HS-05a", "ch": "HubSpot", "action": "Reminder T-7 — ISO 45001", "pri": "High"}, {"date": "2026-09-23", "week": "W5", "id": "PRE-03", "ch": "Expandi", "action": "BUILD pre-webinar reminder — ISO 45001", "pri": "High"}, {"date": "2026-09-24", "week": "W5", "id": "PRE-03", "ch": "Expandi", "action": "LAUNCH — ISO 45001 T-5 reminder + email capture", "pri": "High"}, {"date": "2026-09-24", "week": "W5", "id": "PW-03", "ch": "Both", "action": "BUILD post-webinar sequence — ISO 45001", "pri": "High"}, {"date": "2026-09-28", "week": "W6", "id": "HS-05a", "ch": "HubSpot", "action": "Reminder T-1 — ISO 45001", "pri": "High"}, {"date": "2026-09-28", "week": "W6", "id": "PRE-03", "ch": "Expandi", "action": "T-1 last call + email capture — ISO 45001", "pri": "High"}, {"date": "2026-09-29", "week": "W6", "id": "HS-05a", "ch": "HubSpot", "action": "Day-of send 08:00 — ISO 45001", "pri": "High"}, {"date": "2026-09-29", "week": "W6", "id": "PRE-03", "ch": "Expandi", "action": "Day-of 08:00 — joining link, last ask for the address", "pri": "CRITICAL"}, {"date": "2026-09-29", "week": "W6", "id": "—", "ch": "Webinar", "action": "LIVE 10:00 — ISO 45001: Conformance ≠ Compliance", "pri": "CRITICAL"}, {"date": "2026-09-30", "week": "W6", "id": "PW-03", "ch": "Both", "action": "POST-WEBINAR LIVE — ISO 45001, bridges to the audit tool", "pri": "CRITICAL"}, {"date": "2026-10-07", "week": "W7", "id": "PRE-04", "ch": "Expandi", "action": "BUILD pre-webinar reminder — Simulation 4.0", "pri": "High"}, {"date": "2026-10-08", "week": "W7", "id": "PRE-04", "ch": "Expandi", "action": "LAUNCH — Simulation 4.0 T-5 reminder + email capture", "pri": "High"}, {"date": "2026-10-12", "week": "W8", "id": "PRE-04", "ch": "Expandi", "action": "T-1 last call + email capture — Simulation 4.0", "pri": "High"}, {"date": "2026-10-13", "week": "W8", "id": "PRE-04", "ch": "Expandi", "action": "Day-of 08:00 — joining link, last ask for the address", "pri": "CRITICAL"}, {"date": "2026-10-13", "week": "W8", "id": "—", "ch": "Webinar", "action": "LIVE 10:00 — Simulation 4.0: Where METSIM Meets AI", "pri": "CRITICAL"}];
 const WEBINARS=[{"name": "Collision Avoidance in Mining: Barriers to Implementation in African Mining", "brand": "Treo Services", "speaker": "Samuel Pieterse", "date": "2026-07-28", "time": "10:00–11:00", "status": "RAN — follow-up overdue", "feeds": "EX-01, EX-02 (LinkedIn only)"}, {"name": "METSIM Model Audits: Best Practice", "brand": "METSIM", "speaker": "Calvin Morrison", "date": "2026-09-08", "time": "10:00–11:00", "status": "Upcoming", "feeds": "PRE-01 (LinkedIn event registrants)"}, {"name": "Traffic Management: Saving Millions, Preventing Losses", "brand": "Treo Services", "speaker": "Samuel Pieterse", "date": "2026-09-15", "time": "10:00–11:00", "status": "Upcoming", "feeds": "EX-04, HS-03 → PRE-02 → PW-02"}, {"name": "ISO 45001: Conformance ≠ Compliance", "brand": "Treo Services", "speaker": "TBC", "date": "2026-09-29", "time": "10:00–11:00", "status": "Upcoming", "feeds": "EX-06, EX-06b, HS-05a/b → PRE-03 → PW-03"}, {"name": "Simulation 4.0: Where METSIM Meets AI", "brand": "METSIM", "speaker": "TBC", "date": "2026-10-13", "time": "10:00–11:00", "status": "Upcoming", "feeds": "PRE-04 (LinkedIn event registrants)"}];
 
@@ -524,7 +643,23 @@ const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","De
 const parse=s=>{const[a,b,c]=s.split("-").map(Number);return new Date(a,b-1,c)};
 const fmt=s=>{const d=parse(s);return d.getDate()+" "+MON[d.getMonth()]};
 const fmtLong=s=>{const d=parse(s);return ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][d.getDay()]+" "+d.getDate()+" "+MON[d.getMonth()]+" "+d.getFullYear()};
-const WEEK_STARTS=["2026-08-24","2026-08-31","2026-09-07","2026-09-14","2026-09-21","2026-09-28","2026-10-05","2026-10-12"];
+let WEEK_STARTS=[];
+const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+function mondayOf(ds){const d=parse(ds);d.setDate(d.getDate()-((d.getDay()+6)%7));return iso(d)}
+/* Weeks are derived from the data, not hardcoded — add a campaign that lands
+   in November and November appears. Always runs four weeks past today so
+   there is somewhere to put the next thing. */
+function buildWeeks(){
+  const ds=[iso(new Date())];
+  (typeof ALL_CAMPS!=="undefined"?ALL_CAMPS:[]).forEach(c=>[c.build,c.launch,c.ends].forEach(d=>d&&ds.push(d)));
+  SCHEDULE.forEach(a=>a.date&&ds.push(a.date));
+  let min=ds.reduce((a,b)=>a<b?a:b), max=ds.reduce((a,b)=>a>b?a:b);
+  const ahead=new Date();ahead.setDate(ahead.getDate()+28);
+  if(iso(ahead)>max)max=iso(ahead);
+  const out=[];let cur=parse(mondayOf(min));const end=parse(mondayOf(max));
+  while(cur<=end){out.push(iso(cur));const n=new Date(cur);n.setDate(n.getDate()+7);cur=n}
+  WEEK_STARTS=out;
+}
 function weekOf(ds){const d=parse(ds);for(let i=WEEK_STARTS.length-1;i>=0;i--){if(d>=parse(WEEK_STARTS[i]))return i}return 0}
 function tagClass(t){return t==="EMAIL + IM"?"t-BOTH":"t-"+t}
 
@@ -590,54 +725,169 @@ function syncChips(){
 }
 
 /* ─────────── campaigns by week ─────────── */
-let cfilt=new Set();
+/* ─────────── campaign filtering, sorting and week collapse ─────────── */
+const CF={q:"",brand:new Set(),type:new Set(),stage:new Set(),status:new Set(),from:"",to:"",sort:"launch",dir:1,view:"weeks"};
+const WKKEY="oe.weekopen.v1";
+let WKOPEN=store.get(WKKEY,{});
+
+function stageOf(c){
+  const t=iso(new Date());
+  if(c.ends&&c.ends<t)return "ended";
+  if(c.launch&&c.launch<=t)return "live";
+  return "upcoming";
+}
+const STAGE_LABEL={upcoming:"Upcoming",live:"Live now",ended:"Ended"};
+
+function campMatches(c){
+  if(CF.brand.size){const b=c.btag||"";
+    if(![...CF.brand].some(t=>b===t||b.split(" + ").includes(t)))return false}
+  if(CF.type.size){const t=typeOf(c.id);if(!t||!CF.type.has(t.k))return false}
+  if(CF.stage.size&&!CF.stage.has(stageOf(c)))return false;
+  if(CF.status.size&&!CF.status.has(c.status))return false;
+  if(CF.from&&(!c.launch||c.launch<CF.from))return false;
+  if(CF.to&&(!c.launch||c.launch>CF.to))return false;
+  if(CF.q){const q=CF.q.toLowerCase();
+    const hay=[c.id,c.name,c.aud,c.src,c.cta,c.note,c.brand,c.channel,c.status].join(" ").toLowerCase();
+    if(!hay.includes(q))return false}
+  return true;
+}
+function campSorted(list){
+  const k=CF.sort;
+  const val=c=>{
+    if(k==="id"){const m=/^([A-Z]+)-(\d+)([a-z]*)/.exec(c.id)||[];
+      return String(TYPES.findIndex(t=>t.k===m[1])).padStart(2,"0")+String(m[2]||"").padStart(4,"0")+(m[3]||"")}
+    if(k==="steps")return String(c.steps||0).padStart(4,"0");
+    if(k==="status")return String(STATUSES.indexOf(c.status)).padStart(2,"0")+c.id;
+    if(k==="name"||k==="brand")return (c[k]||"").toLowerCase();
+    return c[k]||"9999-99-99";
+  };
+  return [...list].sort((a,b)=>{const x=val(a),y=val(b);return (x<y?-1:x>y?1:0)*CF.dir||campSort(a,b)});
+}
+
 function renderWeeks(){
+  buildWeeks();
   const host=$("#weeks"); host.innerHTML="";
+  const shown=CAMPAIGNS.filter(campMatches);
+  const filtering=!!(CF.q||CF.brand.size||CF.type.size||CF.stage.size||CF.status.size||CF.from||CF.to);
+  $("#ccount").textContent=`${shown.length} of ${CAMPAIGNS.length} campaigns${filtering?" match":""}`;
+  const wk=$("#wkcount"); if(wk)wk.textContent=WEEK_STARTS.length;
+  if(CF.view==="list")return renderCampList(host,shown);
+
+  const today=iso(new Date());
   WEEK_STARTS.forEach((ws,wi)=>{
-    const items=CAMPAIGNS.filter(c=>c.launch&&weekOf(c.launch)===wi)
-      .filter(c=>!cfilt.size||cfilt.has(c.btag.split(" + ")[0])||cfilt.has(c.btag));
-    const acts=SCHEDULE.filter(s=>weekOf(s.date)===wi);
+    const items=campSorted(shown.filter(c=>c.launch&&weekOf(c.launch)===wi));
+    const acts=filtering?[]:SCHEDULE.filter(s=>weekOf(s.date)===wi);
     if(!items.length&&!acts.length)return;
-    const g=document.createElement("section"); g.className="wkgrp";
     const end=new Date(parse(ws)); end.setDate(end.getDate()+4);
-    g.innerHTML=`<div class="wkhd"><h3>Week ${wi+1}</h3>
+    const done=iso(end)<today;
+    const open=WKOPEN[ws]!==undefined?WKOPEN[ws]:!done;
+
+    const g=document.createElement("section"); g.className="wkgrp";
+    const d=document.createElement("details"); d.open=open;
+    d.innerHTML=`<summary class="wkhd"><span class="tw"></span><h3>Week ${wi+1}</h3>
       <span class="rng">${fmt(ws)} – ${end.getDate()} ${MON[end.getMonth()]}</span>
-      <span class="cnt">${items.length} launching · ${acts.length} actions</span></div>`;
+      ${done?'<span class="wkdone">done</span>':''}
+      <span class="cnt">${items.length} launching · ${acts.length} actions</span></summary>`;
+    d.ontoggle=()=>{WKOPEN[ws]=d.open;store.set(WKKEY,WKOPEN)};
+
     const rows=document.createElement("div"); rows.className="rows";
     items.forEach(c=>{
       const r=document.createElement("div"); r.className="row";
-      r.innerHTML=`<div class="cid">${c.id}</div>
-        <div><div class="cn">${c.name}</div><div class="ca">${c.aud}</div>
-        <div class="cg"><span class="tag ${tagClass(c.act)}">${c.act}</span><span class="tag brand">${c.btag}</span>
-        <span class="pill ${c.status==="BLOCKED"?"p-block":"p-ns"}">${c.status}</span></div></div>
-        <div class="cd">launch<b>${fmt(c.launch)}</b>ends ${fmt(c.ends)}</div>`;
-      r.onclick=()=>openDrawer(c.id+" · "+c.name,[["Brand",c.brand],["Channel",c.channel],["Audience",c.aud],
-        ["List source",c.src],["Steps",String(c.steps)],["CTA",c.cta],["Build due",fmtLong(c.build)],
-        ["Launch",fmtLong(c.launch)],["Sequence ends",fmtLong(c.ends)],["Tags",c.act+" · "+c.btag]],c.note);
+      r.innerHTML=`<div class="cid">${esc(c.id)}</div>
+        <div><div class="cn">${esc(c.name)}</div><div class="ca">${esc(c.aud)}</div>
+        <div class="cg"><span class="tag ${tagClass(c.act)}">${c.act}</span><span class="tag brand">${esc(c.btag)}</span>
+        <span class="pill ${c.status==="BLOCKED"?"p-block":"p-ns"}">${esc(c.status)}</span>
+        <span class="pill ${stageOf(c)==="ended"?"p-med":stageOf(c)==="live"?"p-crit":"p-ns"}">${STAGE_LABEL[stageOf(c)]}</span></div></div>
+        <div class="cd">launch<b>${fmt(c.launch)}</b>ends ${fmt(c.ends)}</div>
+        <div class="cact"><button class="rowbtn" data-cedit="${esc(c.id)}">Edit</button></div>`;
+      r.querySelector("[data-cedit]").onclick=e=>{e.stopPropagation();openCampEdit(c.id)};
+      r.onclick=()=>campDrawer(c);
       rows.appendChild(r);
     });
     if(acts.length){
-      const d=document.createElement("details"); d.style.cssText="background:var(--surface);border:1px solid var(--line);border-top:none;padding:.6rem .9rem";
-      d.innerHTML=`<summary style="cursor:pointer;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">${acts.length} scheduled actions this week</summary>`;
+      const ad=document.createElement("details"); ad.style.cssText="background:var(--surface);border:1px solid var(--line);border-top:none;padding:.6rem .9rem";
+      ad.innerHTML=`<summary style="cursor:pointer;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">${acts.length} scheduled actions this week</summary>`;
       const t=document.createElement("div"); t.style.cssText="margin-top:.6rem;display:flex;flex-direction:column;gap:.3rem";
       acts.forEach(a=>{const li=document.createElement("div");
         li.style.cssText="display:grid;grid-template-columns:5.5rem 5rem 1fr auto;gap:.6rem;font-size:.8rem;align-items:baseline";
         li.innerHTML=`<span style="font-family:var(--f-mono);font-size:.72rem;color:var(--muted)">${fmtLong(a.date).slice(0,10)}</span>
-          <span style="font-family:var(--f-mono);font-size:.72rem;color:var(--accent)">${a.id}</span>
-          <span style="color:var(--ink-2)">${a.action}</span>
+          <span style="font-family:var(--f-mono);font-size:.72rem;color:var(--accent)">${esc(a.id)}</span>
+          <span style="color:var(--ink-2)">${esc(a.action)}</span>
           <span class="pill ${a.pri==="CRITICAL"||a.pri==="BLOCKED"?"p-crit":a.pri==="High"?"p-high":"p-med"}">${a.pri}</span>`;
         t.appendChild(li)});
-      d.appendChild(t); rows.appendChild(d);
+      ad.appendChild(t); rows.appendChild(ad);
     }
-    g.appendChild(rows); host.appendChild(g);
+    d.appendChild(rows); g.appendChild(d); host.appendChild(g);
   });
+  if(!host.children.length)host.innerHTML=`<p class="hempty" style="margin-top:1.4rem">Nothing matches those filters. <b>Reset filters</b> brings everything back.</p>`;
+}
+
+function campDrawer(c){
+  openDrawer(c.id+" · "+c.name,[["Brand",c.brand],["Channel",c.channel],["Audience",c.aud],
+    ["List source",c.src],["Steps",String(c.steps)],["CTA",c.cta],["Build due",c.build?fmtLong(c.build):"—"],
+    ["Launch",c.launch?fmtLong(c.launch):"—"],["Sequence ends",c.ends?fmtLong(c.ends):"—"],
+    ["Stage",STAGE_LABEL[stageOf(c)]],["Status",c.status],["Tags",c.act+" · "+c.btag]],c.note);
+}
+
+const CCOLS=[["id","ID"],["name","Campaign"],["brand","Brand"],["type","Type"],["btag","Tag"],
+             ["steps","Steps"],["launch","Launch"],["ends","Ends"],["stage","Stage"],["status","Status"]];
+function renderCampList(host,shown){
+  const rows=campSorted(shown);
+  host.innerHTML=`<div class="tscroll"><table class="ctable">
+    <thead><tr>${CCOLS.map(([k,l])=>`<th data-sk="${k}"${CF.sort===k?` aria-sort="${CF.dir>0?"ascending":"descending"}"`:""}>${l} <span class="ar">${CF.sort===k?(CF.dir>0?"↑":"↓"):"↕"}</span></th>`).join("")}<th></th></tr></thead>
+    <tbody>${rows.map(c=>{const t=typeOf(c.id);return `<tr data-id="${esc(c.id)}">
+      <td class="m">${esc(c.id)}</td><td class="nm">${esc(c.name)}</td>
+      <td class="m">${esc(c.brand)}</td><td class="m">${t?t.k:"—"}</td>
+      <td><span class="tag brand">${esc(c.btag)}</span></td>
+      <td class="m">${c.steps||"—"}</td><td class="m">${c.launch?fmt(c.launch):"—"}</td><td class="m">${c.ends?fmt(c.ends):"—"}</td>
+      <td><span class="pill ${stageOf(c)==="ended"?"p-med":stageOf(c)==="live"?"p-crit":"p-ns"}">${STAGE_LABEL[stageOf(c)]}</span></td>
+      <td class="m">${esc(c.status)}</td>
+      <td><button class="rowbtn" data-cedit="${esc(c.id)}">Edit</button></td></tr>`}).join("")}</tbody></table></div>
+    ${rows.length?"":'<p class="hempty" style="margin-top:1.4rem">Nothing matches those filters.</p>'}`;
+  $$("#weeks th[data-sk]").forEach(th=>th.onclick=()=>{
+    const k=th.dataset.sk;
+    if(CF.sort===k)CF.dir*=-1;else{CF.sort=k;CF.dir=1}
+    const o=$("#csort").querySelector(`option[value="${CF.sort}"]`); if(o)$("#csort").value=CF.sort;
+    syncDirBtn();renderWeeks()});
+  $$("#weeks [data-cedit]").forEach(b=>b.onclick=e=>{e.stopPropagation();openCampEdit(b.dataset.cedit)});
+  $$("#weeks tbody tr").forEach(tr=>tr.onclick=()=>{
+    const c=CAMPAIGNS.find(x=>x.id===tr.dataset.id); if(c)campDrawer(c)});
+}
+
+function chipset(host,items,set,cls){
+  const box=$(host);box.innerHTML="";box.style.cssText="display:flex;gap:.35rem;flex-wrap:wrap";
+  items.forEach(it=>{
+    const [val,lab]=Array.isArray(it)?it:[it,it];
+    const b=document.createElement("button");b.className="chip "+(cls||"");b.textContent=lab;b.dataset.t=val;
+    b.setAttribute("aria-pressed",set.has(val));
+    b.onclick=()=>{tog(set,val);
+      $$(host+" .chip").forEach(x=>x.setAttribute("aria-pressed",set.has(x.dataset.t)));
+      renderWeeks()};
+    box.appendChild(b)});
+}
+function syncDirBtn(){
+  const dateish=["launch","ends","build"].includes(CF.sort);
+  $("#cdir").textContent=CF.dir>0?(dateish?"↑ oldest first":"↑ A–Z"):(dateish?"↓ newest first":"↓ Z–A");
 }
 function buildCampChips(){
-  const host=$("#fcamp");
-  ["SERV","METSIM","TECH","ALL"].forEach(t=>{
-    const c=chip(t,()=>{tog(cfilt,t);renderWeeks();
-      $$("#fcamp .chip").forEach(x=>x.setAttribute("aria-pressed",cfilt.has(x.dataset.t)))});
-    host.appendChild(c)});
+  chipset("#fcamp",["SERV","METSIM","TECH","ALL"],CF.brand);
+  chipset("#ftype",TYPES.map(t=>[t.k,t.k]),CF.type,"sm2");
+  chipset("#fstage",[["upcoming","Upcoming"],["live","Live now"],["ended","Ended"]],CF.stage,"sm2");
+  chipset("#fstatus",STATUSES.map(s=>[s,s]),CF.status,"sm2");
+  const vb=$("#fview");vb.innerHTML="";vb.style.cssText="display:flex;gap:.35rem";
+  [["weeks","By week"],["list","Sortable list"]].forEach(([v,l])=>{
+    const b=document.createElement("button");b.className="chip sm2";b.textContent=l;
+    b.setAttribute("aria-pressed",CF.view===v);
+    b.onclick=()=>{CF.view=v;buildCampChips();renderWeeks()};vb.appendChild(b)});
+  $("#cq").oninput=e=>{CF.q=e.target.value.trim();renderWeeks()};
+  $("#cfrom").onchange=e=>{CF.from=e.target.value;renderWeeks()};
+  $("#cto").onchange=e=>{CF.to=e.target.value;renderWeeks()};
+  $("#cdclear").onclick=()=>{CF.from="";CF.to="";$("#cfrom").value="";$("#cto").value="";renderWeeks()};
+  $("#csort").onchange=e=>{CF.sort=e.target.value;syncDirBtn();renderWeeks()};
+  $("#cdir").onclick=()=>{CF.dir*=-1;syncDirBtn();renderWeeks()};
+  $("#cclear").onclick=()=>{CF.q="";CF.from="";CF.to="";CF.brand.clear();CF.type.clear();CF.stage.clear();CF.status.clear();
+    $("#cq").value="";$("#cfrom").value="";$("#cto").value="";buildCampChips();renderWeeks()};
+  syncDirBtn();
 }
 
 /* ─────────── webinars ─────────── */
@@ -665,6 +915,226 @@ function openDrawer(title,pairs,body){
 function closeDrawer(){$("#drawer").classList.remove("on");$("#scrim").classList.remove("on")}
 $("#scrim").onclick=()=>{closeDrawer();closePanel()}; $("#dclose").onclick=closeDrawer;
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeDrawer();closePanel();$("#lightbox").classList.remove("on")}});
+
+/* ═══════════════════════════════════════════════════════════
+   CAMPAIGN STORE — add, edit, park, delete. Edits live in this
+   browser and win over the baked-in list; bump CAMP_SEED_VERSION
+   when the file's own campaign data changes, and untouched
+   campaigns pick the new version up while edits are kept.
+   ═══════════════════════════════════════════════════════════ */
+const CAMP_SEED_VERSION="2026-09-01a";
+const CKEY="oe.camps.v1";
+
+const TYPES=[
+ {k:"EX", label:"Expandi — LinkedIn outreach", channel:"Expandi", act:"IM",         steps:4},
+ {k:"HS", label:"HubSpot — email",             channel:"HubSpot",  act:"EMAIL",      steps:4},
+ {k:"PRE",label:"Pre-webinar reminder",        channel:"Expandi",  act:"IM",         steps:3},
+ {k:"PW", label:"Post-webinar follow-up",      channel:"Both",     act:"EMAIL + IM", steps:4},
+];
+const BRAND_TAG={"Treo Services":"SERV","METSIM":"METSIM","Treo Tech":"TECH","All":"ALL"};
+const BTAGS=["SERV","METSIM","TECH","ALL","SERV + TECH"];
+const ACTS=["IM","EMAIL","EMAIL + IM"];
+const CHANNELS=["Expandi","HubSpot","Both"];
+const STATUSES=["Not started","In build","Awaiting approval","Live","Complete","BLOCKED"];
+const FIELDS=["id","brand","channel","name","aud","src","steps","cta","build","launch","ends","status","note","act","btag"];
+
+let ALL_CAMPS=[], CAMPAIGNS=[], CDEL=new Set();
+
+function typeOf(id){const m=/^([A-Z]+)-/.exec(id||"");const t=m&&TYPES.find(t=>t.k===m[1]);return t||null}
+function campSort(a,b){
+  const oi=id=>{const m=/^([A-Z]+)-/.exec(id);const i=TYPES.findIndex(t=>t.k===(m?m[1]:""));return i<0?TYPES.length:i};
+  const num=id=>{const m=/-(\d+)/.exec(id);return m?+m[1]:999};
+  const suf=id=>{const m=/-\d+([a-z]*)$/.exec(id);return m?m[1]:""};
+  return oi(a.id)-oi(b.id)||num(a.id)-num(b.id)||suf(a.id).localeCompare(suf(b.id));
+}
+function loadCamps(){
+  const seedAll=[...CAMPAIGNS_SEED.map(c=>({...c,parked:false})),
+                 ...PARKED_SEED.map(c=>({...c,parked:true}))];
+  const st=store.get(CKEY,null);
+  CDEL=new Set(st&&st.deleted||[]);
+  if(!st){ALL_CAMPS=seedAll.map(c=>({...c}))}
+  else if(st.v===CAMP_SEED_VERSION){ALL_CAMPS=(st.list||[]).map(c=>({...c}))}
+  else{
+    /* the file's campaign data changed under us — take the new version for
+       anything untouched, keep every edit, honour every delete */
+    const mine={};(st.list||[]).forEach(c=>mine[c.id]=c);
+    const out=[];
+    seedAll.forEach(c=>{
+      if(CDEL.has(c.id))return;
+      const m=mine[c.id];
+      out.push(m&&m.edited?{...m}:{...c,parked:m?!!m.parked:c.parked});
+    });
+    (st.list||[]).forEach(c=>{if(c.custom&&!out.some(x=>x.id===c.id))out.push({...c})});
+    ALL_CAMPS=out;
+  }
+  syncCampArrays();
+}
+function syncCampArrays(){ALL_CAMPS.sort(campSort);CAMPAIGNS=ALL_CAMPS.filter(c=>!c.parked)}
+function saveCamps(){store.set(CKEY,{v:CAMP_SEED_VERSION,list:ALL_CAMPS,deleted:[...CDEL],saved:new Date().toISOString()})}
+function campsChanged(){
+  syncCampArrays();saveCamps();
+  renderWeeks();renderParked();renderCampMeta();renderHist();
+  $("#campcount").textContent=CAMPAIGNS.length;$("#footcount").textContent=CAMPAIGNS.length;
+}
+function nextId(pre){
+  let max=0;
+  const scan=id=>{const m=/^([A-Z]+)-(\d+)/.exec(id||"");if(m&&m[1]===pre)max=Math.max(max,+m[2])};
+  ALL_CAMPS.forEach(c=>scan(c.id));CDEL.forEach(scan);
+  CAMPAIGNS_SEED.forEach(c=>scan(c.id));PARKED_SEED.forEach(c=>scan(c.id));
+  return pre+"-"+String(max+1).padStart(2,"0");
+}
+function renderCampMeta(){
+  const st=store.get(CKEY,null);
+  const edited=ALL_CAMPS.filter(c=>c.edited&&!c.custom).length, added=ALL_CAMPS.filter(c=>c.custom).length;
+  if(!st){$("#campmeta").innerHTML=`<span class="dot"></span>Straight from the file — nothing edited in this browser yet`;return}
+  const bits=[];
+  if(added)bits.push(`${added} added`);
+  if(edited)bits.push(`${edited} edited`);
+  if(CDEL.size)bits.push(`${CDEL.size} deleted`);
+  $("#campmeta").innerHTML=`<span class="dot ok"></span>${bits.length?bits.join(" · "):"no changes"} in this browser · saved ${new Date(st.saved||Date.now()).toLocaleString("en-ZA",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})} · <b>Export</b> to get them off this machine`;
+}
+function renderParked(){
+  const parked=ALL_CAMPS.filter(c=>c.parked);
+  $("#parkcount").innerHTML=parked.length
+    ? `<span>— ${parked.length} campaign${parked.length===1?"":"s"} on hold, rendering nowhere</span>`
+    : `<span>— nothing parked</span>`;
+  $("#parklist").innerHTML=parked.length?parked.map(c=>`<div class="parkrow">
+      <span class="cid">${esc(c.id)}</span>
+      <span class="pn">${esc(c.name)} <span class="tag brand">${esc(c.btag)}</span></span>
+      <span class="pa"><button class="rowbtn" data-unpark="${esc(c.id)}">Unpark</button><button class="rowbtn" data-cedit="${esc(c.id)}">Edit</button></span>
+    </div>`).join(""):`<div class="parkrow"><span></span><span class="pn" style="color:var(--muted)">Park a campaign from its editor when you want it out of the plan without losing it.</span><span></span></div>`;
+  $$("#parklist [data-unpark]").forEach(b=>b.onclick=()=>{
+    const c=ALL_CAMPS.find(x=>x.id===b.dataset.unpark);
+    if(c){c.parked=false;c.edited=true;c.updated_at=stampNow();campsChanged()}});
+  $$("#parklist [data-cedit]").forEach(b=>b.onclick=()=>openCampEdit(b.dataset.cedit));
+}
+
+/* ─────────── the editor ─────────── */
+const opts=(arr,cur)=>arr.map(v=>{const val=Array.isArray(v)?v[0]:v,lab=Array.isArray(v)?v[1]:v;
+  return `<option value="${esc(val)}"${val===cur?" selected":""}>${esc(lab)}</option>`}).join("");
+
+function openCampEdit(id){
+  const isNew=!id;
+  const orig=isNew?null:ALL_CAMPS.find(c=>c.id===id);
+  if(!isNew&&!orig)return;
+  const c=isNew?{id:"",brand:"Treo Services",channel:"Expandi",name:"",aud:"",src:"",steps:4,cta:"",
+                 build:"",launch:"",ends:"",status:"Not started",note:"",act:"IM",btag:"SERV",parked:false}
+               :{...orig};
+  let ttype=isNew?"EX":(typeOf(c.id)?typeOf(c.id).k:"EX");
+
+  const fld=(k,label,html,hint)=>`<div class="fld${["name","aud","src","cta","note"].includes(k)?" fw":""}">
+     <label for="cf_${k}">${label}</label>${html}${hint?`<div class="hint">${hint}</div>`:""}</div>`;
+  const txt=(k,ph)=>`<input id="cf_${k}" data-k="${k}" value="${esc(c[k]==null?"":c[k])}" placeholder="${ph||""}">`;
+  const date=k=>`<input id="cf_${k}" data-k="${k}" type="date" value="${esc(c[k]||"")}">`;
+  const sel=(k,arr)=>`<select id="cf_${k}" data-k="${k}">${opts(arr,c[k])}</select>`;
+
+  $("#ptitle").textContent=isNew?"New campaign":`Edit ${c.id}`;
+  $("#pbody").innerHTML=`
+    <div class="form">
+      <div class="fld"><label for="cf_type">Campaign type</label>
+        <select id="cf_type">${opts(TYPES.map(t=>[t.k,t.label]),ttype)}</select>
+        <div class="hint">Sets the ID prefix, and fills in the channel, activity tag and step count.</div></div>
+      <div class="fld"><label for="cf_id">Campaign ID</label>
+        <input id="cf_id" data-k="id" value="${esc(c.id)}"${isNew?' readonly':''}>
+        <div class="hint" id="idhint">${isNew?"Generated from the type — the next free number.":"Renaming this breaks any History record already filed against the old ID."}</div></div>
+      ${fld("name","Name",txt("name","Post-Webinar: …"))}
+      <div class="fld"><label for="cf_brand">Brand</label>${sel("brand",Object.keys(BRAND_TAG))}</div>
+      <div class="fld"><label for="cf_channel">Channel</label>${sel("channel",CHANNELS)}</div>
+      <div class="fld"><label for="cf_act">Activity tag</label>${sel("act",ACTS)}</div>
+      <div class="fld"><label for="cf_btag">Brand tag</label>${sel("btag",BTAGS)}</div>
+      <div class="fld"><label for="cf_status">Status</label>${sel("status",STATUSES)}</div>
+      <div class="fld"><label for="cf_steps">Steps in the sequence</label><input id="cf_steps" data-k="steps" type="number" min="1" max="20" value="${esc(c.steps||4)}"></div>
+      ${fld("aud","Audience",txt("aud","Who this goes to"))}
+      ${fld("src","List source",txt("src","Where the list comes from"))}
+      ${fld("cta","Call to action",txt("cta","What you are asking them to do"))}
+      <div class="fld"><label for="cf_build">Build due</label>${date("build")}</div>
+      <div class="fld"><label for="cf_launch">Launch</label>${date("launch")}</div>
+      <div class="fld"><label for="cf_ends">Sequence ends</label>${date("ends")}</div>
+      ${fld("note","Notes",`<textarea id="cf_note" data-k="note" placeholder="Why it exists, what to watch, any collision to avoid.">${esc(c.note||"")}</textarea>`)}
+    </div>
+    <div class="formerr" id="cferr" hidden></div>
+    <div class="formact">
+      <button class="btn" id="cf_save">${isNew?"Create campaign":"Save changes"}</button>
+      <button class="btn ghost" id="cf_cancel">Cancel</button>
+      ${isNew?"":`<button class="btn ghost" id="cf_park">${c.parked?"Unpark":"Park"}</button>
+        <button class="btn ghost" id="cf_dupe">Duplicate</button>
+        <button class="btn ghost danger" id="cf_del">Delete</button>`}
+    </div>`;
+
+  const typeSel=$("#cf_type");
+  typeSel.onchange=()=>{
+    const t=TYPES.find(t=>t.k===typeSel.value);
+    if(!t)return;
+    $("#cf_channel").value=t.channel;$("#cf_act").value=t.act;
+    if(isNew){$("#cf_steps").value=t.steps;$("#cf_id").value=nextId(t.k)}
+    else $("#idhint").textContent="Type changed — the ID keeps its old prefix unless you retype it.";
+  };
+  $("#cf_brand").onchange=()=>{const bt=BRAND_TAG[$("#cf_brand").value];if(bt&&BTAGS.includes(bt))$("#cf_btag").value=bt};
+  if(isNew)$("#cf_id").value=nextId(ttype);
+
+  const err=m=>{const e=$("#cferr");e.textContent=m;e.hidden=!m};
+  $("#cf_cancel").onclick=closePanel;
+
+  $("#cf_save").onclick=()=>{
+    const v={};
+    $$("#pbody [data-k]").forEach(i=>v[i.dataset.k]=i.value.trim());
+    v.steps=Math.max(1,parseInt(v.steps,10)||1);
+    if(!v.name)return err("Give it a name — that is what shows on the campaign row.");
+    if(!/^[A-Z]+-\d+[a-z]?$/.test(v.id))return err(`"${v.id}" is not a valid ID. Use a prefix, a dash and a number — EX-11, HS-09, PRE-05.`);
+    if(ALL_CAMPS.some(x=>x.id===v.id&&x!==orig))return err(`${v.id} is already taken by "${ALL_CAMPS.find(x=>x.id===v.id).name}".`);
+    if(!v.launch||!v.ends)return err("A launch date and an end date are what place it in a week. Both are needed.");
+    if(v.ends<v.launch)return err("The sequence cannot end before it launches.");
+    if(v.build&&v.build>v.launch)return err("Build due falls after launch — it has to be built before it fires.");
+    if(orig){Object.assign(orig,v);orig.edited=true;orig.updated_at=stampNow()}
+    else{ALL_CAMPS.push({...c,...v,parked:false,custom:true,edited:true,updated_at:stampNow()})}
+    campsChanged();closePanel();
+  };
+
+  if(!isNew){
+    $("#cf_park").onclick=()=>{orig.parked=!orig.parked;orig.edited=true;orig.updated_at=stampNow();campsChanged();closePanel();
+      if(orig.parked)$("#parkwrap").open=true};
+    $("#cf_dupe").onclick=()=>{
+      const t=typeOf(orig.id);const copy={...orig,id:nextId(t?t.k:"EX"),name:orig.name+" (copy)",custom:true,edited:true,parked:false,updated_at:stampNow()};
+      ALL_CAMPS.push(copy);campsChanged();openCampEdit(copy.id)};
+    let armed=false,timer=null;
+    $("#cf_del").onclick=()=>{
+      const b=$("#cf_del");
+      if(!armed){armed=true;b.textContent="Tap again to delete";clearTimeout(timer);
+        timer=setTimeout(()=>{armed=false;b.textContent="Delete"},4000);return}
+      const acts=SCHEDULE.filter(a=>a.id===orig.id).length;
+      ALL_CAMPS=ALL_CAMPS.filter(x=>x!==orig);CDEL.add(orig.id);
+      if(acts){for(let i=SCHEDULE.length-1;i>=0;i--)if(SCHEDULE[i].id===orig.id)SCHEDULE.splice(i,1)}
+      campsChanged();closePanel();
+    };
+  }
+  $("#panel").classList.add("on");$("#scrim").classList.add("on");
+}
+
+$("#newcamp").onclick=()=>openCampEdit(null);
+$("#campexp").onclick=()=>{
+  const blob=new Blob([JSON.stringify({exported:new Date().toISOString(),version:CAMP_SEED_VERSION,
+    campaigns:ALL_CAMPS.map(c=>{const o={};FIELDS.forEach(k=>o[k]=c[k]);o.parked=!!c.parked;return o}),
+    deleted:[...CDEL]},null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  a.download="treo-campaigns.json";a.click();URL.revokeObjectURL(a.href)};
+$("#campcopy").onclick=async()=>{
+  const lines=["Treo Outreach Engine — campaign list from the app","(bake these back into index.html)",""];
+  ALL_CAMPS.forEach(c=>{lines.push(`${c.id}${c.parked?" [PARKED]":""}${c.custom?" [ADDED IN APP]":""} — ${c.name}`);
+    lines.push(`  ${c.brand} · ${c.channel} · ${c.act} · ${c.btag} · ${c.steps} steps · ${c.status}`);
+    lines.push(`  ${c.launch} → ${c.ends} (build ${c.build||"—"})`);
+    lines.push(`  audience: ${c.aud}`);lines.push(`  source: ${c.src}`);lines.push(`  cta: ${c.cta}`);
+    if(c.note)lines.push(`  note: ${c.note}`);lines.push("")});
+  if(CDEL.size)lines.push("deleted: "+[...CDEL].join(", "));
+  const txt=lines.join("\n");
+  try{await navigator.clipboard.writeText(txt);$("#campcopy").textContent="Copied ✓";
+    setTimeout(()=>$("#campcopy").textContent="Copy for Claude",1600)}
+  catch(e){openDrawer("Copy this into Claude",[],txt)}};
+$("#campreset").onclick=()=>{
+  const b=$("#campreset");
+  if(b.dataset.armed!=="1"){b.dataset.armed="1";b.textContent="Discard my edits?";
+    setTimeout(()=>{b.dataset.armed="0";b.textContent="Reset to file"},4000);return}
+  localStorage.removeItem(CKEY);b.dataset.armed="0";b.textContent="Reset to file";
+  loadCamps();campsChanged()};
 
 /* ═══════════════════════════════════════════════════════════
    CAMPAIGN HISTORY — folder sync, metrics, evidence gallery
@@ -735,10 +1205,17 @@ const eff=(it,k)=>{const v=(it.man&&it.man[k]!=null&&it.man[k]!=="")?it.man[k]:(
 let _db=null;
 function idb(){return _db||(_db=new Promise((res,rej)=>{
   const r=indexedDB.open("treo-oe",1);
+  /* An open can sit blocked forever if another tab holds an older version,
+     which silently stalls a sync. Fail loudly after ten seconds instead. */
+  const bail=setTimeout(()=>{_db=null;rej(new Error("local storage is busy — close the app's other tabs and try again"))},10000);
+  const done=fn=>(...a)=>{clearTimeout(bail);fn(...a)};
   r.onupgradeneeded=()=>{const d=r.result;
     if(!d.objectStoreNames.contains("kv"))d.createObjectStore("kv");
     if(!d.objectStoreNames.contains("shots"))d.createObjectStore("shots");};
-  r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error);}))}
+  r.onsuccess=done(()=>res(r.result));
+  r.onerror=done(()=>{_db=null;rej(r.error)});
+  r.onblocked=done(()=>{_db=null;rej(new Error("local storage is locked by another tab of this app"))});
+}))}
 async function idbGet(s,k){const d=await idb();return new Promise((res,rej)=>{const t=d.transaction(s,"readonly").objectStore(s).get(k);t.onsuccess=()=>res(t.result);t.onerror=()=>rej(t.error)})}
 async function idbSet(s,k,v){const d=await idb();return new Promise((res,rej)=>{const t=d.transaction(s,"readwrite").objectStore(s).put(v,k);t.onsuccess=()=>res();t.onerror=()=>rej(t.error)})}
 async function idbDel(s,k){const d=await idb();return new Promise((res)=>{const t=d.transaction(s,"readwrite").objectStore(s).delete(k);t.onsuccess=()=>res();t.onerror=()=>res()})}
@@ -906,7 +1383,7 @@ async function ingestFolder(folder,files){
   const prev=HIST.items[key]||{};
   const it={key,cid:prev.cid!==undefined?(prev.cid||cid):cid,folder,
             m:{},src:{},rates:{},man:prev.man||{},note:prev.note||"",
-            files:[],shots:prev.shots||[],synced:new Date().toISOString(),
+            files:[],shots:prev.shots||[],synced:new Date().toISOString(),updated_at:stampNow(),
             /* descriptive fields survive every sync */
             name:prev.name,brand:prev.brand,act:prev.act,ran:prev.ran,meta:prev.meta};
   if(prev.cid)it.cid=prev.cid;
@@ -1008,6 +1485,13 @@ function funnel(it,grp){
 }
 
 let HFILTER="all";
+const HF={brand:new Set(),type:new Set(),sort:"launch",dir:1};
+function histVal(it,c,k){
+  if(k==="id"||k==="launch"||k==="ends")return c?(k==="id"?c.id:c[k]||"9999-99-99"):(it&&it.ran?it.ran.from:"9999-99-99");
+  if(!it)return -1;
+  if(k==="reply_rate"){const n=eff(it,"replies"),d=eff(it,"msgs")||eff(it,"list")||eff(it,"accepted");return (n!=null&&d)?n/d:-1}
+  const v=eff(it,k);return v==null?-1:v;
+}
 function renderHist(){
   renderSyncMeta();
   const today=new Date();today.setHours(0,0,0,0);
@@ -1018,7 +1502,13 @@ function renderHist(){
   });
   /* folders that did not match any campaign */
   const orphans=Object.values(HIST.items).filter(it=>!it.cid);
-  const shown=rows.filter(r=>HFILTER==="all"||(HFILTER==="data"&&r.has)||(HFILTER==="ended"&&r.st==="done")||(HFILTER==="gap"&&r.st==="done"&&!r.has)||(HFILTER==="live"&&r.st==="live"));
+  let shown=rows.filter(r=>HFILTER==="all"||(HFILTER==="data"&&r.has)||(HFILTER==="ended"&&r.st==="done")||(HFILTER==="gap"&&r.st==="done"&&!r.has)||(HFILTER==="live"&&r.st==="live"));
+  if(HF.brand.size)shown=shown.filter(r=>{const b=r.c.btag||"";return [...HF.brand].some(t=>b===t||b.split(" + ").includes(t))});
+  if(HF.type.size)shown=shown.filter(r=>{const t=typeOf(r.c.id);return t&&HF.type.has(t.k)});
+  shown.sort((a,b)=>{const x=histVal(a.it,a.c,HF.sort),y=histVal(b.it,b.c,HF.sort);
+    return (x<y?-1:x>y?1:0)*HF.dir||campSort(a.c,b.c)});
+  const hc=$("#hcount");
+  if(hc)hc.textContent=`${shown.length}${orphans.length?" + "+orphans.length+" outside the plan":""} of ${rows.length} campaigns`;
 
   /* summary strip */
   const withData=rows.filter(r=>r.has);
@@ -1129,20 +1619,34 @@ function openEdit(key){
       if(v==="")delete it.man[i.dataset.mk];else it.man[i.dataset.mk]=Number(v)});
     it.note=$("#p_note").value.trim();
     const sel=$("#p_cid");if(sel)it.cid=sel.value||null;
+    it.updated_at=stampNow();
     saveHist();renderHist();closePanel()};
-  $("#p_clear").onclick=()=>{it.man={};saveHist();renderHist();closePanel()};
+  $("#p_clear").onclick=()=>{it.man={};it.updated_at=stampNow();saveHist();renderHist();closePanel()};
   $("#panel").classList.add("on");$("#scrim").classList.add("on");
 }
 function closePanel(){$("#panel").classList.remove("on");$("#scrim").classList.remove("on")}
 $("#pclose").onclick=closePanel;
 
 /* ─────────── toolbar wiring ─────────── */
+function syncHDir(){const d=["launch","ends"].includes(HF.sort);
+  $("#hdir").textContent=HF.dir>0?(d?"↑ oldest first":"↑ lowest first"):(d?"↓ newest first":"↓ highest first")}
 function buildHistChips(){
-  const box=$("#fhist");box.innerHTML="";
+  const box=$("#fhist");box.innerHTML="";box.style.cssText="display:flex;gap:.35rem;flex-wrap:wrap";
   [["all","Everything"],["data","With results"],["gap","Ended, nothing logged"],["live","Live now"],["ended","All ended"]].forEach(([k,l])=>{
-    const b=document.createElement("button");b.className="chip";b.textContent=l;
+    const b=document.createElement("button");b.className="chip sm2";b.textContent=l;
     b.setAttribute("aria-pressed",HFILTER===k);
-    b.onclick=()=>{HFILTER=k;buildHistChips();renderHist()};box.appendChild(b)})}
+    b.onclick=()=>{HFILTER=k;buildHistChips();renderHist()};box.appendChild(b)});
+  chipset("#fhbrand",["SERV","METSIM","TECH","ALL"],HF.brand);
+  chipset("#fhtype",TYPES.map(t=>[t.k,t.k]),HF.type,"sm2");
+  /* chipset re-renders the campaign view by default — point these at history */
+  $$("#fhbrand .chip, #fhtype .chip").forEach(b=>{const set=b.parentElement.id==="fhbrand"?HF.brand:HF.type;
+    b.onclick=()=>{tog(set,b.dataset.t);buildHistChips();renderHist()}});
+  $("#hsort").value=HF.sort;
+  $("#hsort").onchange=e=>{HF.sort=e.target.value;syncHDir();renderHist()};
+  $("#hdir").onclick=()=>{HF.dir*=-1;syncHDir();renderHist()};
+  $("#hclear").onclick=()=>{HFILTER="all";HF.brand.clear();HF.type.clear();HF.sort="launch";HF.dir=1;buildHistChips();renderHist()};
+  syncHDir();
+}
 
 $("#syncbtn").onclick=doSync;
 $("#pickbtn").onclick=pickRoot;
@@ -1164,9 +1668,417 @@ $("#claudebtn").onclick=async()=>{
   try{await navigator.clipboard.writeText(txt);$("#claudebtn").textContent="Copied ✓";setTimeout(()=>$("#claudebtn").textContent="Copy for Claude",1600)}
   catch(e){openDrawer("Copy this into Claude",[],txt)}};
 
+
+/* ═══════════════════════════════════════════════════════════════════
+   CLOUD — Supabase. Local-first: this browser stays the working copy,
+   Supabase is the shared truth. Sync pulls, merges, then pushes.
+   Merge rule, per record: the later updated_at wins. Deletes travel as
+   is_deleted flags so they propagate instead of quietly coming back.
+   ═══════════════════════════════════════════════════════════════════ */
+const CFGKEY="oe.cloud.cfg", CLKEY="oe.cloud.state";
+let CL=store.get(CLKEY,{lastSync:"",lastPush:"",lastPull:""});
+/* Supabase shows several URLs in its dashboard; only the bare project origin
+   works here, because the client appends /rest/v1 and /auth/v1 itself. Paste
+   the REST endpoint and every request goes to /rest/v1/rest/v1/... and 404s,
+   so trim it rather than let that happen. */
+function normUrl(u){
+  return String(u||"").trim()
+    .replace(/\/+$/,"")
+    .replace(/\/(rest|auth|storage|realtime)\/v\d+$/i,"")
+    .replace(/\/+$/,"");
+}
+function cloudCfg(){
+  const o=store.get(CFGKEY,{});
+  return {url:normUrl(o.url||SUPABASE_URL),key:(o.key||SUPABASE_ANON||"").trim(),
+          fromFile:!!(SUPABASE_URL&&SUPABASE_ANON)&&!o.url};
+}
+const cloudConfigured=()=>{const c=cloudCfg();return !!(c.url&&c.key)};
+let _sbLib=null,_sb=null,_sbFor="";
+function loadSbLib(){return _sbLib||(_sbLib=new Promise((res,rej)=>{
+  if(window.supabase&&window.supabase.createClient)return res(window.supabase);
+  const s=document.createElement("script");s.src="supabase.js";
+  s.onload=()=>window.supabase?res(window.supabase):rej(new Error("supabase.js loaded but exported nothing"));
+  s.onerror=()=>rej(new Error("could not load supabase.js — is it next to index.html?"));
+  document.head.appendChild(s)}))}
+async function sb(){
+  const c=cloudCfg();
+  if(!c.url||!c.key)throw new Error("Supabase is not configured yet.");
+  const lib=await loadSbLib();
+  if(!_sb||_sbFor!==c.url+c.key){_sb=lib.createClient(c.url,c.key,{auth:{persistSession:true,autoRefreshToken:true}});_sbFor=c.url+c.key}
+  return _sb;
+}
+async function cloudUser(){
+  if(!cloudConfigured())return null;
+  try{const {data}=await (await sb()).auth.getSession();return data&&data.session?data.session.user:null}
+  catch(e){return null}
+}
+
+/* ─────────── log ─────────── */
+const CLOG=[];
+function clog(kind,msg){CLOG.push({kind,msg});const b=$("#cllog");
+  if(b){b.classList.add("on");
+    b.innerHTML=CLOG.map(l=>`<div class="lg-${l.kind}">${l.kind==="err"?"✕":l.kind==="ok"?"✓":l.kind==="warn"?"!":"·"} ${esc(l.msg)}</div>`).join("");
+    b.scrollTop=b.scrollHeight}}
+
+/* ─────────── row mapping ─────────── */
+const EPOCH="1970-01-01T00:00:00.000Z";
+const stampNow=()=>new Date().toISOString();
+function stamp(o){o.updated_at=stampNow();return o}
+const upAt=o=>o&&o.updated_at||EPOCH;
+const dOrNull=v=>v&&/^\d{4}-\d{2}-\d{2}$/.test(v)?v:null;
+function hash32(s){let h=0;for(let i=0;i<s.length;i++){h=(h<<5)-h+s.charCodeAt(i)|0}return (h>>>0).toString(36)}
+const slug=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60);
+const pathSafe=s=>String(s).replace(/[^a-zA-Z0-9._-]+/g,"_");
+
+const campToRow=(c,who)=>({code:c.id,name:c.name||"",brand:c.brand||"Treo Services",
+  channel:CHANNELS.includes(c.channel)?c.channel:"Expandi",act:ACTS.includes(c.act)?c.act:"IM",
+  btag:c.btag||"SERV",aud:c.aud||"",src:c.src||"",steps:Math.max(1,Math.min(50,+c.steps||4)),
+  cta:c.cta||"",build_date:dOrNull(c.build),launch_date:dOrNull(c.launch),end_date:dOrNull(c.ends),
+  status:c.status||"Not started",note:c.note||"",parked:!!c.parked,is_deleted:false,
+  updated_at:upAt(c),updated_by:who||null});
+const rowToCamp=r=>({id:r.code,name:r.name,brand:r.brand,channel:r.channel,act:r.act,btag:r.btag,
+  aud:r.aud||"",src:r.src||"",steps:r.steps,cta:r.cta||"",build:r.build_date||"",launch:r.launch_date||"",
+  ends:r.end_date||"",status:r.status,note:r.note||"",parked:!!r.parked,
+  updated_at:r.updated_at,edited:true,custom:true});
+
+function resToRow(it,who){return {result_key:it.key,campaign_code:it.cid||null,folder:it.folder||"",
+  label:it.name||"",brand:it.brand||null,act:it.act||null,
+  ran_from:dOrNull(it.ran&&it.ran.from),ran_to:dOrNull(it.ran&&it.ran.to),
+  meta:it.meta||[],files:it.files||[],note:it.note||"",
+  last_sync:it.synced||null,is_deleted:false,updated_at:upAt(it),updated_by:who||null}}
+function rowToRes(r){return {key:r.result_key,cid:r.campaign_code||null,folder:r.folder||"",
+  name:r.label||"",brand:r.brand||undefined,act:r.act||undefined,
+  ran:(r.ran_from||r.ran_to)?{from:r.ran_from,to:r.ran_to}:undefined,
+  meta:r.meta||[],files:r.files||[],note:r.note||"",synced:r.last_sync||"",
+  m:{},man:{},src:{},rates:{},shots:[],updated_at:r.updated_at}}
+function metricRows(it){
+  const out=[],seen=new Set();
+  METRICS.forEach(mt=>{
+    const k=mt.k, man=it.man&&it.man[k], auto=it.m&&it.m[k];
+    const isMan=man!=null&&man!=="";
+    const v=isMan?Number(man):(auto!=null?Number(auto):null);
+    if(v==null||isNaN(v)||seen.has(k))return;
+    seen.add(k);
+    out.push({result_key:it.key,metric_key:k,value:v,source:(it.src&&it.src[k])||null,
+              is_manual:isMan,updated_at:upAt(it)});
+  });
+  return out;
+}
+
+/* ─────────── one table's worth of merge ─────────── */
+function mergeById(localArr,remoteArr,idOf){
+  const byId={},out=[];
+  localArr.forEach(l=>byId[idOf(l)]={local:l});
+  remoteArr.forEach(r=>{const k=idOf(r);(byId[k]=byId[k]||{}).remote=r});
+  const toPush=[],adopted=[],kept=[];
+  Object.keys(byId).forEach(k=>{
+    const {local,remote}=byId[k];
+    if(local&&!remote){toPush.push(local);out.push(local);kept.push(k)}
+    else if(remote&&!local){adopted.push(remote);out.push(remote)}
+    else{
+      if(upAt(local)>=upAt(remote)){out.push(local);if(upAt(local)>upAt(remote))toPush.push(local)}
+      else{out.push(remote);adopted.push(remote)}
+    }
+  });
+  return {out,toPush,adopted,kept};
+}
+
+/* ─────────── the sync ─────────── */
+let syncingCloud=false;
+async function cloudSync(mode){
+  if(syncingCloud)return;
+  if(!cloudConfigured()){clog("err","Supabase is not configured. Paste the project URL and anon key above.");return}
+  syncingCloud=true;CLOG.length=0;
+  const btns=$$("#pbody .btn");btns.forEach(b=>b.disabled=true);
+  try{
+    const client=await sb();
+    const user=await cloudUser();
+    if(!user){clog("err","Sign in first — the tables are closed to anyone who is not signed in.");return}
+    const who=user.email||user.id;
+    if(!/@(treogroup\.co\.za|psconsult\.co\.za)$/i.test(who))
+      clog("warn",`${who} is not a Treo address. The database will refuse every read and write — that is the security policy doing its job, not a bug.`);
+    const pull=mode!=="push", push=mode!=="pull";
+    clog("dim",`${mode==="push"?"Pushing":mode==="pull"?"Pulling":"Syncing"} as ${who}`);
+
+    /* ── campaigns ── */
+    let remoteCamps=[];
+    if(pull){
+      const {data,error}=await client.from("campaigns").select("*");
+      if(error)throw new Error("campaigns: "+error.message);
+      remoteCamps=data||[];
+      clog("dim",`read ${remoteCamps.length} campaign${remoteCamps.length===1?"":"s"}`);
+      /* remote deletes win over local presence */
+      (remoteCamps||[]).filter(r=>r.is_deleted).forEach(r=>{
+        const i=ALL_CAMPS.findIndex(c=>c.id===r.code);
+        if(i>=0&&upAt(r)>upAt(ALL_CAMPS[i])){ALL_CAMPS.splice(i,1);CDEL.add(r.code);
+          clog("warn",`${r.code} was deleted elsewhere — removed here too`)}
+      });
+    }
+    const liveRemote=remoteCamps.filter(r=>!r.is_deleted&&!CDEL.has(r.code));
+    const m=mergeById(ALL_CAMPS.map(c=>campToRow(c,who)),liveRemote,r=>r.code);
+    if(pull&&m.adopted.length){
+      m.adopted.forEach(r=>{
+        const i=ALL_CAMPS.findIndex(c=>c.id===r.code);
+        if(i>=0)Object.assign(ALL_CAMPS[i],rowToCamp(r));else ALL_CAMPS.push(rowToCamp(r));
+      });
+      clog("ok",`took ${m.adopted.length} newer campaign record${m.adopted.length===1?"":"s"} from Supabase`);
+    }
+    if(push){
+      const rows=ALL_CAMPS.map(c=>campToRow(c,who));
+      if(rows.length){
+        const {error}=await client.from("campaigns").upsert(rows,{onConflict:"code"});
+        if(error)throw new Error("campaigns push: "+error.message);
+        clog("ok",`pushed ${rows.length} campaigns`);
+      }
+      if(CDEL.size){
+        const del=[...CDEL].map(code=>({code,name:"(deleted)",is_deleted:true,updated_at:stampNow(),updated_by:who}));
+        const {error}=await client.from("campaigns").upsert(del,{onConflict:"code"});
+        if(error)clog("warn","delete markers: "+error.message);
+        else clog("ok",`marked ${del.length} deleted`);
+      }
+    }
+
+    /* ── the day-by-day plan ── */
+    const schedRows=SCHEDULE.map(a=>({row_key:`${a.date}|${a.id}|${hash32(a.action)}`,
+      action_date:a.date,campaign_ref:a.id,channel:a.ch||null,action:a.action,
+      priority:a.pri||"Medium",is_deleted:false,updated_at:upAt(a)}));
+    if(pull){
+      const {data,error}=await client.from("schedule_actions").select("*");
+      if(error)clog("warn","schedule read: "+error.message);
+      else{
+        const have=new Set(schedRows.map(r=>r.row_key));
+        let added=0;
+        (data||[]).forEach(r=>{if(r.is_deleted||have.has(r.row_key))return;
+          SCHEDULE.push({date:r.action_date,week:"",id:r.campaign_ref,ch:r.channel||"",action:r.action,pri:r.priority});added++});
+        if(added){SCHEDULE.sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0);clog("ok",`took ${added} scheduled action${added===1?"":"s"}`)}
+      }
+    }
+    if(push&&schedRows.length){
+      const {error}=await client.from("schedule_actions").upsert(schedRows,{onConflict:"row_key"});
+      if(error)clog("warn","schedule push: "+error.message);else clog("ok",`pushed ${schedRows.length} scheduled actions`);
+    }
+
+    /* ── webinars ── */
+    if(push){
+      const wr=WEBINARS.map(w=>({slug:slug(w.name),name:w.name,brand:w.brand,speaker:w.speaker,
+        session_date:dOrNull(w.date),session_time:w.time,status:w.status,feeds:w.feeds,
+        is_deleted:false,updated_at:stampNow()}));
+      const {error}=await client.from("webinars").upsert(wr,{onConflict:"slug"});
+      if(error)clog("warn","webinars: "+error.message);else clog("ok",`pushed ${wr.length} webinars`);
+    }
+
+    /* ── results + metrics ── */
+    let remoteRes=[];
+    if(pull){
+      const {data,error}=await client.from("campaign_results").select("*");
+      if(error)throw new Error("results: "+error.message);
+      remoteRes=(data||[]).filter(r=>!r.is_deleted);
+      const {data:mets,error:me}=await client.from("campaign_metrics").select("*");
+      if(me)throw new Error("metrics: "+me.message);
+      const byKey={};(mets||[]).forEach(r=>{(byKey[r.result_key]=byKey[r.result_key]||[]).push(r)});
+      let adopted=0,gained=0;
+      remoteRes.forEach(r=>{
+        const local=HIST.items[r.result_key];
+        const remoteNewer=!local||upAt(r)>upAt(local);
+        const rm={},rman={},rsrc={};
+        (byKey[r.result_key]||[]).forEach(x=>{
+          const v=x.value==null?null:Number(x.value);
+          if(v==null||isNaN(v))return;
+          if(x.is_manual)rman[x.metric_key]=v;else rm[x.metric_key]=v;
+          if(x.source)rsrc[x.metric_key]=x.source;
+        });
+        if(!remoteNewer){
+          /* ours is the newer record — but still take any typed-in number a
+             colleague has that we simply do not have */
+          let got=0;
+          Object.keys(rman).forEach(k=>{
+            if(local.man[k]==null||local.man[k]===""){local.man[k]=rman[k];if(rsrc[k])local.src[k]=rsrc[k];got++}
+          });
+          gained+=got;
+          return;
+        }
+        const it=rowToRes(r);
+        it.m=rm;it.src={...rsrc};
+        /* A typed number came off a screenshot and cannot be re-derived, so a
+           pull never drops one: ours win, theirs fill the gaps. */
+        it.man={...rman,...(local?local.man:{})};
+        if(local&&local.src)Object.keys(local.man||{}).forEach(k=>{if(local.src[k])it.src[k]=local.src[k]});
+        it.shots=local?local.shots||[]:[];
+        HIST.items[r.result_key]=it;adopted++;
+      });
+      if(adopted)clog("ok",`took ${adopted} newer result record${adopted===1?"":"s"}`);
+      if(gained)clog("ok",`filled in ${gained} typed number${gained===1?"":"s"} from Supabase`);
+    }
+    if(push){
+      const items=Object.values(HIST.items);
+      if(items.length){
+        const rows=items.map(it=>resToRow(it,who));
+        const {error}=await client.from("campaign_results").upsert(rows,{onConflict:"result_key"});
+        if(error)throw new Error("results push: "+error.message);
+        const mrows=items.flatMap(metricRows);
+        if(mrows.length){
+          const {error:me}=await client.from("campaign_metrics").upsert(mrows,{onConflict:"result_key,metric_key"});
+          if(me)throw new Error("metrics push: "+me.message);
+        }
+        clog("ok",`pushed ${rows.length} results and ${mrows.length} metrics`);
+      }
+    }
+
+    /* ── evidence screenshots ── */
+    try{await syncShots(client,who,pull,push)}catch(e){clog("warn","screenshots: "+e.message)}
+
+    /* ── done ── */
+    CL.lastSync=stampNow();
+    if(push)CL.lastPush=CL.lastSync;
+    if(pull)CL.lastPull=CL.lastSync;
+    store.set(CLKEY,CL);
+    campsChanged();saveHist();renderHist();
+    clog("ok","Done.");
+  }catch(e){clog("err",e.message||String(e))}
+  finally{syncingCloud=false;$$("#pbody .btn").forEach(b=>b.disabled=false);
+    const st=$("#clstate");if(st)st.innerHTML=cloudStateLine();paintCloudDot()}
+}
+
+async function syncShots(client,who,pull,push){
+  const {data,error}=await client.from("campaign_shots").select("*");
+  if(error)throw new Error(error.message);
+  const remote=data||[], byId={};remote.forEach(r=>byId[r.id]=r);
+  if(push){
+    let up=0;
+    for(const it of Object.values(HIST.items)){
+      for(const sh of it.shots||[]){
+        if(byId[sh.id])continue;
+        const blob=await idbGet("shots",sh.id).catch(()=>null);
+        if(!blob)continue;
+        const path=`${pathSafe(it.key)}/${pathSafe(sh.name)}`;
+        const {error:ue}=await client.storage.from("campaign-evidence")
+          .upload(path,blob,{upsert:true,contentType:blob.type||"image/png"});
+        if(ue){clog("warn",`${sh.name}: ${ue.message}`);continue}
+        const {error:ie}=await client.from("campaign_shots").upsert([{id:sh.id,result_key:it.key,
+          name:sh.name,storage_path:path,bytes:sh.size||blob.size,uploaded_by:who}],{onConflict:"id"});
+        if(ie){clog("warn",`${sh.name}: ${ie.message}`);continue}
+        up++;
+      }
+    }
+    if(up)clog("ok",`uploaded ${up} screenshot${up===1?"":"s"}`);
+  }
+  if(pull){
+    let down=0;
+    for(const r of remote){
+      const it=HIST.items[r.result_key];
+      if(!it)continue;
+      it.shots=it.shots||[];
+      if(it.shots.some(s=>s.id===r.id))continue;
+      const {data:blob,error:de}=await client.storage.from("campaign-evidence").download(r.storage_path);
+      if(de||!blob){clog("warn",`${r.name}: ${de?de.message:"not in storage"}`);continue}
+      await idbSet("shots",r.id,blob);
+      it.shots.push({id:r.id,name:r.name,size:r.bytes||blob.size});down++;
+    }
+    if(down)clog("ok",`downloaded ${down} screenshot${down===1?"":"s"}`);
+  }
+}
+
+/* ─────────── cloud panel ─────────── */
+function cloudStateLine(){
+  const c=cloudCfg();
+  if(!c.url||!c.key)return `<span class="dot"></span>Not configured — local only`;
+  const when=CL.lastSync?new Date(CL.lastSync).toLocaleString("en-ZA",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}):null;
+  return `<span class="dot ok"></span>${esc(c.url.replace(/^https?:\/\//,""))}${c.fromFile?" (from the file)":" (this browser)"}${when?` · last sync <b>${when}</b>`:" · never synced"}`;
+}
+let CLOUD_DOT=null;
+async function paintCloudDot(){
+  const b=$("#cloudbtn");if(!b)return;
+  if(!cloudConfigured()){b.textContent="Cloud";b.style.color="";return}
+  const u=await cloudUser();
+  CLOUD_DOT=u;
+  b.textContent=u?"Cloud ●":"Cloud ○";
+  b.style.color=u?"#6BC49B":"";
+  b.title=u?`Signed in as ${u.email||u.id}`:"Configured, not signed in";
+}
+
+async function openCloud(){
+  const c=cloudCfg();
+  const user=cloudConfigured()?await cloudUser():null;
+  $("#ptitle").textContent="Cloud — Supabase";
+  $("#pbody").innerHTML=`
+    <div class="syncmeta" id="clstate" style="margin-bottom:1rem">${cloudStateLine()}</div>
+    ${!c.url||!c.key?`
+      <p class="hempty">Two values from your Supabase project — <b>Settings → API</b>. Paste them into the constants at the top of index.html so everyone gets them, or drop them in here to configure just this browser.</p>
+      <div class="form">
+        <div class="fld fw"><label for="cl_url">Project URL</label><input id="cl_url" placeholder="https://xxxxxxxx.supabase.co" value="${esc((store.get(CFGKEY,{}).url)||"")}"></div>
+        <div class="fld fw"><label for="cl_key">Anon public key</label><input id="cl_key" placeholder="eyJhbGciOi…" value="${esc((store.get(CFGKEY,{}).key)||"")}"></div>
+      </div>
+      <div class="formact"><button class="btn" id="cl_savecfg">Save and connect</button>
+        <span class="syncmeta">The anon key is meant to be public. The service_role key is not — never paste that here.</span></div>
+      <div class="synclog" id="cllog"></div>`
+    :user?`
+      <p class="hempty">Signed in as <b>${esc(user.email||user.id)}</b>. Sync pulls what other people changed, merges it with what you changed, then pushes the result. Per record, the later edit wins.</p>
+      <div class="formact" style="border-top:none;margin-top:1rem;padding-top:0">
+        <button class="btn" id="cl_sync">Sync now</button>
+        <button class="btn ghost" id="cl_push">Push only</button>
+        <button class="btn ghost" id="cl_pull">Pull only</button>
+        <button class="btn ghost" id="cl_out">Sign out</button>
+      </div>
+      <h4>What syncs</h4>
+      <p class="hempty">Campaigns, the day-by-day plan, webinars, campaign results and the typed-in numbers, and the evidence screenshots into the <span style="font-family:var(--f-mono)">campaign-evidence</span> bucket. What does not sync: which weeks you have collapsed and which folder you picked for the sync — those stay local, they are yours.</p>
+      <div class="synclog" id="cllog"></div>`
+    :`
+      <p class="hempty">Sign in with your Treo email. Supabase sends a six-digit code — no password to remember, and the tables stay closed to anyone who is not signed in.</p>
+      <div class="form">
+        <div class="fld fw"><label for="cl_email">Email</label><input id="cl_email" type="email" placeholder="you@treogroup.co.za" value="${esc(store.get("oe.cloud.email","")||"")}"></div>
+        <div class="fld fw" id="cl_codewrap" hidden><label for="cl_code">Six-digit code</label><input id="cl_code" inputmode="numeric" placeholder="123456"></div>
+      </div>
+      <div class="formact"><button class="btn" id="cl_send">Send code</button>
+        <button class="btn ghost" id="cl_verify" hidden>Verify and sign in</button>
+        <button class="btn ghost" id="cl_forget">Change project</button></div>
+      <div class="synclog" id="cllog"></div>`}`;
+
+  if($("#cl_savecfg"))$("#cl_savecfg").onclick=()=>{
+    const url=normUrl($("#cl_url").value), key=$("#cl_key").value.trim();
+    if(!/^https:\/\/[a-z0-9-]+\.supabase\.(co|in)$/i.test(url))return alertLine("That does not look like a project URL. It should be just https://xxxxxxxx.supabase.co — no /rest/v1 on the end.");
+    if(/^sb_secret_/i.test(key)||/service_role/.test(key))return alertLine("That is the secret key. It bypasses every security policy and must never go in a browser. Use the publishable key (sb_publishable_…) or the anon key.");
+    if(!/^(sb_publishable_|eyJ)/.test(key))return alertLine("That does not look like a Supabase key. Use the publishable key (sb_publishable_…) or the older anon key (starts eyJ).");
+    if(key.length<30)return alertLine("That key looks too short — it may be truncated.");
+    store.set(CFGKEY,{url,key});_sb=null;openCloud();paintCloudDot()};
+  if($("#cl_forget"))$("#cl_forget").onclick=()=>{localStorage.removeItem(CFGKEY);_sb=null;openCloud();paintCloudDot()};
+  if($("#cl_send"))$("#cl_send").onclick=async()=>{
+    const email=$("#cl_email").value.trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return clog("err","That is not an email address.");
+    store.set("oe.cloud.email",email);
+    /* shouldCreateUser:false — the app never creates an account. Accounts are
+       invited from the Supabase dashboard. With the project URL and key public
+       (as they must be), self-signup would let any stranger in. */
+    try{const {error}=await (await sb()).auth.signInWithOtp({email,options:{shouldCreateUser:false}});
+      if(error)throw error;
+      $("#cl_codewrap").hidden=false;$("#cl_verify").hidden=false;
+      clog("ok",`Code sent to ${email}. It expires in an hour.`)}
+    catch(e){
+      const m=e.message||String(e);
+      if(/signups? not allowed|user not found|not found/i.test(m))
+        clog("err",`${email} has no account on this project. Ask for an invite from Supabase → Authentication → Users; the app deliberately cannot create one.`);
+      else clog("err",m)}};
+  if($("#cl_verify"))$("#cl_verify").onclick=async()=>{
+    const email=$("#cl_email").value.trim(), token=$("#cl_code").value.trim();
+    try{const {error}=await (await sb()).auth.verifyOtp({email,token,type:"email"});
+      if(error)throw error;
+      clog("ok","Signed in.");await paintCloudDot();openCloud()}
+    catch(e){clog("err",e.message||String(e))}};
+  if($("#cl_sync"))$("#cl_sync").onclick=()=>cloudSync("sync");
+  if($("#cl_push"))$("#cl_push").onclick=()=>cloudSync("push");
+  if($("#cl_pull"))$("#cl_pull").onclick=()=>cloudSync("pull");
+  if($("#cl_out"))$("#cl_out").onclick=async()=>{
+    try{await (await sb()).auth.signOut()}catch(e){}
+    await paintCloudDot();openCloud()};
+
+  $("#panel").classList.add("on");$("#scrim").classList.add("on");
+}
+function alertLine(m){clog("err",m)}
+$("#cloudbtn").onclick=openCloud;
+
 /* ─────────── boot ─────────── */
+loadCamps();
 buildChips(); buildCampChips(); renderCal(); renderWeeks(); renderWebinars(); renderApprovals();
-buildHistChips(); renderHist();
+buildHistChips(); renderHist(); renderParked(); renderCampMeta(); paintCloudDot();
 $("#campcount").textContent=CAMPAIGNS.length; $("#footcount").textContent=CAMPAIGNS.length;
 $("#today").textContent=new Date().toLocaleDateString("en-ZA",{weekday:"short",day:"numeric",month:"short",year:"numeric"});
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
