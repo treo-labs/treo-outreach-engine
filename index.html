@@ -2300,7 +2300,21 @@ function rFill(t){
 }
 /* Grow the box to the draft. Nobody should have to drag a corner to read
    a message they are about to send. */
-function rGrow(ta){ if(!ta)return; ta.style.height="auto"; ta.style.height=(ta.scrollHeight+2)+"px" }
+function rRows(t){ const s=String(t||"");
+  const n=s.split("\n").reduce((a,l)=>a+Math.max(1,Math.ceil(l.length/88)),0);
+  return Math.min(40,Math.max(4,n+1)) }
+function rGrow(ta){
+  /* Hidden elements measure nothing, so leave the rows estimate in place and
+     let the tab-open handler come back to it. */
+  if(!ta||!ta.offsetParent)return;
+  const keep=ta.rows;
+  /* A textarea with height:auto sizes to its rows attribute, not its text.
+     Drop it to one row first so scrollHeight reports the actual content. */
+  ta.rows=1; ta.style.height="auto";
+  const h=ta.scrollHeight;
+  if(h>0)ta.style.height=(h+2)+"px";
+  else {ta.rows=keep; ta.style.height=""}
+}
 function rGrowAll(){ $$("#rllist .rldraft").forEach(rGrow) }
 function rDays(L){
   if(!L.last)return null;
@@ -2346,7 +2360,7 @@ function renderReplies(){
   const st=$("#rlstats");
   if(st)st.innerHTML=[["Waiting",unsent,"not yet answered"],["Overdue",overdue,"a week or more since they wrote"],
     ["In a live sequence",live,"pause before writing by hand"],["Sent",LEADS.length-unsent,"of "+LEADS.length]]
-    .map(([l,v,s])=>`<div class="stat"><b>${v}</b><span>${rEsc(l)}</span><small>${rEsc(s)}</small></div>`).join("");
+    .map(([l,v,n])=>`<div class="stat"><div class="sl">${rEsc(l)}</div><div class="sv">${v}</div><div class="sn">${rEsc(n)}</div></div>`).join("");
 
   const warn=$("#rlwarn");
   if(warn){
@@ -2380,7 +2394,7 @@ function renderReplies(){
         <details class="rlthread"><summary>What they said · ${(L.th||[]).length} message${(L.th||[]).length===1?"":"s"}</summary>
           <div class="rlmsgs">${(L.th||[]).map(m=>`<div class="rlm ${m.f==="them"?"them":""}"><span class="w">${m.f==="them"?rEsc(L.fn):"Us"} · ${rEsc(String(m.at).slice(0,10))}</span>${rEsc(m.b)}</div>`).join("")}</div>
         </details>
-        <textarea class="rldraft" data-k="${rEsc(L.k)}" placeholder="No draft yet. Insert template, or bring the thread to a chat.">${rEsc(L.d||"")}</textarea>
+        <textarea class="rldraft" rows="${rRows(L.d)}" data-k="${rEsc(L.k)}" placeholder="No draft yet. Insert template, or bring the thread to a chat.">${rEsc(L.d||"")}</textarea>
       </div>
       <div class="hft">
         <button class="btn ghost sm" data-a="copy" data-k="${rEsc(L.k)}">Copy draft</button>
