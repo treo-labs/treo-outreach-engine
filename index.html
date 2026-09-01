@@ -162,6 +162,82 @@ td.m{font-family:var(--f-mono);font-size:.75rem;color:var(--ink);white-space:now
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-family:var(--f-mono);font-size:.68rem;color:var(--muted);letter-spacing:.04em}
 
+/* ══════════ campaign history ══════════ */
+.syncbar{margin-top:1.5rem;border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--surface);padding:1rem 1.2rem;display:flex;flex-wrap:wrap;gap:.7rem 1rem;align-items:center}
+.btn{font-family:var(--f-display);font-weight:700;font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;padding:.55rem .95rem;border:1px solid var(--ink);background:var(--ink);color:var(--ground);border-radius:2px}
+.btn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+.btn.ghost:hover{background:transparent;border-color:var(--accent);color:var(--accent)}
+.btn.sm{font-size:.66rem;padding:.35rem .6rem}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.syncmeta{font-family:var(--f-mono);font-size:.68rem;color:var(--muted);letter-spacing:.04em;line-height:1.5}
+.syncmeta b{color:var(--ink);font-weight:600}
+.syncmeta .dot{display:inline-block;width:.45rem;height:.45rem;border-radius:50%;background:var(--muted);margin-right:.4rem;vertical-align:1px}
+.syncmeta .dot.ok{background:var(--ok)}
+.syncmeta .dot.warn{background:var(--warn)}
+.pushright{margin-left:auto;display:flex;gap:.5rem;flex-wrap:wrap}
+.synclog{margin-top:.9rem;border:1px solid var(--line);background:var(--surface-2);font-family:var(--f-mono);font-size:.68rem;color:var(--ink-2);max-height:13rem;overflow:auto;padding:.7rem .9rem;line-height:1.6;display:none}
+.synclog.on{display:block}
+.synclog .lg-ok{color:var(--ok)}
+.synclog .lg-warn{color:var(--warn)}
+.synclog .lg-err{color:var(--accent)}
+.synclog .lg-dim{color:var(--muted)}
+
+.stats{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:1.4rem;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr))}
+.stat{background:var(--surface);padding:.95rem 1.05rem}
+.stat .sl{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+.stat .sv{font-family:var(--f-display);font-weight:800;font-size:1.5rem;letter-spacing:-.02em;margin-top:.25rem;line-height:1}
+.stat .sn{font-family:var(--f-mono);font-size:.64rem;color:var(--muted);margin-top:.3rem}
+.stat .sn.up{color:var(--ok)} .stat .sn.dn{color:var(--accent)}
+
+.hcard{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--line-strong);margin-top:1.1rem}
+.hcard.done{border-top-color:var(--ok)}
+.hcard.live{border-top-color:var(--accent)}
+.hcard.pend{border-top-color:var(--line-strong)}
+.hhd{display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:baseline;padding:.9rem 1.1rem;border-bottom:1px solid var(--line)}
+.hhd .hid{font-family:var(--f-mono);font-size:.75rem;font-weight:600;color:var(--accent)}
+.hhd h3{font-size:.95rem;font-weight:700}
+.hhd .hdates{font-family:var(--f-mono);font-size:.67rem;color:var(--muted);margin-left:auto;white-space:nowrap}
+.hbody{padding:1rem 1.1rem;display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr))}
+.fnl{min-width:0}
+.fnl .ft{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;display:flex;gap:.5rem;align-items:center}
+.fnl .ft::after{content:"";flex:1;height:1px;background:var(--line)}
+.frow{display:grid;grid-template-columns:8.2rem 1fr 4.4rem;gap:.6rem;align-items:center;padding:.22rem 0;font-size:.8rem}
+.frow .fk{color:var(--ink-2)}
+.frow .fbar{height:.55rem;background:var(--surface-3);border-radius:1px;overflow:hidden}
+.frow .fbar i{display:block;height:100%;background:var(--cool)}
+.frow .fbar i.acc{background:var(--accent)}
+.frow .fv{font-family:var(--f-mono);font-size:.76rem;text-align:right;color:var(--ink);font-weight:600}
+.frow .fv em{font-style:normal;color:var(--muted);font-weight:400}
+.rates{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.65rem}
+.rate{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.05em;padding:.22rem .5rem;border-radius:2px;border:1px solid var(--line-strong);color:var(--muted);white-space:nowrap}
+.rate b{color:var(--ink);font-weight:600}
+.rate.hit{background:var(--ok-wash);border-color:transparent;color:var(--ok)} .rate.hit b{color:var(--ok)}
+.rate.miss{background:var(--accent-wash);border-color:transparent;color:var(--accent)} .rate.miss b{color:var(--accent)}
+.rate.near{background:var(--warn-wash);border-color:transparent;color:var(--warn)} .rate.near b{color:var(--warn)}
+.hempty{font-size:.83rem;color:var(--muted);line-height:1.5}
+.hft{display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:center;padding:.6rem 1.1rem;border-top:1px solid var(--line);background:var(--surface-2);font-family:var(--f-mono);font-size:.66rem;color:var(--muted);letter-spacing:.04em}
+.asset{display:inline-flex;align-items:center;gap:.3rem;border:1px solid var(--line-strong);background:var(--surface);padding:.15rem .45rem;border-radius:2px;color:var(--ink-2);max-width:16rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.asset .ax{color:var(--accent);font-weight:700}
+.shots{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.2rem}
+.shots img{width:6.6rem;height:4.3rem;object-fit:cover;border:1px solid var(--line-strong);cursor:zoom-in;background:var(--surface-2)}
+.shots img:hover{border-color:var(--accent)}
+.mfield{display:grid;grid-template-columns:1fr 5.5rem;gap:.5rem;align-items:center;padding:.2rem 0}
+.mfield label{font-size:.8rem;color:var(--ink-2)}
+.mfield input{font-family:var(--f-mono);font-size:.8rem;padding:.32rem .45rem;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:2px;width:100%;text-align:right}
+.mfield input:focus{outline:none;border-color:var(--accent)}
+.mfield .from{grid-column:1/-1;font-family:var(--f-mono);font-size:.6rem;color:var(--muted);margin-top:-.15rem}
+.panel textarea{width:100%;font-family:var(--f-body);font-size:.85rem;padding:.5rem .6rem;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:2px;min-height:5rem;resize:vertical}
+.panel textarea:focus{outline:none;border-color:var(--accent)}
+.panel h4{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:1.3rem 0 .5rem}
+.panel .cols{display:grid;gap:1.4rem;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr))}
+.lightbox{position:fixed;inset:0;background:rgba(10,8,8,.9);z-index:80;display:none;align-items:center;justify-content:center;padding:2rem;cursor:zoom-out}
+.lightbox.on{display:flex}
+.lightbox img{max-width:100%;max-height:100%;object-fit:contain;border:1px solid #3A3231}
+.lightbox .cap{position:absolute;bottom:1rem;left:0;right:0;text-align:center;font-family:var(--f-mono);font-size:.7rem;color:#9C8D8A}
+.hnote{font-size:.83rem;color:var(--ink-2);line-height:1.5;border-left:2px solid var(--line-strong);padding-left:.7rem;margin-top:.2rem}
+@media(max-width:620px){.frow{grid-template-columns:7rem 1fr 3.8rem}.hhd .hdates{margin-left:0;width:100%}}
+
 </style>
 </head>
 <body>
@@ -173,6 +249,7 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-fa
     <nav class="tabs" role="tablist">
       <button data-v="week" aria-selected="true">Week</button>
       <button data-v="camp" aria-selected="false">Campaigns</button>
+      <button data-v="hist" aria-selected="false">History</button>
       <button data-v="appr" aria-selected="false">Approvals</button>
       <button data-v="plan" aria-selected="false">The plan</button>
       <button data-v="kpi" aria-selected="false">KPIs</button>
@@ -227,6 +304,34 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-fa
     <thead><tr><th>Session</th><th>Brand</th><th>Speaker</th><th>Date</th><th>Time</th><th>Status</th><th>Campaigns feeding it</th></tr></thead>
     <tbody id="webs"></tbody>
   </table></div>
+</section>
+
+<!-- ══════════ CAMPAIGN HISTORY ══════════ -->
+<section class="view" id="v-hist">
+  <div class="eyebrow">Campaign history</div>
+  <h2 class="vh">What each campaign actually did</h2>
+  <p class="lede">One record per campaign, built from the files in its folder. Point Sync at the <b>Campaigns</b> folder once — one subfolder per campaign — and every sync re-reads the spreadsheets, picks up new screenshots and refreshes the numbers below. Anything you type by hand is kept and never overwritten by a sync.</p>
+
+  <div class="syncbar">
+    <button class="btn" id="syncbtn">Sync campaigns</button>
+    <button class="btn ghost" id="pickbtn">Choose folder…</button>
+    <div class="syncmeta" id="syncmeta"></div>
+    <div class="pushright">
+      <button class="btn ghost sm" id="logbtn">Sync log</button>
+      <button class="btn ghost sm" id="expbtn">Export JSON</button>
+      <button class="btn ghost sm" id="claudebtn">Copy for Claude</button>
+    </div>
+    <input type="file" id="fallbackpick" multiple webkitdirectory directory hidden>
+  </div>
+  <div class="synclog" id="synclog"></div>
+
+  <div class="stats" id="hstats"></div>
+
+  <div class="bar" style="margin-top:1.6rem"><span class="lbl">Show</span><span id="fhist" style="display:flex;gap:.4rem;flex-wrap:wrap"></span></div>
+
+  <div id="hlist"></div>
+
+  <div class="note" style="margin-top:2.2rem"><b>How the folder should look.</b> One folder per campaign inside <span class="ids" style="font-family:var(--f-mono)">Campaigns/</span>, named with the campaign ID where you have one — <span style="font-family:var(--f-mono)">EX-08 MetalTech Connect</span> matches EX-08 automatically. Drop the Expandi or HubSpot export (.xlsx or .csv) and the result screenshots straight in. Sync reads every spreadsheet for the metrics below, counts the list rows, and files every image as evidence against that campaign.</div>
 </section>
 
 <!-- ══════════ APPROVALS ══════════ -->
@@ -338,7 +443,7 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-fa
 </main>
 
 <footer class="wrap">
-  Treo Group Holdings <span class="chev">»»»</span> Outreach Engine · 19 campaigns · Q3–Q4 2026 · Data current to 25 Aug 2026
+  Treo Group Holdings <span class="chev">»»»</span> Outreach Engine · 19 campaigns · Q3–Q4 2026 · Data current to 1 Sept 2026 · campaign history syncs from the Campaigns folder
 </footer>
 
 <div class="scrim" id="scrim"></div>
@@ -350,6 +455,16 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-fa
     <p id="dbody" style="margin-top:1.1rem;color:var(--muted);font-size:.88rem;line-height:1.55"></p>
   </div>
 </aside>
+
+<aside class="drawer panel" id="panel" role="dialog" aria-modal="true">
+  <div class="inner">
+    <button class="closebtn" id="pclose">Close</button>
+    <h3 id="ptitle"></h3>
+    <div id="pbody"></div>
+  </div>
+</aside>
+
+<div class="lightbox" id="lightbox"><img id="lbimg" alt=""><div class="cap" id="lbcap"></div></div>
 
 <script>
 const CAMPAIGNS=[{"id": "EX-01", "brand": "Treo Services", "channel": "Expandi", "name": "Post-Webinar: CAS — Attendees", "aud": "Attended 28 Jul CAS webinar", "src": "HubSpot / Teams attendee report", "steps": 5, "cta": "Book CAS readiness review", "build": "2026-08-25", "launch": "2026-08-26", "ends": "2026-09-10", "status": "Not started", "note": "URGENT — webinar ran 4 weeks ago. Send this week.", "act": "IM", "btag": "SERV"}, {"id": "EX-02", "brand": "Treo Services", "channel": "Expandi", "name": "Post-Webinar: CAS — No-Shows", "aud": "Registered 28 Jul, did not attend", "src": "HubSpot / Teams attendee report", "steps": 5, "cta": "Send recording → readiness review", "build": "2026-08-25", "launch": "2026-08-26", "ends": "2026-09-11", "status": "Not started", "note": "URGENT — same as EX-01.", "act": "IM", "btag": "SERV"}, {"id": "EX-03", "brand": "METSIM", "channel": "Expandi", "name": "METSIM Two-Session Series", "aud": "MCL active + worked webform inbound + Sales Nav METSIM targets", "src": "MCL + HubSpot forms + Sales Navigator", "steps": 6, "cta": "Register 8 Sept + 13 Oct", "build": "2026-08-31", "launch": "2026-09-02", "ends": "2026-10-06", "status": "Not started", "note": "MOVED to w/c 31 Aug. Merges old EX-03 + EX-05 + EX-12. LinkedIn events: 7493248019019186176 (8 Sep) + 7493607657983873024 (13 Oct). MCL lapsed excluded.", "act": "IM", "btag": "METSIM"}, {"id": "EX-04", "brand": "Treo Services", "channel": "Expandi", "name": "Webinar Invite: Traffic Management", "aud": "Mine safety, SHEQ, mining engineers, ops mgrs", "src": "Sales Navigator", "steps": 4, "cta": "Register (15 Sept)", "build": "2026-08-26", "launch": "2026-08-27", "ends": "2026-09-17", "status": "Not started", "note": "MOVED UP to this week — T-19. Connect first, wait 3 days per contact, then the IM invite. Two short follow-ups after.", "act": "IM", "btag": "SERV"}, {"id": "EX-06", "brand": "Treo Services", "channel": "Expandi", "name": "ISO 45001 Certified → ISO 45001 Webinar", "aud": "Employees of ISO 45001 certified operations", "src": "Sales Navigator (manual company list)", "steps": 5, "cta": "Register (29 Sept) + ISO 45001 audit tool", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-10-06", "status": "Not started", "note": "Now points at its OWN webinar, not Traffic Management. A/B split 50/50 on message 1.", "act": "IM", "btag": "SERV + TECH"}, {"id": "EX-06b", "brand": "Treo Services", "channel": "Expandi", "name": "ISO 45001 Webinar — General Safety Audience", "aud": "Safety / SHEQ / risk roles NOT on the certified list", "src": "Sales Navigator", "steps": 5, "cta": "Register (29 Sept)", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-10-01", "status": "Not started", "note": "Suppress the EX-06 audience before launch or the two collide.", "act": "IM", "btag": "SERV"}, {"id": "EX-07", "brand": "METSIM", "channel": "Expandi", "name": "METSIM Licence Expired", "aud": "Lapsed METSIM licence holders", "src": "METSIM client list (licence DB)", "steps": 5, "cta": "Renewal quote / 15-min call", "build": "2026-09-28", "launch": "2026-10-01", "ends": "2026-10-19", "status": "Not started", "note": "Pushed to 1 Oct to stay a clear week behind HS-06, which now ends 24 Sept.", "act": "IM", "btag": "METSIM"}, {"id": "EX-08", "brand": "Treo Tech", "channel": "Expandi", "name": "MetalTech — Connected, Never Messaged", "aud": "1st-degree connections, no message history", "src": "LinkedIn connections export", "steps": 4, "cta": "Open a conversation → qualify", "build": "2026-09-03", "launch": "2026-09-08", "ends": "2026-09-26", "status": "Not started", "note": "No connection-request step — already connected.", "act": "IM", "btag": "TECH"}, {"id": "EX-09", "brand": "Treo Tech", "channel": "Expandi", "name": "MetalTech — Connected & Messaged (warm)", "aud": "Prior message history, engaged, no deal", "src": "LinkedIn + HubSpot cross-ref", "steps": 4, "cta": "Book 30-min MetalTech demo", "build": "2026-08-26", "launch": "2026-08-27", "ends": "2026-09-16", "status": "Not started", "note": "MOVED UP to this week. Small list — personalise opener manually. Worth the time.", "act": "IM", "btag": "TECH"}, {"id": "EX-10", "brand": "All", "channel": "Expandi", "name": "Closed-Lost Revival", "aud": "Closed-lost, email follow-up unanswered", "src": "HubSpot deals", "steps": 5, "cta": "Re-open scoping conversation", "build": "2026-09-04", "launch": "2026-09-08", "ends": "2026-09-29", "status": "Not started", "note": "MOVED to w/c 7 Sept. Suppress anyone lost on price in last 90 days.", "act": "IM", "btag": "ALL"}, {"id": "HS-02", "brand": "METSIM", "channel": "HubSpot", "name": "METSIM Two-Session Series", "aud": "MCL active + webform inbound + opted-in METSIM contacts", "src": "MCL + HubSpot active list", "steps": 9, "cta": "Register 8 Sept + 13 Oct", "build": "2026-08-28", "launch": "2026-09-02", "ends": "2026-10-13", "status": "Not started", "note": "MOVED to w/c 31 Aug. Merges old HS-02 + HS-04 + HS-07. Use the LinkedIn event links for both sessions. Registration removes from that session's reminders only.", "act": "EMAIL", "btag": "METSIM"}, {"id": "HS-03", "brand": "Treo Services", "channel": "HubSpot", "name": "Webinar Invite: Traffic Management", "aud": "Safety / SHEQ / operations contacts with consent", "src": "HubSpot active list", "steps": 4, "cta": "Register (15 Sept)", "build": "2026-08-28", "launch": "2026-09-01", "ends": "2026-09-15", "status": "Not started", "note": "Invite T-14, reminders T-7 / T-1 / T-0 08:00.", "act": "EMAIL", "btag": "SERV"}, {"id": "HS-05a", "brand": "Treo Services", "channel": "HubSpot", "name": "ISO 45001 Webinar — Opted-in Safety DB", "aud": "Safety / SHEQ / risk contacts with consent", "src": "HubSpot active list", "steps": 4, "cta": "Register (29 Sept)", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-29", "status": "Not started", "note": "Invite T-13, reminders T-7 / T-1 / T-0 08:00. Not blocked — this list is opted in.", "act": "EMAIL", "btag": "SERV + TECH"}, {"id": "HS-05b", "brand": "Treo Services", "channel": "HubSpot", "name": "ISO 45001 Webinar — Certified-Company List", "aud": "ISO 45001 certified operations, enriched emails", "src": "Sales Nav enrichment → HubSpot", "steps": 2, "cta": "Register (29 Sept) + audit tool", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-23", "status": "BLOCKED", "note": "POPIA: needs lawful-basis sign-off before send. If unresolved, run EX-06 on LinkedIn only.", "act": "EMAIL", "btag": "SERV + TECH"}, {"id": "HS-06", "brand": "METSIM", "channel": "HubSpot", "name": "METSIM Licence Expired", "aud": "Lapsed licence holders with valid email", "src": "METSIM licence DB → HubSpot", "steps": 3, "cta": "Renewal quote / 15-min call", "build": "2026-09-04", "launch": "2026-09-10", "ends": "2026-09-24", "status": "Not started", "note": "MOVED to w/c 7 Sept. Day 0 / +7 / +14 — 10, 17, 24 Sept. EX-07 follows on 1 Oct.", "act": "EMAIL", "btag": "METSIM"}, {"id": "PW-01", "brand": "METSIM", "channel": "Both", "name": "Post-Webinar: METSIM Model Audits", "aud": "Attendees + registered no-shows, 8 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Model audit engagement", "build": "2026-09-03", "launch": "2026-09-09", "ends": "2026-09-18", "status": "Not started", "note": "Build the week BEFORE the webinar. Live within 24h. Send from Calvin where possible.", "act": "EMAIL + IM", "btag": "METSIM"}, {"id": "PW-02", "brand": "Treo Services", "channel": "Both", "name": "Post-Webinar: Traffic Management", "aud": "Attendees + registered no-shows, 15 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Traffic management review", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-25", "status": "Not started", "note": "Bridges to the ISO 45001 webinar on 29 Sept. Send from Samuel where possible.", "act": "EMAIL + IM", "btag": "SERV"}, {"id": "PW-03", "brand": "Treo Services", "channel": "Both", "name": "Post-Webinar: ISO 45001", "aud": "Attendees + registered no-shows, 29 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "ISO 45001 audit tool demo", "build": "2026-09-24", "launch": "2026-09-30", "ends": "2026-10-09", "status": "Not started", "note": "No further safety session — bridge to the tool demo, not another webinar.", "act": "EMAIL + IM", "btag": "SERV + TECH"}, {"id": "PW-04", "brand": "METSIM", "channel": "Both", "name": "Post-Webinar: Simulation 4.0", "aud": "Attendees + registered no-shows, 13 Oct", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Scoped AI pilot or model build", "build": "2026-10-08", "launch": "2026-10-14", "ends": "2026-10-23", "status": "Not started", "note": "Last session of the quarter. Bridge to Q1 2027, not another invite.", "act": "EMAIL + IM", "btag": "METSIM"}];
@@ -543,11 +658,510 @@ function openDrawer(title,pairs,body){
   $("#drawer").classList.add("on"); $("#scrim").classList.add("on");
 }
 function closeDrawer(){$("#drawer").classList.remove("on");$("#scrim").classList.remove("on")}
-$("#scrim").onclick=closeDrawer; $("#dclose").onclick=closeDrawer;
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer()});
+$("#scrim").onclick=()=>{closeDrawer();closePanel()}; $("#dclose").onclick=closeDrawer;
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeDrawer();closePanel();$("#lightbox").classList.remove("on")}});
+
+/* ═══════════════════════════════════════════════════════════
+   CAMPAIGN HISTORY — folder sync, metrics, evidence gallery
+   ═══════════════════════════════════════════════════════════ */
+
+const XLSX_CDN="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js";
+const HKEY="oe.history.v1";
+
+/* metrics we try to pull out of any spreadsheet */
+const METRICS=[
+ {k:"list",     g:"out",l:"List size",       a:["list size","audience","contacts","total contacts","prospects","leads","records","target list"]},
+ {k:"invites",  g:"out",l:"Invites sent",    a:["invites sent","invitations sent","connection requests","connections sent","requests sent","invites","invitations","connects sent"]},
+ {k:"accepted", g:"out",l:"Accepted",        a:["accepted","invites accepted","connections accepted","accepted invites","new connections","connection accepted","connected"]},
+ {k:"msgs",     g:"out",l:"Messages sent",   a:["messages sent","message sent","messages","im sent","sent messages","messaged","dms sent"]},
+ {k:"replies",  g:"out",l:"Replies",         a:["replies","replied","responses","reply","total replies","responded"]},
+ {k:"positive", g:"out",l:"Positive replies",a:["positive replies","positive","interested","interested replies","positive response"]},
+ {k:"meetings", g:"out",l:"Meetings booked", a:["meetings","meetings booked","calls booked","demos booked","meeting","demo booked"]},
+ {k:"delivered",g:"em", l:"Delivered",       a:["delivered","emails delivered","successful deliveries","emails sent","sent"]},
+ {k:"opens",    g:"em", l:"Opens",           a:["opens","opened","unique opens","open","total opens"]},
+ {k:"clicks",   g:"em", l:"Clicks",          a:["clicks","clicked","unique clicks","link clicks","total clicks"]},
+ {k:"unsubs",   g:"em", l:"Unsubscribes",    a:["unsubscribes","unsubscribed","opt outs","opt-outs","unsubscribe"]},
+ {k:"bounces",  g:"em", l:"Bounces",         a:["bounces","bounced","hard bounces","bounce","undelivered"]},
+];
+const MBY=Object.fromEntries(METRICS.map(m=>[m.k,m]));
+/* rate labels seen in exports — captured separately so "reply rate" never
+   lands in the "replies" count */
+const RATE_ALIAS={"accept rate":"acc","acceptance rate":"acc","connection accept rate":"acc",
+ "reply rate":"rep","response rate":"rep","open rate":"open","unique open rate":"open",
+ "click to open rate":"ctor","click-to-open rate":"ctor","ctor":"ctor","click rate":"clk","ctr":"clk"};
+/* warm audiences carry the 20% reply target, everything else 8% — KPIs tab */
+const WARM=["EX-01","EX-02","EX-07","EX-09","EX-10","PW-01","PW-02","PW-03","PW-04"];
+const RATES=[
+ {k:"acc", l:"Accept",  n:"accepted", d:"invites",  t:()=>0.30, g:"out"},
+ {k:"rep", l:"Reply",   n:"replies",  d:c=>eff(c,"msgs")||eff(c,"list")||eff(c,"accepted"), t:c=>WARM.includes(c.cid)?0.20:0.08, g:"out"},
+ {k:"repc",l:"Reply / connected",n:"replies",d:"accepted",t:null,g:"out",only:c=>eff(c,"accepted")&&!eff(c,"msgs")},
+ {k:"pos", l:"Positive",n:"positive", d:"replies",  t:null,     g:"out"},
+ {k:"open",l:"Open",    n:"opens",    d:"delivered",t:()=>0.40, g:"em"},
+ {k:"ctor",l:"CTOR",    n:"clicks",   d:"opens",    t:()=>0.10, g:"em"},
+];
+
+/* Campaigns that ran before this plan started, read off the Expandi
+   screenshots in their folder. Seeded once; a sync updates them in place. */
+const SEED=[{
+  key:"folder:Metaltech Connect Campaign", cid:null,
+  folder:"Metaltech Connect Campaign",
+  name:"Metaltech connect campaign", brand:"Treo Tech", act:"IM",
+  ran:{from:"2026-07-21",to:"2026-08-12"},
+  meta:["Lead list: Metaltech Leads | Kyle","Sent from calvin@psconsult.co.za","Sentiment untagged — 0 positive / 0 neutral / 0 negative"],
+  m:{},rates:{},
+  man:{list:132,invites:132,accepted:68,replies:43},
+  src:{list:"Overview.png — 132 people in campaign",invites:"Overview.png — Initiated 132 of 132",
+       accepted:"Overview.png — Connected 51.52%, 68 of 132",replies:"Overview.png — Replied 32.58%, 43 of 132"},
+  note:"Ran 21 Jul – 12 Aug 2026, before this plan started. Accept rate of 51.5% is well clear of the 30% benchmark, and 43 replies off 68 connections is a 63% reply rate among people who accepted — the strongest signal in anything recorded so far. Nothing was sentiment-tagged in Expandi, so positive replies and meetings are unknown: worth going back through the inbox and filling those in, because that is the number that decides whether MetalTech gets more list.",
+  files:[{name:"Metaltech Connect CampaignLeads List.csv",size:119000,kind:"sheet"},
+         {name:"Overview.png",size:32100,kind:"img"},
+         {name:"History.png",size:74700,kind:"img"},
+         {name:"Chart Stats.png",size:104000,kind:"img"}],
+  shots:[],seeded:true}];
+
+let HIST=store.get(HKEY,{rootName:"",lastSync:"",items:{}});
+const saveHist=()=>store.set(HKEY,HIST);
+(function seed(){let n=0;
+  SEED.forEach(s=>{if(!HIST.items[s.key]){HIST.items[s.key]=JSON.parse(JSON.stringify(s));n++}});
+  if(n)saveHist()})();
+const eff=(it,k)=>{const v=(it.man&&it.man[k]!=null&&it.man[k]!=="")?it.man[k]:(it.m?it.m[k]:null);return (v==null||v==="")?null:Number(v)};
+
+/* ─────────── tiny IndexedDB (folder handle + screenshot blobs) ─────────── */
+let _db=null;
+function idb(){return _db||(_db=new Promise((res,rej)=>{
+  const r=indexedDB.open("treo-oe",1);
+  r.onupgradeneeded=()=>{const d=r.result;
+    if(!d.objectStoreNames.contains("kv"))d.createObjectStore("kv");
+    if(!d.objectStoreNames.contains("shots"))d.createObjectStore("shots");};
+  r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error);}))}
+async function idbGet(s,k){const d=await idb();return new Promise((res,rej)=>{const t=d.transaction(s,"readonly").objectStore(s).get(k);t.onsuccess=()=>res(t.result);t.onerror=()=>rej(t.error)})}
+async function idbSet(s,k,v){const d=await idb();return new Promise((res,rej)=>{const t=d.transaction(s,"readwrite").objectStore(s).put(v,k);t.onsuccess=()=>res();t.onerror=()=>rej(t.error)})}
+async function idbDel(s,k){const d=await idb();return new Promise((res)=>{const t=d.transaction(s,"readwrite").objectStore(s).delete(k);t.onsuccess=()=>res();t.onerror=()=>res()})}
+
+/* ─────────── sync log ─────────── */
+const LOG=[];
+function log(kind,msg){LOG.push({kind,msg});const box=$("#synclog");
+  box.innerHTML=LOG.map(l=>`<div class="lg-${l.kind}">${l.kind==="err"?"✕":l.kind==="ok"?"✓":l.kind==="warn"?"!":"·"} ${esc(l.msg)}</div>`).join("");
+  box.scrollTop=box.scrollHeight}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+/* ─────────── value + label parsing ─────────── */
+function norm(s){return String(s).toLowerCase().replace(/[_–—]/g," ").replace(/[^a-z0-9%\s]/g," ").replace(/\s+/g," ").trim()}
+function aliasOf(label){const n=norm(label).replace(/\s*[:#]\s*$/,"");
+  if(!n||n.length>34)return null;
+  for(const m of METRICS){if(m.a.includes(n))return m.k}
+  return null}
+function rateAliasOf(label){const n=norm(label);return RATE_ALIAS[n]||null}
+function toNum(v){
+  if(v==null||v==="")return null;
+  if(typeof v==="number")return isFinite(v)?v:null;
+  let s=String(v).trim().replace(/ /g," ");
+  if(!/[0-9]/.test(s))return null;
+  const pct=/%/.test(s);
+  s=s.replace(/[%\s]/g,"").replace(/,(?=\d{3}\b)/g,"").replace(",",".");
+  const n=parseFloat(s);
+  if(!isFinite(n))return null;
+  return pct?n/100:n}
+function toPct(v){const n=toNum(v);if(n==null)return null;return n>1?n/100:n}
+const TRUTHY=/^(yes|y|true|1|accepted|replied|connected|opened|clicked|sent|delivered|bounced|unsubscribed|positive|interested)$/i;
+function truthy(v){if(v==null||v==="")return false;
+  if(typeof v==="number")return v>0;
+  if(v instanceof Date)return true;
+  const s=String(v).trim();
+  if(!s||/^(no|n|false|0|-|n\/a|na|pending|not sent|none)$/i.test(s))return false;
+  return true}
+
+/* ─────────── spreadsheet reader ─────────── */
+let _xlsx=null;
+function loadXLSX(){return _xlsx||(_xlsx=new Promise((res,rej)=>{
+  if(window.XLSX)return res(window.XLSX);
+  const tryLoad=(src,next)=>{const s=document.createElement("script");s.src=src;
+    s.onload=()=>window.XLSX?res(window.XLSX):next();
+    s.onerror=next;document.head.appendChild(s)};
+  /* shipped with the app so sync works offline; CDN only as a backstop */
+  tryLoad("xlsx.full.min.js",()=>tryLoad(XLSX_CDN,()=>rej(new Error("could not load the spreadsheet reader"))));
+}))}
+function colName(i){let s="";i++;while(i>0){const r=(i-1)%26;s=String.fromCharCode(65+r)+s;i=(i-r-1)/26}return s}
+
+function scanGrid(grid,label,rec){
+  const R=grid.length;
+  /* (a) label → value pairs anywhere on the sheet */
+  for(let r=0;r<R;r++){
+    const row=grid[r]||[];
+    for(let c=0;c<row.length;c++){
+      const cell=row[c];
+      if(typeof cell!=="string")continue;
+      const rk=rateAliasOf(cell);
+      if(rk){const v=toPct(row[c+1]!=null&&row[c+1]!==""?row[c+1]:((grid[r+1]||[])[c]));
+        if(v!=null&&v<=1.5)rec.rates[rk]={v,from:`${label} ${colName(c)}${r+1}`};continue}
+      const mk=aliasOf(cell);
+      if(!mk)continue;
+      let v=toNum(row[c+1]);
+      if(v==null)v=toNum(row[c+2]);
+      if(v==null)v=toNum((grid[r+1]||[])[c]);
+      if(v==null||v<0||v!==Math.round(v))continue;
+      rec.put(mk,v,`${label} ${colName(c)}${r+1}`);
+    }
+  }
+  /* (b) contact-list shape: header row, then one row per contact */
+  let hr=-1;
+  for(let r=0;r<Math.min(R,12);r++){
+    const row=(grid[r]||[]).filter(x=>typeof x==="string"&&x.trim());
+    if(row.length>=2){hr=r;break}
+  }
+  if(hr<0)return;
+  const heads=(grid[hr]||[]).map(h=>typeof h==="string"?h.trim():"");
+  const body=grid.slice(hr+1).filter(row=>(row||[]).some(x=>x!=null&&x!==""));
+  if(!body.length)return;
+  if(body.length>1)rec.put("list",body.length,`${label} — ${body.length} rows`);
+  heads.forEach((h,c)=>{
+    if(!h)return;
+    const mk=aliasOf(h);const rk=rateAliasOf(h);
+    const vals=body.map(row=>(row||[])[c]);
+    if(rk){const nums=vals.map(toPct).filter(v=>v!=null);
+      if(nums.length===1)rec.rates[rk]={v:nums[0],from:`${label} col ${h}`};return}
+    if(!mk)return;
+    const nums=vals.map(toNum).filter(v=>v!=null&&v>=0);
+    if(body.length===1&&nums.length===1){rec.put(mk,nums[0],`${label} col ${h}`);return}
+    /* a flag column — count how many contacts it is true for */
+    const flagish=vals.every(v=>v==null||v===""||typeof v==="boolean"||v instanceof Date||(typeof v==="string"&&v.length<24)||(typeof v==="number"&&(v===0||v===1)));
+    if(flagish){const n=vals.filter(truthy).length;if(n>0)rec.put(mk,n,`${label} col ${h} — ${n} of ${body.length}`)}
+    else if(nums.length===body.length&&body.length<=3){rec.put(mk,nums.reduce((a,b)=>a+b,0),`${label} col ${h} (summed)`)}
+  })
+}
+
+async function readSheet(file,rec){
+  const XL=await loadXLSX();
+  const buf=await file.arrayBuffer();
+  const wb=XL.read(buf,{type:"array",cellDates:true});
+  wb.SheetNames.forEach(sn=>{
+    const grid=XL.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:true,defval:null,blankrows:false});
+    if(!grid.length)return;
+    scanGrid(grid,`${file.name}${wb.SheetNames.length>1?" · "+sn:""}`,rec);
+  })
+}
+
+/* ─────────── folder → campaign matching ─────────── */
+function matchCampaign(folder){
+  const up=folder.toUpperCase().replace(/[^A-Z0-9]/g,"");
+  const byId=CAMPAIGNS.find(c=>up.includes(c.id.replace("-","")));
+  if(byId)return byId.id;
+  const f=norm(folder);
+  let best=null,bs=0;
+  CAMPAIGNS.forEach(c=>{
+    const toks=norm(c.name).split(" ").filter(w=>w.length>3);
+    if(!toks.length)return;
+    const s=toks.filter(w=>f.includes(w)).length/toks.length;
+    if(s>bs){bs=s;best=c.id}
+  });
+  return bs>=0.6?best:null}
+
+/* ─────────── the sync itself ─────────── */
+const IMG=/\.(png|jpe?g|gif|webp|bmp)$/i, SHEET=/\.(xlsx|xlsm|xls|csv|tsv)$/i;
+let syncing=false;
+
+async function collectFSA(dir,folder,out,depth){
+  for await(const [name,h] of dir.entries()){
+    if(name.startsWith("~$")||name==="desktop.ini"||name.startsWith("."))continue;
+    if(h.kind==="file"){out.push({folder,name,get:()=>h.getFile()})}
+    else if(depth<2){await collectFSA(h,folder,out,depth+1)}
+  }
+}
+
+async function runSync(handle){
+  if(syncing)return; syncing=true;
+  LOG.length=0; $("#synclog").classList.add("on");
+  $("#syncbtn").disabled=true; $("#syncbtn").textContent="Syncing…";
+  try{
+    if(await handle.queryPermission({mode:"read"})!=="granted"){
+      if(await handle.requestPermission({mode:"read"})!=="granted"){
+        log("err","Permission to read the folder was declined.");return}
+    }
+    log("dim",`Reading ${handle.name}/`);
+    const folders=[];
+    for await(const [name,h] of handle.entries()){
+      if(h.kind==="directory"&&!name.startsWith("."))folders.push([name,h]);
+    }
+    if(!folders.length)log("warn","No campaign subfolders found — create one folder per campaign inside this folder.");
+    for(const [name,h] of folders){
+      const files=[];
+      await collectFSA(h,name,files,0);
+      await ingestFolder(name,files);
+    }
+    HIST.rootName=handle.name; HIST.lastSync=new Date().toISOString();
+    saveHist(); renderHist();
+    log("ok",`Sync complete — ${folders.length} campaign folder${folders.length===1?"":"s"} read.`);
+  }catch(e){log("err",e.message||String(e))}
+  finally{syncing=false;$("#syncbtn").disabled=false;$("#syncbtn").textContent="Sync campaigns";renderSyncMeta()}
+}
+
+async function ingestFolder(folder,files){
+  const cid=matchCampaign(folder);
+  const key=cid||("folder:"+folder);
+  const prev=HIST.items[key]||{};
+  const it={key,cid:prev.cid!==undefined?(prev.cid||cid):cid,folder,
+            m:{},src:{},rates:{},man:prev.man||{},note:prev.note||"",
+            files:[],shots:prev.shots||[],synced:new Date().toISOString(),
+            /* descriptive fields survive every sync */
+            name:prev.name,brand:prev.brand,act:prev.act,ran:prev.ran,meta:prev.meta};
+  if(prev.cid)it.cid=prev.cid;
+  if(prev.src)Object.assign(it.src,prev.src);
+  const rec={put(k,v,from){ /* first sighting wins unless the new one is larger and same file kind */
+      if(it.m[k]==null||v>it.m[k]){it.m[k]=v;it.src[k]=from}},rates:it.rates};
+  let sheets=0,imgs=0;
+  const keptShots=[];
+  for(const f of files){
+    const file=await f.get();
+    it.files.push({name:f.name,size:file.size,kind:IMG.test(f.name)?"img":SHEET.test(f.name)?"sheet":"doc"});
+    if(SHEET.test(f.name)){
+      try{await readSheet(file,rec);sheets++;log("dim",`${folder}/${f.name} — read`)}
+      catch(e){log("warn",`${folder}/${f.name} — ${e.message}`)}
+    }else if(IMG.test(f.name)){
+      const id=folder+"/"+f.name;
+      const old=(prev.shots||[]).find(s=>s.id===id);
+      if(!old||old.size!==file.size){await idbSet("shots",id,file)}
+      keptShots.push({id,name:f.name,size:file.size});imgs++;
+    }
+  }
+  it.shots=keptShots;
+  /* drop images that are no longer in the folder */
+  (prev.shots||[]).forEach(s=>{if(!keptShots.some(k=>k.id===s.id))idbDel("shots",s.id)});
+  HIST.items[key]=it;
+  const found=METRICS.filter(m=>it.m[m.k]!=null).length;
+  log(found||imgs?"ok":"warn",`${folder} → ${it.cid||"unassigned"} · ${sheets} sheet${sheets===1?"":"s"}, ${imgs} screenshot${imgs===1?"":"s"}, ${found} metric${found===1?"":"s"} found`);
+}
+
+/* fallback for browsers without the folder picker (Safari, Firefox) */
+async function ingestFileList(fileList){
+  LOG.length=0;$("#synclog").classList.add("on");
+  const byFolder={};
+  [...fileList].forEach(f=>{
+    const parts=(f.webkitRelativePath||f.name).split("/");
+    if(parts.length<2)return;
+    const folder=parts.length>2?parts[1]:parts[0];
+    (byFolder[folder]=byFolder[folder]||[]).push({folder,name:f.name,get:async()=>f});
+  });
+  const names=Object.keys(byFolder);
+  if(!names.length){log("warn","Nothing readable in that folder.");return}
+  for(const n of names)await ingestFolder(n,byFolder[n]);
+  HIST.lastSync=new Date().toISOString();saveHist();renderHist();renderSyncMeta();
+  log("ok",`Sync complete — ${names.length} folder${names.length===1?"":"s"} read. This browser can't remember the folder, so you'll pick it again next time.`);
+}
+
+async function pickRoot(){
+  if(!window.showDirectoryPicker){$("#fallbackpick").click();return}
+  try{
+    const h=await window.showDirectoryPicker({id:"treo-campaigns",mode:"read",startIn:"documents"});
+    await idbSet("kv","root",h);
+    await runSync(h);
+  }catch(e){if(e.name!=="AbortError")log("err",e.message)}
+}
+async function doSync(){
+  const h=await idbGet("kv","root").catch(()=>null);
+  if(h)return runSync(h);
+  return pickRoot();
+}
+
+/* ─────────── rendering ─────────── */
+function renderSyncMeta(){
+  const n=Object.keys(HIST.items).length;
+  const when=HIST.lastSync?new Date(HIST.lastSync).toLocaleString("en-ZA",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}):null;
+  $("#syncmeta").innerHTML=when
+    ? `<span class="dot ok"></span>Last sync <b>${when}</b> · ${HIST.rootName?esc(HIST.rootName)+"/ · ":""}${n} folder${n===1?"":"s"}`
+    : `<span class="dot"></span>Not synced yet — choose your <b>Campaigns</b> folder to start`;
+}
+function itemFor(cid){return HIST.items[cid]||null}
+function pct(n,d){return (d&&n!=null&&d>0)?n/d:null}
+function fmtPct(x){if(x==null)return "—";const v=x*100;
+  return (Math.abs(v-Math.round(v))<0.05?Math.round(v):v.toFixed(1))+"%"}
+
+function rateChips(it,grp){
+  const out=[];
+  RATES.filter(r=>r.g===grp).forEach(r=>{
+    if(r.only&&!r.only(it))return;
+    const num=eff(it,r.n);
+    const den=typeof r.d==="function"?r.d(it):eff(it,r.d);
+    let v=pct(num,den);
+    if(v==null&&it.rates&&it.rates[r.k])v=it.rates[r.k].v;
+    if(v==null)return;
+    const t=r.t?r.t(it):null;
+    let cls="";
+    if(t!=null)cls=v>=t?"hit":v>=t*0.7?"near":"miss";
+    out.push(`<span class="rate ${cls}">${r.l} <b>${fmtPct(v)}</b>${t!=null?` <span style="opacity:.7">/ ${fmtPct(t)}</span>`:""}</span>`);
+  });
+  return out.join("");
+}
+function funnel(it,grp){
+  const rows=METRICS.filter(m=>m.g===grp&&eff(it,m.k)!=null);
+  if(!rows.length)return "";
+  const max=Math.max(...rows.map(m=>eff(it,m.k)),1);
+  return rows.map(m=>{
+    const v=eff(it,m.k),man=it.man&&it.man[m.k]!=null&&it.man[m.k]!=="";
+    return `<div class="frow"><span class="fk">${m.l}</span>
+      <span class="fbar"><i class="${grp==="out"?"acc":""}" style="width:${Math.max(2,v/max*100)}%"></i></span>
+      <span class="fv"${man?' title="typed in by hand — a sync will not overwrite it"':''}>${v.toLocaleString("en-ZA")}${man?' <em>•</em>':''}</span></div>`}).join("");
+}
+
+let HFILTER="all";
+function renderHist(){
+  renderSyncMeta();
+  const today=new Date();today.setHours(0,0,0,0);
+  const rows=CAMPAIGNS.map(c=>{
+    const it=itemFor(c.id)||Object.values(HIST.items).find(x=>x.cid===c.id)||null;
+    const st=parse(c.ends)<today?"done":parse(c.launch)<=today?"live":"pend";
+    return {c,it,st,has:!!(it&&(METRICS.some(m=>eff(it,m.k)!=null)||(it.shots||[]).length))};
+  });
+  /* folders that did not match any campaign */
+  const orphans=Object.values(HIST.items).filter(it=>!it.cid);
+  const shown=rows.filter(r=>HFILTER==="all"||(HFILTER==="data"&&r.has)||(HFILTER==="ended"&&r.st==="done")||(HFILTER==="gap"&&r.st==="done"&&!r.has)||(HFILTER==="live"&&r.st==="live"));
+
+  /* summary strip */
+  const withData=rows.filter(r=>r.has);
+  const dataItems=withData.map(r=>r.it).concat(orphans);
+  const sum=k=>dataItems.reduce((a,it)=>a+(eff(it,k)||0),0);
+  const S=[
+    ["Campaigns recorded",dataItems.length,`${withData.length} of ${CAMPAIGNS.length} in the plan${orphans.length?` · ${orphans.length} outside it`:""}`],
+    ["Contacts reached",sum("list")||sum("invites")||sum("delivered"),"across every synced list"],
+    ["Replies",sum("replies"),(()=>{const d=sum("msgs")||sum("list")||sum("accepted");const v=pct(sum("replies"),d);return v==null?"no denominator yet":`${fmtPct(v)} reply rate`})()],
+    ["Emails delivered",sum("delivered"),(()=>{const v=pct(sum("opens"),sum("delivered"));return v==null?"no email data yet":`${fmtPct(v)} open rate · target 40%`})()],
+    ["Meetings booked",sum("meetings"),"the number that pays for the plan"],
+    ["Ended, no data",rows.filter(r=>r.st==="done"&&!r.has).length,"campaigns waiting on a folder"],
+  ];
+  $("#hstats").innerHTML=S.map(([l,v,n])=>`<div class="stat"><div class="sl">${l}</div><div class="sv">${(v||0).toLocaleString("en-ZA")}</div><div class="sn">${n}</div></div>`).join("");
+
+  const cards=shown.map(({c,it,st,has})=>{
+    const inner=has?`<div class="hbody">
+        <div class="fnl"><div class="ft">Outreach funnel</div>${funnel(it,"out")||'<p class="hempty">No outreach numbers in this folder yet.</p>'}<div class="rates">${rateChips(it,"out")}</div></div>
+        <div class="fnl"><div class="ft">Email funnel</div>${funnel(it,"em")||'<p class="hempty">No email numbers in this folder yet.</p>'}<div class="rates">${rateChips(it,"em")}</div></div>
+        ${(it.shots||[]).length?`<div class="fnl" style="grid-column:1/-1"><div class="ft">Evidence — ${it.shots.length} screenshot${it.shots.length===1?"":"s"}</div><div class="shots" data-shots="${esc(it.key)}"></div></div>`:""}
+        ${it.note?`<div class="fnl" style="grid-column:1/-1"><div class="ft">Notes</div><div class="hnote">${esc(it.note)}</div></div>`:""}
+      </div>`
+    :"";
+    const emptyMsg=has?"":(st==="done"
+        ?`Ended, nothing logged. Create <b style="font-family:var(--f-mono)">Campaigns/${c.id} ${esc(c.name.split("—")[0].trim())}</b> and sync.`
+        :st==="live"?"Running now — numbers appear once its folder has an export in it."
+        :`Launches ${fmt(c.launch)}.`);
+    return `<div class="hcard ${st}">
+      <div class="hhd"><span class="hid">${c.id}</span><h3>${esc(c.name)}</h3>
+        <span class="tag brand">${esc(c.brand)}</span><span class="tag ${tagClass(c.act)}">${c.act}</span>
+        <span class="pill ${st==="done"?"p-med":st==="live"?"p-crit":"p-ns"}">${st==="done"?"Ended":st==="live"?"Live":"Upcoming"}</span>
+        <span class="hdates">${fmt(c.launch)} → ${fmt(c.ends)}</span></div>
+      ${inner}
+      <div class="hft">
+        <span>${it&&it.folder?`📁 ${esc(it.folder)}`:"No folder synced"}</span>
+        ${emptyMsg?`<span style="color:var(--ink-2)">${emptyMsg}</span>`:""}
+        ${it&&it.files&&it.files.length?it.files.slice(0,4).map(f=>`<span class="asset"><span class="ax">${f.kind==="sheet"?"▤":f.kind==="img"?"▣":"▪"}</span>${esc(f.name)}</span>`).join(""):""}
+        ${it&&it.files&&it.files.length>4?`<span>+${it.files.length-4} more</span>`:""}
+        <span class="pushright"><button class="btn ghost sm" data-edit="${esc(c.id)}">${has?"Edit numbers":"Add numbers"}</button></span>
+      </div></div>`}).join("");
+
+  const orphCards=(HFILTER==="all"||HFILTER==="data"||HFILTER==="ended")?orphans.map(it=>`<div class="hcard done">
+      <div class="hhd"><span class="hid">${it.ran?"PRE-PLAN":"—"}</span><h3>${esc(it.name||it.folder)}</h3>
+        ${it.brand?`<span class="tag brand">${esc(it.brand)}</span>`:""}${it.act?`<span class="tag ${tagClass(it.act)}">${it.act}</span>`:""}
+        <span class="pill ${it.ran?"p-med":"p-high"}">${it.ran?"Ended":"Unassigned folder"}</span>
+        <span class="hdates">${it.ran?`${fmt(it.ran.from)} → ${fmt(it.ran.to)}`:`synced ${new Date(it.synced||Date.now()).toLocaleDateString("en-ZA",{day:"numeric",month:"short"})}`}</span></div>
+      <div class="hbody">
+        <div class="fnl"><div class="ft">Outreach funnel</div>${funnel(it,"out")||'<p class="hempty">No numbers found in this folder.</p>'}<div class="rates">${rateChips(it,"out")}</div></div>
+        <div class="fnl"><div class="ft">Email funnel</div>${funnel(it,"em")||'<p class="hempty">No email numbers found.</p>'}<div class="rates">${rateChips(it,"em")}</div>
+          ${(it.meta||[]).length?`<div class="ft" style="margin-top:1rem">Setup</div>${it.meta.map(m=>`<div style="font-size:.8rem;color:var(--ink-2)">${esc(m)}</div>`).join("")}`:""}</div>
+        ${(it.shots||[]).length?`<div class="fnl" style="grid-column:1/-1"><div class="ft">Evidence — ${it.shots.length} screenshot${it.shots.length===1?"":"s"}</div><div class="shots" data-shots="${esc(it.key)}"></div></div>`:""}
+        ${it.note?`<div class="fnl" style="grid-column:1/-1"><div class="ft">What it tells us</div><div class="hnote">${esc(it.note)}</div></div>`:""}
+      </div>
+      <div class="hft"><span>📁 ${esc(it.folder)}</span>
+        ${(it.files||[]).slice(0,4).map(f=>`<span class="asset"><span class="ax">${f.kind==="sheet"?"▤":f.kind==="img"?"▣":"▪"}</span>${esc(f.name)}</span>`).join("")}
+        <span class="pushright"><button class="btn ghost sm" data-edit="${esc(it.key)}">Assign &amp; edit</button></span></div></div>`).join(""):"";
+
+  $("#hlist").innerHTML=(cards+orphCards)||`<p class="hempty" style="margin-top:1.4rem">Nothing matches that filter.</p>`;
+  $$("#hlist [data-edit]").forEach(b=>b.onclick=()=>openEdit(b.dataset.edit));
+  $$("#hlist .shots").forEach(paintShots);
+}
+
+const SHOTURL=new Map();
+async function paintShots(box){
+  const it=HIST.items[box.dataset.shots]||Object.values(HIST.items).find(x=>x.key===box.dataset.shots);
+  if(!it)return;
+  for(const s of it.shots||[]){
+    let url=SHOTURL.get(s.id);
+    if(!url){const blob=await idbGet("shots",s.id).catch(()=>null);if(!blob)continue;url=URL.createObjectURL(blob);SHOTURL.set(s.id,url)}
+    const img=new Image();img.src=url;img.alt=s.name;img.title=s.name;
+    img.onclick=()=>{$("#lbimg").src=url;$("#lbcap").textContent=it.folder+" / "+s.name;$("#lightbox").classList.add("on")};
+    box.appendChild(img);
+  }
+}
+$("#lightbox").onclick=()=>$("#lightbox").classList.remove("on");
+
+/* ─────────── edit / add numbers ─────────── */
+function openEdit(key){
+  let it=HIST.items[key]||Object.values(HIST.items).find(x=>x.cid===key);
+  const camp=CAMPAIGNS.find(c=>c.id===key);
+  if(!it){it={key,cid:camp?camp.id:null,folder:"",m:{},src:{},rates:{},man:{},note:"",files:[],shots:[]};HIST.items[key]=it}
+  const title=camp?`${camp.id} · ${camp.name}`:(it.name||it.folder);
+  const field=m=>{
+    const auto=it.m[m.k],man=it.man[m.k];
+    return `<div class="mfield"><label for="f_${m.k}">${m.l}</label>
+      <input id="f_${m.k}" data-mk="${m.k}" type="number" min="0" step="1" value="${man!=null&&man!==""?man:(auto!=null?auto:"")}" placeholder="${auto!=null?auto:"—"}">
+      ${it.src[m.k]?`<span class="from">from ${esc(it.src[m.k])}</span>`:""}</div>`};
+  $("#ptitle").textContent=title;
+  $("#pbody").innerHTML=`
+    ${(it.shots||[]).length?`<h4>Screenshots — read the numbers off these</h4><div class="shots" data-shots="${esc(it.key)}"></div>`:""}
+    ${!camp?`<h4>Which campaign is this folder?</h4><select id="p_cid" style="font-family:var(--f-mono);font-size:.8rem;padding:.4rem;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);width:100%;max-width:26rem">
+        <option value="">— unassigned —</option>${CAMPAIGNS.map(c=>`<option value="${c.id}"${it.cid===c.id?" selected":""}>${c.id} · ${esc(c.name)}</option>`).join("")}</select>`:""}
+    <div class="cols">
+      <div><h4>Outreach funnel</h4>${METRICS.filter(m=>m.g==="out").map(field).join("")}</div>
+      <div><h4>Email funnel</h4>${METRICS.filter(m=>m.g==="em").map(field).join("")}</div>
+    </div>
+    <h4>What we learned</h4><textarea id="p_note" placeholder="What worked, what to change next time.">${esc(it.note||"")}</textarea>
+    ${it.files&&it.files.length?`<h4>Files in this folder</h4><div style="display:flex;gap:.4rem;flex-wrap:wrap">${it.files.map(f=>`<span class="asset"><span class="ax">${f.kind==="sheet"?"▤":f.kind==="img"?"▣":"▪"}</span>${esc(f.name)}</span>`).join("")}</div>`:""}
+    <div style="display:flex;gap:.5rem;margin-top:1.5rem;flex-wrap:wrap">
+      <button class="btn" id="p_save">Save</button>
+      <button class="btn ghost" id="p_clear">Clear my edits</button>
+      <span class="syncmeta" style="align-self:center">Typed values win over the spreadsheet and survive every sync.</span>
+    </div>`;
+  $$("#pbody .shots").forEach(paintShots);
+  $("#p_save").onclick=()=>{
+    $$("#pbody input[data-mk]").forEach(i=>{
+      const v=i.value.trim();
+      if(v==="")delete it.man[i.dataset.mk];else it.man[i.dataset.mk]=Number(v)});
+    it.note=$("#p_note").value.trim();
+    const sel=$("#p_cid");if(sel)it.cid=sel.value||null;
+    saveHist();renderHist();closePanel()};
+  $("#p_clear").onclick=()=>{it.man={};saveHist();renderHist();closePanel()};
+  $("#panel").classList.add("on");$("#scrim").classList.add("on");
+}
+function closePanel(){$("#panel").classList.remove("on");$("#scrim").classList.remove("on")}
+$("#pclose").onclick=closePanel;
+
+/* ─────────── toolbar wiring ─────────── */
+function buildHistChips(){
+  const box=$("#fhist");box.innerHTML="";
+  [["all","Everything"],["data","With results"],["gap","Ended, nothing logged"],["live","Live now"],["ended","All ended"]].forEach(([k,l])=>{
+    const b=document.createElement("button");b.className="chip";b.textContent=l;
+    b.setAttribute("aria-pressed",HFILTER===k);
+    b.onclick=()=>{HFILTER=k;buildHistChips();renderHist()};box.appendChild(b)})}
+
+$("#syncbtn").onclick=doSync;
+$("#pickbtn").onclick=pickRoot;
+$("#logbtn").onclick=()=>$("#synclog").classList.toggle("on");
+$("#fallbackpick").onchange=e=>ingestFileList(e.target.files);
+$("#expbtn").onclick=()=>{
+  const blob=new Blob([JSON.stringify({exported:new Date().toISOString(),...HIST},null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  a.download="treo-campaign-history.json";a.click();URL.revokeObjectURL(a.href)};
+$("#claudebtn").onclick=async()=>{
+  const lines=["Treo Outreach Engine — campaign history export","Fill in or correct any numbers from the screenshots in these folders.",""];
+  Object.values(HIST.items).forEach(it=>{
+    lines.push(`## ${it.cid||"(unassigned)"} — folder "${it.folder}"`);
+    lines.push("files: "+(it.files||[]).map(f=>f.name).join(", ")||"none");
+    METRICS.forEach(m=>{const v=eff(it,m.k);if(v!=null)lines.push(`${m.l}: ${v}${it.man[m.k]!=null?" (typed)":` (${it.src[m.k]||"sheet"})`}`)});
+    if(it.note)lines.push("notes: "+it.note);
+    lines.push("")});
+  const txt=lines.join("\n");
+  try{await navigator.clipboard.writeText(txt);$("#claudebtn").textContent="Copied ✓";setTimeout(()=>$("#claudebtn").textContent="Copy for Claude",1600)}
+  catch(e){openDrawer("Copy this into Claude",[],txt)}};
 
 /* ─────────── boot ─────────── */
 buildChips(); buildCampChips(); renderCal(); renderWeeks(); renderWebinars(); renderApprovals();
+buildHistChips(); renderHist();
 $("#today").textContent=new Date().toLocaleDateString("en-ZA",{weekday:"short",day:"numeric",month:"short",year:"numeric"});
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
 

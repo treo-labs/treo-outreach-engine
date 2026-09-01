@@ -1,5 +1,5 @@
 /* Bump CACHE on every index.html change or installed apps serve a stale copy forever. */
-const CACHE = "treo-outreach-v5";
+const CACHE = "treo-outreach-v6";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", e => {
@@ -24,6 +24,13 @@ self.addEventListener("fetch", e => {
     );
     return;
   }
-  // App shell: cache first
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+  // App shell: cache first, and keep what we fetch (xlsx.full.min.js is loaded
+  // lazily on the first sync — caching it means sync works offline after that)
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).then(resp => {
+    if (resp.ok && url.origin === self.location.origin) {
+      const copy = resp.clone();
+      caches.open(CACHE).then(c => c.put(e.request, copy));
+    }
+    return resp;
+  })));
 });
