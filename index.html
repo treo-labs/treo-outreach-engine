@@ -1159,6 +1159,12 @@ const METRICS=[
  {k:"bounces",  g:"em", l:"Bounces",         a:["bounces","bounced","hard bounces","bounce","undelivered"]},
 ];
 const MBY=Object.fromEntries(METRICS.map(m=>[m.k,m]));
+/* How much to trust a number, by how it was found. A value read from an
+   explicit "Replies | 43" pair beats one inferred from a row count however
+   much bigger the latter is — "largest wins" is what let a LinkedIn URN in a
+   contacts export become a reply count of 1.2 billion. */
+const CONF={explicit:3,summaryCol:2,flagCount:1,rowCount:0};
+const MAX_COUNT=5000000;
 /* rate labels seen in exports — captured separately so "reply rate" never
    lands in the "replies" count */
 const RATE_ALIAS={"accept rate":"acc","acceptance rate":"acc","connection accept rate":"acc",
@@ -1267,9 +1273,12 @@ function colName(i){let s="";i++;while(i>0){const r=(i-1)%26;s=String.fromCharCo
 
 function scanGrid(grid,label,rec){
   const R=grid.length;
-  /* (a) label → value pairs anywhere on the sheet */
+  /* (a) label → value pairs — but only on rows SHAPED like a label and a
+     value. A 30-column row in a contacts export is data, and a cell in it
+     that happens to read "Replied" is not a label for the number beside it. */
   for(let r=0;r<R;r++){
     const row=grid[r]||[];
+    if(row.filter(x=>x!=null&&x!=="").length>3)continue;
     for(let c=0;c<row.length;c++){
       const cell=row[c];
       if(typeof cell!=="string")continue;
@@ -1282,7 +1291,7 @@ function scanGrid(grid,label,rec){
       if(v==null)v=toNum(row[c+2]);
       if(v==null)v=toNum((grid[r+1]||[])[c]);
       if(v==null||v<0||v!==Math.round(v))continue;
-      rec.put(mk,v,`${label} ${colName(c)}${r+1}`);
+      rec.put(mk,v,`${label} ${colName(c)}${r+1}`,CONF.explicit);
     }
   }
   /* (b) contact-list shape: header row, then one row per contact */
@@ -1295,7 +1304,7 @@ function scanGrid(grid,label,rec){
   const heads=(grid[hr]||[]).map(h=>typeof h==="string"?h.trim():"");
   const body=grid.slice(hr+1).filter(row=>(row||[]).some(x=>x!=null&&x!==""));
   if(!body.length)return;
-  if(body.length>1)rec.put("list",body.length,`${label} — ${body.length} rows`);
+  if(body.length>1)rec.put("list",body.length,`${label} — ${body.length} rows`,CONF.rowCount);
   heads.forEach((h,c)=>{
     if(!h)return;
     const mk=aliasOf(h);const rk=rateAliasOf(h);
@@ -1304,11 +1313,11 @@ function scanGrid(grid,label,rec){
       if(nums.length===1)rec.rates[rk]={v:nums[0],from:`${label} col ${h}`};return}
     if(!mk)return;
     const nums=vals.map(toNum).filter(v=>v!=null&&v>=0);
-    if(body.length===1&&nums.length===1){rec.put(mk,nums[0],`${label} col ${h}`);return}
+    if(body.length===1&&nums.length===1){rec.put(mk,nums[0],`${label} col ${h}`,CONF.summaryCol);return}
     /* a flag column — count how many contacts it is true for */
     const flagish=vals.every(v=>v==null||v===""||typeof v==="boolean"||v instanceof Date||(typeof v==="string"&&v.length<24)||(typeof v==="number"&&(v===0||v===1)));
-    if(flagish){const n=vals.filter(truthy).length;if(n>0)rec.put(mk,n,`${label} col ${h} — ${n} of ${body.length}`)}
-    else if(nums.length===body.length&&body.length<=3){rec.put(mk,nums.reduce((a,b)=>a+b,0),`${label} col ${h} (summed)`)}
+    if(flagish){const n=vals.filter(truthy).length;if(n>0)rec.put(mk,n,`${label} col ${h} — ${n} of ${body.length}`,CONF.flagCount)}
+    else if(nums.length===body.length&&body.length<=3){rec.put(mk,nums.reduce((a,b)=>a+b,0),`${label} col ${h} (summed)`,CONF.summaryCol)}
   })
 }
 
@@ -1396,8 +1405,17 @@ async function ingestFolder(folder,files){
             name:prev.name,brand:prev.brand,act:prev.act,ran:prev.ran,meta:prev.meta};
   if(prev.cid)it.cid=prev.cid;
   if(prev.src)Object.assign(it.src,prev.src);
-  const rec={put(k,v,from){ /* first sighting wins unless the new one is larger and same file kind */
-      if(it.m[k]==null||v>it.m[k]){it.m[k]=v;it.src[k]=from}},rates:it.rates};
+  const conf={};
+  const rec={
+    put(k,v,from,c){
+      c=c==null?CONF.explicit:c;
+      if(!(v>=0)||v>MAX_COUNT||v!==Math.round(v))return;   /* no URNs, no ids */
+      if(conf[k]!=null){
+        if(conf[k]>c)return;                 /* a better-sourced value already stands */
+        if(conf[k]===c&&it.m[k]!=null)return; /* same confidence: first seen wins */
+      }
+      it.m[k]=v;it.src[k]=from;conf[k]=c;
+    },rates:it.rates};
   let sheets=0,imgs=0;
   const keptShots=[];
   for(const f of files){
@@ -1413,6 +1431,14 @@ async function ingestFolder(folder,files){
       keptShots.push({id,name:f.name,size:file.size});imgs++;
     }
   }
+  /* Anything many times bigger than the list is noise from some other file
+     that happens to share the folder — a different export, an old list. */
+  const L=it.m.list;
+  if(L>0)METRICS.forEach(m=>{
+    if(m.k!=="list"&&it.m[m.k]!=null&&it.m[m.k]>L*10){
+      log("warn",`${folder}: ignored ${m.l} of ${it.m[m.k]} — implausible against a list of ${L} (${it.src[m.k]||"unknown source"})`);
+      delete it.m[m.k];delete it.src[m.k];
+    }});
   it.shots=keptShots;
   /* drop images that are no longer in the folder */
   (prev.shots||[]).forEach(s=>{if(!keptShots.some(k=>k.id===s.id))idbDel("shots",s.id)});
@@ -1525,7 +1551,12 @@ function renderHist(){
   const S=[
     ["Campaigns recorded",dataItems.length,`${withData.length} of ${CAMPAIGNS.length} in the plan${orphans.length?` · ${orphans.length} outside it`:""}`],
     ["Contacts reached",sum("list")||sum("invites")||sum("delivered"),"across every synced list"],
-    ["Replies",sum("replies"),(()=>{const d=sum("msgs")||sum("list")||sum("accepted");const v=pct(sum("replies"),d);return v==null?"no denominator yet":`${fmtPct(v)} reply rate`})()],
+    ["Replies",sum("replies"),(()=>{
+      /* Each campaign's own denominator, then summed. Summing replies over a
+         single campaign's message count is how you get a 940% reply rate. */
+      const d=dataItems.reduce((a,it)=>a+(eff(it,"msgs")||eff(it,"list")||eff(it,"accepted")||0),0);
+      const v=pct(sum("replies"),d);
+      return v==null?"no denominator yet":`${fmtPct(v)} of ${d.toLocaleString("en-ZA")} contacted`})()],
     ["Emails delivered",sum("delivered"),(()=>{const v=pct(sum("opens"),sum("delivered"));return v==null?"no email data yet":`${fmtPct(v)} open rate · target 40%`})()],
     ["Meetings booked",sum("meetings"),"the number that pays for the plan"],
     ["Ended, no data",rows.filter(r=>r.st==="done"&&!r.has).length,"campaigns waiting on a folder"],
