@@ -304,10 +304,22 @@ Two settings that will otherwise cost you an afternoon:
   `supabase functions deploy expandi-webhook --no-verify-jwt`, or in the
   dashboard: Edge Functions → expandi-webhook → Details → "Verify JWT with
   legacy secret" → off.
-- **Add a secret** named `EXPANDI_HOOK_KEY` under Project Settings → Edge
-  Functions → Secrets. Invent a long random string. It goes in the webhook
-  URL and is the only thing between this endpoint and the open internet, so
-  make it unguessable and keep it out of screenshots.
+- **Add one secret**, named `EXPANDI_HOOK_KEY`, under Project Settings →
+  Edge Functions → Secrets. Invent a long random string. It goes in the
+  webhook URL and is the only thing between this endpoint and the open
+  internet, so make it unguessable and keep it out of screenshots. **Save
+  the value in a password manager as you create it** — Supabase stores only
+  a SHA-256 digest and will never show it to you again. Losing it is not a
+  disaster: replace the secret under the same name and update the six
+  Expandi URLs.
+
+  That is the only secret to add. The key that lets the function write to
+  the database already ships with the project, and `resolveServiceKey()`
+  picks it up: it prefers `SUPABASE_SECRET_KEYS` (the current JSON
+  dictionary), falls back to `SUPABASE_SERVICE_ROLE_KEY` (still injected,
+  flagged DEPRECATED, so one day it will vanish), and honours a custom
+  `SUPABASE_SECRET_KEY` first if you ever need to pin one by hand. It logs
+  which it used on startup, and `MISSING` there means nothing will save.
 
 Success: opening the function URL in a browser with the right `key` returns
 "expandi-webhook is up. It accepts POST." A wrong or missing key returns
