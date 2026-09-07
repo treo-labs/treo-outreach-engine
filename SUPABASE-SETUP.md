@@ -256,3 +256,138 @@ Until you run it, the Replies tab works exactly as before, local to the
 browser. Sync simply logs a warning for that one table and carries on with
 the rest.
 
+
+## Update 004 — live Expandi numbers
+
+The History tab has always waited for a folder with an export in it.
+Expandi already knows these numbers and will post every event as it
+happens, so this update takes them straight from the source. Once it is
+running, a campaign that launches needs no folder, no export and no
+screenshots — the numbers appear on their own.
+
+**Nothing in `index.html` changes.** The roll-up writes into
+`campaign_metrics`, which the app already reads on a cloud pull
+(`index.html:1912`), and it only ever writes rows with `is_manual = false`.
+`eff()` prefers a manual value, so every number you typed off a screenshot
+still wins. That is why this needed no UI work.
+
+### The one thing to understand first
+
+Webhooks cannot backfill. EX-01, EX-02, EX-04 and EX-09 have been running
+since late August, and the events that already fired are gone for good. So
+`expandi_baseline` holds each campaign's totals as they stand on the day
+the hooks go live, and the roll-up adds live events *fired after that
+moment* on top. A campaign launching later needs no baseline row and simply
+counts from zero.
+
+Get the baselines wrong and every number stays wrong by a constant, so read
+them off Expandi's own campaign list rather than estimating.
+
+### Step 1 — the schema
+
+Run `sql/004_expandi_live.sql` once, after 001, 002 and 003. Click once in
+the editor, Ctrl-A, paste, Run.
+
+Success: two new tables. Run verification query (a) at the bottom of the
+file — expect 2 rows, `rls_enabled = true`, with 3 and 4 policies.
+
+### Step 2 — the endpoint
+
+Create an Edge Function called `expandi-webhook` from
+`supabase/functions/expandi-webhook/index.ts`.
+
+Two settings that will otherwise cost you an afternoon:
+
+- **Verify JWT must be OFF.** Expandi can only be given a URL; it cannot
+  send an `Authorization` header, so a verified function rejects every
+  delivery with a 401 and Expandi reports them all as failed.
+  `supabase functions deploy expandi-webhook --no-verify-jwt`, or in the
+  dashboard: Edge Functions → expandi-webhook → Details → "Verify JWT with
+  legacy secret" → off.
+- **Add a secret** named `EXPANDI_HOOK_KEY` under Project Settings → Edge
+  Functions → Secrets. Invent a long random string. It goes in the webhook
+  URL and is the only thing between this endpoint and the open internet, so
+  make it unguessable and keep it out of screenshots.
+
+Success: opening the function URL in a browser with the right `key` returns
+"expandi-webhook is up. It accepts POST." A wrong or missing key returns
+401, which is the gate working.
+
+### Step 3 — the baselines
+
+For every campaign already running, read the four numbers off Expandi's
+campaign list and insert them with `as_of` set to the moment you are about
+to create the webhooks. `source` is not decoration — it is how anyone
+checks the number later.
+
+```sql
+insert into expandi_baseline (campaign_code, metric_key, value, as_of, source) values
+  ('EX-04','list',     9, now(), 'Expandi campaign list: 9 people in total'),
+  ('EX-04','invites',  9, now(), 'Expandi: Initiated 100%, 9 of 9'),
+  ('EX-04','accepted', 2, now(), 'Expandi: Connected 22.22%, 2 of 9'),
+  ('EX-04','replies',  1, now(), 'Expandi: Replied 11.11%, 1 of 9')
+on conflict (campaign_code, metric_key) do update
+  set value = excluded.value, as_of = excluded.as_of,
+      source = excluded.source, updated_at = now();
+```
+
+### Step 4 — the webhooks in Expandi
+
+Per **seat**, not per campaign. This is the part that stops the job from
+growing with the plan: the campaign comes out of the request body, so one
+set of hooks covers every campaign that seat will ever run.
+
+In Expandi → LinkedIn settings → Webhooks → Add a webhook, six times.
+Leave **Campaign** on *Any campaign*. Target URL:
+
+```
+https://<project>.supabase.co/functions/v1/expandi-webhook?key=<EXPANDI_HOOK_KEY>&event=<event>
+```
+
+| Expandi event                                              | `&event=`             |
+|------------------------------------------------------------|-----------------------|
+| Contact added to campaign                                  | `contact_added`       |
+| Connection Request Sent                                    | `connection_sent`     |
+| Connection Request Accepted by Contact in Active Campaign  | `connection_accepted` |
+| Contact Replied to Campaign Message                        | `replied`             |
+| Contact tagged                                             | `tagged`              |
+| Campaign finished                                          | `campaign_finished`   |
+
+The event name is in the URL rather than read from the body on purpose:
+Expandi's internal event names do not match the labels in its own UI — the
+hook created as "Connection request accepted" posts
+`hook.event = "linked_in_messenger.campaign_new_contact"` — so trusting the
+body would silently mis-file events if Expandi renamed one.
+
+Two traps:
+
+- Expandi will not save a webhook until you press **Send test**, and that
+  test is a real POST that lands as a real event. Create the hooks *after*
+  the baselines are in, and expect one test event per hook. They are one
+  contact-less row each and the roll-up counts distinct contacts, so they do
+  not move any number — but they will sit in `expandi_events`.
+- **Contact tagged** makes *Filter by tags* mandatory, and the four tags in
+  Treo's Expandi account are Metaltech opportunity, Metsim opportunity, Treo
+  opportunity and Ignore. Pick whichever of those you actually use; the tags
+  arrive in the body as `contact.tags` either way.
+
+### Step 5 — see it
+
+Sign in on the Cloud panel (the chip reads "Configured, not signed in"
+until you do — and until then the whole History tab lives in one browser's
+localStorage), then Sync. The numbers appear against each campaign with a
+source line reading `Expandi live · 07 Sep 14:12 (baseline 2 as at 06 Sep +
+2 since)`, so any total can be taken apart.
+
+To check the plumbing without waiting for a real event:
+
+```sql
+select campaign_code, event, count(*) from expandi_events group by 1,2 order by 1,2;
+select * from v_expandi_live order by campaign_code, metric_key;
+select * from v_expandi_unlinked;   -- empty is good
+```
+
+`v_expandi_unlinked` is the one to watch. A row there means Expandi sent a
+campaign name this app could not place — usually a campaign renamed after
+launch, or one created without its code in the name. Nothing is dropped
+silently; it waits there to be explained.
