@@ -325,45 +325,105 @@ Success: opening the function URL in a browser with the right `key` returns
 "expandi-webhook is up. It accepts POST." A wrong or missing key returns
 401, which is the gate working.
 
-### Step 3 — the baselines
+### Step 3 — sign in and sync, so the campaigns exist
 
-For every campaign already running, read the four numbers off Expandi's
-campaign list and insert them with `as_of` set to the moment you are about
-to create the webhooks. `source` is not decoration — it is how anyone
-checks the number later.
+**This has to happen before the baselines, and the order is not a
+preference.** `expandi_baseline.campaign_code` is a foreign key to
+`campaigns (code)`, and that table is populated by the app's own cloud
+sync. Until you have signed in on the Cloud panel and pushed, it is empty
+in Supabase and the baseline insert fails outright:
 
-```sql
-insert into expandi_baseline (campaign_code, metric_key, value, as_of, source) values
-  ('EX-04','list',     9, now(), 'Expandi campaign list: 9 people in total'),
-  ('EX-04','invites',  9, now(), 'Expandi: Initiated 100%, 9 of 9'),
-  ('EX-04','accepted', 2, now(), 'Expandi: Connected 22.22%, 2 of 9'),
-  ('EX-04','replies',  1, now(), 'Expandi: Replied 11.11%, 1 of 9')
-on conflict (campaign_code, metric_key) do update
-  set value = excluded.value, as_of = excluded.as_of,
-      source = excluded.source, updated_at = now();
+```
+ERROR: insert or update on table "expandi_baseline" violates foreign key constraint
+DETAIL: Key (campaign_code)=(EX-01) is not present in table "campaigns".
 ```
 
-### Step 4 — the webhooks in Expandi
+So: open the Cloud panel, sign in with your Treo address (the RLS in 002
+refuses anything else), and Sync. Success looks like the chip changing from
+"Configured, not signed in", and `select count(*) from campaigns;`
+returning the number of campaigns in your plan rather than 0.
+
+This step is worth doing for its own sake anyway — until you sign in, the
+whole History tab lives in one browser's localStorage, so nothing you
+build is visible to anyone else.
+
+### Step 4 — the baselines
+
+Run `sql/005_expandi_baselines.sql`. It carries the real figures read off
+Expandi's campaign list on Kyle's seat, with every value quoted in its
+`source` column so anyone can check it against the same screen.
+
+**Re-read the figures if more than an hour has passed.** These campaigns
+move: EX-01 went from 2 of 5 connected to 3 of 5 overnight, and EX-09 from
+56 of 65 initiated to 62 of 65. A stale baseline is wrong by a constant for
+the life of the campaign, and it is the one error here that never
+self-corrects.
+
+What that file covers, and what it deliberately does not:
+
+| Campaign | Baselined | Why |
+|---|---|---|
+| EX-01, EX-02, EX-04 | list, invites, accepted, replies | connector campaigns — Expandi reports Initiated, Connected and Replied |
+| EX-09 | list, msgs, replies | messenger campaign to existing connections: Expandi shows "In Queue", not "Connected", and Initiated counts messages rather than invitations. No `accepted` row, because a zero there would read as "nobody accepted" when the truth is "there was nothing to accept" |
+| EX-11 | no | created 07 Sept, 0 people, not running |
+| HS-03, HS-08 | no | email campaigns, so HubSpot's numbers |
+| PRE-01 | no | it was sent **by hand**, not as an Expandi campaign, so there is no campaign to report on and never will be. Its numbers are typed in through *Add numbers* — and the roll-up never touches a hand-typed value, so they are safe there |
+| Calvin's campaigns | no | all eight are outside the 18-campaign plan, so none has a plan code to baseline against. Once his seat's hooks are live they surface in `v_expandi_unlinked` |
+
+### Email campaigns are not Expandi's to report
+
+Anything **EMAIL** is a HubSpot sequence; anything **IM** is an Expandi
+campaign. That split is already respected here: `expandi_baseline` accepts
+only the outreach-funnel keys (`list`, `invites`, `accepted`, `msgs`,
+`replies`), so the email keys (`delivered`, `opens`, `clicks`, `unsubs`,
+`bounces`) stay free for HubSpot to fill.
+
+The two **EMAIL + IM** campaigns in the plan, PW-02 and PW-03, need both
+sources: Expandi for the IM half, HubSpot for the email half. Nothing in
+004 or 005 touches the email half, so it stays whatever the folder sync or
+a HubSpot feed puts there.
+
+### Step 5 — the webhooks in Expandi
 
 Per **seat**, not per campaign. This is the part that stops the job from
 growing with the plan: the campaign comes out of the request body, so one
 set of hooks covers every campaign that seat will ever run.
 
-In Expandi → LinkedIn settings → Webhooks → Add a webhook, six times.
+In Expandi → LinkedIn settings → Webhooks → Add a webhook, seven times.
 Leave **Campaign** on *Any campaign*. Target URL:
 
 ```
 https://<project>.supabase.co/functions/v1/expandi-webhook?key=<EXPANDI_HOOK_KEY>&event=<event>
 ```
 
-| Expandi event                                              | `&event=`             |
-|------------------------------------------------------------|-----------------------|
-| Contact added to campaign                                  | `contact_added`       |
-| Connection Request Sent                                    | `connection_sent`     |
-| Connection Request Accepted by Contact in Active Campaign  | `connection_accepted` |
-| Contact Replied to Campaign Message                        | `replied`             |
-| Contact tagged                                             | `tagged`              |
-| Campaign finished                                          | `campaign_finished`   |
+The first five are what the roll-up actually counts — each one feeds exactly
+one metric the History tab reads. Miss one and that number freezes at its
+baseline for ever.
+
+| Expandi event                                              | `&event=`             | Feeds metric |
+|------------------------------------------------------------|-----------------------|--------------|
+| Contact added to campaign                                  | `contact_added`       | `list`       |
+| Connection Request Sent                                    | `connection_sent`     | `invites`    |
+| Connection Request Accepted by Contact in Active Campaign  | `connection_accepted` | `accepted`   |
+| Contact Replied to Campaign Message                        | `replied`             | `replies`    |
+| **Message sent**                                           | **`message_sent`**    | **`msgs`**   |
+
+`message_sent` is easy to skip and matters more than it looks: it is the
+only source of `msgs`, which for a messenger campaign like EX-09 is the
+whole top of the funnel. EX-09 has no connection step at all, so without
+this hook its 62 messages would sit frozen at the baseline while the
+campaign carried on.
+
+The last two are stored but not counted — they cost nothing now and save a
+migration later:
+
+| Expandi event    | `&event=`           | Why |
+|------------------|---------------------|-----|
+| Contact tagged   | `tagged`            | carries `contact.tags`, so sentiment and interest can be derived later without re-plumbing |
+| Campaign finished| `campaign_finished` | tells you a campaign ended without anyone having to notice |
+
+`seat_idle` is in the function's event list too, but nothing reads it yet —
+skip it unless you want the alert.
 
 The event name is in the URL rather than read from the body on purpose:
 Expandi's internal event names do not match the labels in its own UI — the
@@ -383,7 +443,7 @@ Two traps:
   opportunity and Ignore. Pick whichever of those you actually use; the tags
   arrive in the body as `contact.tags` either way.
 
-### Step 5 — see it
+### Step 6 — see it
 
 Sign in on the Cloud panel (the chip reads "Configured, not signed in"
 until you do — and until then the whole History tab lives in one browser's
