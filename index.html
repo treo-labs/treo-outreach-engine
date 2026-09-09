@@ -275,6 +275,28 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-fa
 .frow2.last{border-top:1px dashed var(--line);padding-top:.55rem;margin-top:.15rem}
 .ccount{font-family:var(--f-mono);font-size:.66rem;color:var(--muted);margin-left:auto;padding-right:.4rem}
 .chip.sm2{font-size:.62rem;padding:.26rem .5rem}
+.filterwrap{border:1px solid var(--line);border-left:3px solid var(--line-strong);background:var(--surface);margin-top:1.4rem}
+summary.filterhd{display:flex;align-items:center;gap:.5rem;padding:.42rem .8rem;cursor:pointer;user-select:none;list-style:none}
+summary.filterhd::-webkit-details-marker{display:none}
+.filterhd .fh{font-family:var(--f-mono);font-size:.64rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+.filterhd:hover .fh{color:var(--ink)}
+.filterhd .tw{font-family:var(--f-mono);font-weight:700;font-size:.85rem;color:var(--line-strong);width:.8rem;text-align:center;flex:none}
+details[open]>.filterhd .tw::after{content:"–"}
+details:not([open])>.filterhd .tw::after{content:"+"}
+.filterhd .fon{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.filterhd .ccount{margin-left:auto;padding-right:0}
+.fgrid{display:flex;flex-wrap:wrap;gap:.4rem 1.3rem;padding:.1rem .8rem .7rem;border-top:1px dashed var(--line)}
+.fg{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem}
+.fg.wide{flex:1 1 15rem}
+.fg>.lbl{font-family:var(--f-mono);font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);min-width:auto}
+.fg input[type=search],.fg input[type=date]{font-family:var(--f-body);font-size:.78rem;padding:.26rem .4rem;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:2px}
+.fg input[type=search]{flex:1;min-width:10rem}
+.fg input:focus{outline:none;border-color:var(--accent)}
+.ctrlbar{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin-top:.5rem}
+.ctrlbar>.lbl{font-family:var(--f-mono);font-size:.62rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+.ctrlbar select{font-family:var(--f-body);font-size:.78rem;padding:.26rem .4rem;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:2px}
+.ctrlbar select:focus{outline:none;border-color:var(--accent)}
+.ctrlbar .pushright{margin-left:auto}
 
 /* ══════════ collapsible weeks ══════════ */
 summary{list-style:none}
@@ -367,29 +389,34 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
 <section class="view" id="v-camp">
   <div class="eyebrow">Campaign runway</div>
   <h2 class="vh">What launches, week by week</h2>
-  <p class="lede"><span id="campcount">18</span> campaigns across <span id="wkcount">8</span> weeks. Expand any week to see the day-by-day actions; click a campaign for its audience, list source and dates.</p>
-  <div class="note"><b>METSIM is parked.</b> EX-03, EX-07, HS-02, HS-06, PW-01 and PW-04 came out of the plan on 1 Sept and nothing below renders them. The two METSIM webinars still run on 8 Sept and 13 Oct, and PRE-01 and PRE-04 remind whoever registered on the LinkedIn events — so the sessions are not orphaned, but there is no METSIM invite, renewal or post-webinar activity while the programme is on hold. They are listed under <b>Parked</b> at the bottom of this tab and come back with one click.</div>
+  <p class="lede"><span id="campcount">28</span> campaigns. <b>Current week</b> and <b>next week</b> are open below; earlier weeks roll up under <b>Previous campaigns</b> and later ones under <b>Future campaigns</b>. Expand any week for its day-by-day actions, or click a campaign for its audience, list source and dates.</p>
 
-  <div class="filters">
-    <div class="frow2"><span class="lbl">Find</span><input type="search" id="cq" placeholder="ID, name, audience, list source, CTA or note…"></div>
-    <div class="frow2"><span class="lbl">Brand</span><span id="fcamp"></span></div>
-    <div class="frow2"><span class="lbl">Type</span><span id="ftype"></span></div>
-    <div class="frow2"><span class="lbl">Stage</span><span id="fstage"></span></div>
-    <div class="frow2"><span class="lbl">Status</span><span id="fstatus"></span></div>
-    <div class="frow2"><span class="lbl">Launching</span><input type="date" id="cfrom"><span class="lbl" style="margin:0">to</span><input type="date" id="cto"><button class="rowbtn" id="cdclear">Clear dates</button></div>
-    <div class="frow2 last">
-      <span class="lbl">View</span><span id="fview"></span>
-      <span class="lbl" style="margin-left:.8rem">Sort</span>
-      <select id="csort">
-        <option value="launch">Launch date</option><option value="ends">End date</option>
-        <option value="build">Build date</option><option value="id">Campaign ID</option>
-        <option value="name">Name</option><option value="brand">Brand</option>
-        <option value="status">Status</option><option value="steps">Steps</option>
-      </select>
-      <button class="rowbtn" id="cdir" title="Reverse the sort">↑ oldest first</button>
-      <span class="ccount" id="ccount"></span>
-      <button class="rowbtn" id="cclear">Reset filters</button>
+  <details class="filterwrap" id="filterwrap">
+    <summary class="filterhd"><span class="tw"></span><span class="fh">Filters</span>
+      <span class="fon" id="factive"></span>
+      <span class="ccount" id="ccount"></span></summary>
+    <div class="fgrid">
+      <div class="fg wide"><span class="lbl">Find</span><input type="search" id="cq" placeholder="ID, name, audience, CTA or note…"></div>
+      <div class="fg"><span class="lbl">Brand</span><span id="fcamp"></span></div>
+      <div class="fg"><span class="lbl">Type</span><span id="ftype"></span></div>
+      <div class="fg"><span class="lbl">Stage</span><span id="fstage"></span></div>
+      <div class="fg"><span class="lbl">Status</span><span id="fstatus"></span></div>
+      <div class="fg"><span class="lbl">Launching</span><input type="date" id="cfrom"><span class="lbl" style="min-width:auto">to</span><input type="date" id="cto"><button class="rowbtn" id="cdclear">Clear dates</button></div>
     </div>
+  </details>
+
+  <div class="ctrlbar">
+    <span class="lbl">View</span><span id="fview"></span>
+    <span class="lbl" style="margin-left:.6rem">Sort</span>
+    <select id="csort">
+      <option value="launch">Launch date</option><option value="ends">End date</option>
+      <option value="build">Build date</option><option value="id">Campaign ID</option>
+      <option value="name">Name</option><option value="brand">Brand</option>
+      <option value="status">Status</option><option value="steps">Steps</option>
+    </select>
+    <button class="rowbtn" id="cdir" title="Reverse the sort">↑ oldest first</button>
+    <button class="rowbtn pushright" id="cclear">Reset filters</button>
+  </div>
   </div>
 
   <div class="campbar">
@@ -439,6 +466,7 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
     <div class="frow2"><span class="lbl">Type</span><span id="fhtype"></span></div>
     <div class="frow2 last"><span class="lbl">Sort</span>
       <select id="hsort">
+        <option value="near">Closest to now</option>
         <option value="launch">Launch date</option><option value="ends">End date</option>
         <option value="id">Campaign ID</option><option value="replies">Replies</option>
         <option value="reply_rate">Reply rate</option><option value="list">List size</option>
@@ -751,7 +779,7 @@ const STAGE_LABEL={upcoming:"Upcoming",live:"Live now",ended:"Ended"};
 function campMatches(c){
   if(CF.brand.size){const b=c.btag||"";
     if(![...CF.brand].some(t=>b===t||b.split(" + ").includes(t)))return false}
-  if(CF.type.size){const t=typeOf(c.id);if(!t||!CF.type.has(t.k))return false}
+  if(CF.type.size&&!CF.type.has(actKey(c.act)))return false;
   if(CF.stage.size&&!CF.stage.has(stageOf(c)))return false;
   if(CF.status.size&&!CF.status.has(c.status))return false;
   if(CF.from&&(!c.launch||c.launch<CF.from))return false;
@@ -781,6 +809,11 @@ function renderWeeks(){
   const filtering=!!(CF.q||CF.brand.size||CF.type.size||CF.stage.size||CF.status.size||CF.from||CF.to);
   $("#ccount").textContent=`${shown.length} of ${CAMPAIGNS.length} campaigns${filtering?" match":""}`;
   const wk=$("#wkcount"); if(wk)wk.textContent=WEEK_STARTS.length;
+  const cc=$("#campcount"); if(cc)cc.textContent=CAMPAIGNS.length;
+  /* A filter that is on while the panel is shut is a trap — say so in the
+     summary, and open the panel so it can be seen and undone. */
+  const fa=$("#factive"); if(fa)fa.textContent=filtering?"· filtering":"";
+  const fw=$("#filterwrap"); if(fw&&filtering&&!fw.open)fw.open=true;
   if(CF.view==="list")return renderCampList(host,shown);
 
   const today=iso(new Date());
@@ -937,7 +970,7 @@ function syncDirBtn(){
 }
 function buildCampChips(){
   chipset("#fcamp",["SERV","METSIM","TECH","ALL"],CF.brand);
-  chipset("#ftype",TYPES.map(t=>[t.k,t.k]),CF.type,"sm2");
+  chipset("#ftype",[["IM","IM"],["EMAIL","EMAIL"],["BOTH","BOTH"]],CF.type,"sm2");
   chipset("#fstage",[["upcoming","Upcoming"],["live","Live now"],["ended","Ended"]],CF.stage,"sm2");
   chipset("#fstatus",STATUSES.map(s=>[s,s]),CF.status,"sm2");
   const vb=$("#fview");vb.innerHTML="";vb.style.cssText="display:flex;gap:.35rem";
@@ -1007,6 +1040,10 @@ const FIELDS=["id","brand","channel","name","aud","src","steps","cta","build","l
 let ALL_CAMPS=[], CAMPAIGNS=[], CDEL=new Set();
 
 function typeOf(id){const m=/^([A-Z]+)-/.exec(id||"");const t=m&&TYPES.find(t=>t.k===m[1]);return t||null}
+/* What a campaign actually did, not what its code starts with. Code
+   prefixes only covered EX/HS/PRE/PW, so anything else — the BAU
+   sequences, say — could not be filtered at all. */
+function actKey(act){return act==="EMAIL + IM"?"BOTH":act==="EMAIL"?"EMAIL":act==="IM"?"IM":""}
 function campSort(a,b){
   const oi=id=>{const m=/^([A-Z]+)-/.exec(id);const i=TYPES.findIndex(t=>t.k===(m?m[1]:""));return i<0?TYPES.length:i};
   const num=id=>{const m=/-(\d+)/.exec(id);return m?+m[1]:999};
@@ -1327,8 +1364,18 @@ function funnel(it,grp){
 }
 
 let HFILTER="all";
-const HF={brand:new Set(),type:new Set(),sort:"launch",dir:1};
+const HF={brand:new Set(),type:new Set(),sort:"near",dir:1};
 function histVal(it,c,k){
+  if(k==="near"){
+    /* 0 while a campaign is running, otherwise days to or since it. Sorts
+       the current week to the top and works outwards in both directions. */
+    const t=new Date();t.setHours(0,0,0,0);
+    const from=c&&c.launch?parse(c.launch):(it&&it.ran?parse(it.ran.from):null);
+    const to=c&&c.ends?parse(c.ends):from;
+    if(!from)return 9e9;
+    if(t>=from&&t<=(to||from))return 0;
+    return Math.round(Math.abs((t<from?from-t:t-(to||from))/86400000));
+  }
   if(k==="id"||k==="launch"||k==="ends")return c?(k==="id"?c.id:c[k]||"9999-99-99"):(it&&it.ran?it.ran.from:"9999-99-99");
   if(!it)return -1;
   if(k==="reply_rate"){const n=eff(it,"replies"),d=eff(it,"msgs")||eff(it,"list")||eff(it,"accepted");return (n!=null&&d)?n/d:-1}
@@ -1346,7 +1393,7 @@ function renderHist(){
   const orphans=Object.values(HIST.items).filter(it=>!it.cid);
   let shown=rows.filter(r=>HFILTER==="all"||(HFILTER==="data"&&r.has)||(HFILTER==="ended"&&r.st==="done")||(HFILTER==="gap"&&r.st==="done"&&!r.has)||(HFILTER==="live"&&r.st==="live"));
   if(HF.brand.size)shown=shown.filter(r=>{const b=r.c.btag||"";return [...HF.brand].some(t=>b===t||b.split(" + ").includes(t))});
-  if(HF.type.size)shown=shown.filter(r=>{const t=typeOf(r.c.id);return t&&HF.type.has(t.k)});
+  if(HF.type.size)shown=shown.filter(r=>HF.type.has(actKey(r.c.act)));
   shown.sort((a,b)=>{const x=histVal(a.it,a.c,HF.sort),y=histVal(b.it,b.c,HF.sort);
     return (x<y?-1:x>y?1:0)*HF.dir||campSort(a.c,b.c)});
   const hc=$("#hcount");
@@ -1475,8 +1522,9 @@ function closePanel(){$("#panel").classList.remove("on");$("#scrim").classList.r
 $("#pclose").onclick=closePanel;
 
 /* ─────────── toolbar wiring ─────────── */
-function syncHDir(){const d=["launch","ends"].includes(HF.sort);
-  $("#hdir").textContent=HF.dir>0?(d?"↑ oldest first":"↑ lowest first"):(d?"↓ newest first":"↓ highest first")}
+function syncHDir(){const d=["launch","ends"].includes(HF.sort), n=HF.sort==="near";
+  $("#hdir").textContent=HF.dir>0?(n?"↑ nearest first":d?"↑ oldest first":"↑ lowest first")
+                                 :(n?"↓ furthest first":d?"↓ newest first":"↓ highest first")}
 function buildHistChips(){
   const box=$("#fhist");box.innerHTML="";box.style.cssText="display:flex;gap:.35rem;flex-wrap:wrap";
   [["all","Everything"],["data","With results"],["gap","Ended, nothing logged"],["live","Live now"],["ended","All ended"]].forEach(([k,l])=>{
@@ -1484,14 +1532,14 @@ function buildHistChips(){
     b.setAttribute("aria-pressed",HFILTER===k);
     b.onclick=()=>{HFILTER=k;buildHistChips();renderHist()};box.appendChild(b)});
   chipset("#fhbrand",["SERV","METSIM","TECH","ALL"],HF.brand);
-  chipset("#fhtype",TYPES.map(t=>[t.k,t.k]),HF.type,"sm2");
+  chipset("#fhtype",[["IM","IM"],["EMAIL","EMAIL"],["BOTH","BOTH"]],HF.type,"sm2");
   /* chipset re-renders the campaign view by default — point these at history */
   $$("#fhbrand .chip, #fhtype .chip").forEach(b=>{const set=b.parentElement.id==="fhbrand"?HF.brand:HF.type;
     b.onclick=()=>{tog(set,b.dataset.t);buildHistChips();renderHist()}});
   $("#hsort").value=HF.sort;
   $("#hsort").onchange=e=>{HF.sort=e.target.value;syncHDir();renderHist()};
   $("#hdir").onclick=()=>{HF.dir*=-1;syncHDir();renderHist()};
-  $("#hclear").onclick=()=>{HFILTER="all";HF.brand.clear();HF.type.clear();HF.sort="launch";HF.dir=1;buildHistChips();renderHist()};
+  $("#hclear").onclick=()=>{HFILTER="all";HF.brand.clear();HF.type.clear();HF.sort="near";HF.dir=1;buildHistChips();renderHist()};
   syncHDir();
 }
 
