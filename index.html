@@ -280,6 +280,21 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-fa
 summary{list-style:none}
 summary::-webkit-details-marker{display:none}
 summary.wkhd{cursor:pointer;user-select:none}
+.rollup{margin-top:2.4rem;border-top:2px solid var(--line-strong)}
+summary.rollhd{display:flex;align-items:baseline;gap:.8rem;padding:.8rem 0;cursor:pointer;user-select:none;list-style:none}
+summary.rollhd::-webkit-details-marker{display:none}
+.rollhd h3{font-size:.95rem;font-weight:700;letter-spacing:.02em;color:var(--ink-2);margin:0}
+.rollhd:hover h3{color:var(--ink)}
+.rollhd .rng{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);letter-spacing:.04em}
+.rollhd .cnt{margin-left:auto;font-family:var(--f-mono);font-size:.68rem;color:var(--muted)}
+.rollhd .tw{font-family:var(--f-mono);font-weight:700;font-size:.95rem;color:var(--line-strong);width:.9rem;text-align:center;flex:none}
+details[open]>.rollhd .tw::after{content:"–"}
+details:not([open])>.rollhd .tw::after{content:"+"}
+.rollup .wkgrp{margin-top:1.1rem;padding-left:.9rem;border-left:2px solid var(--line)}
+.rollup .wkhd{border-bottom-width:1px}
+.rollup .wkhd h3{font-size:.9rem;font-weight:600}
+.wkgrp.now>details>.wkhd{border-bottom-color:var(--accent)}
+.wkgrp.now>details>.wkhd h3{color:var(--accent)}
 summary.wkhd:hover .tw{color:var(--accent)}
 .wkhd .tw{font-family:var(--f-mono);font-weight:700;font-size:.95rem;color:var(--line-strong);width:.9rem;text-align:center;flex:none}
 details[open]>.wkhd .tw::after{content:"–"}
@@ -769,17 +784,27 @@ function renderWeeks(){
   if(CF.view==="list")return renderCampList(host,shown);
 
   const today=iso(new Date());
-  WEEK_STARTS.forEach((ws,wi)=>{
+  const thisWS=mondayOf(today);
+  const shift=(ws,n)=>{const d=parse(ws);d.setDate(d.getDate()+n);return iso(d)};
+  const lastWS=shift(thisWS,-7), nextWS=shift(thisWS,7);
+  const idxOf=ws=>WEEK_STARTS.indexOf(ws);
+
+  /* One week. Returns null when empty, unless the week is one of the three
+     named ones — those stay on screen even with nothing in them, because a
+     missing "This week" reads as a bug rather than as a quiet week. */
+  function weekBlock(ws,wi,title,defaultOpen,alwaysShow){
     const items=campSorted(shown.filter(c=>c.launch&&weekOf(c.launch)===wi));
     const acts=filtering?[]:SCHEDULE.filter(s=>weekOf(s.date)===wi);
-    if(!items.length&&!acts.length)return;
+    if(!items.length&&!acts.length&&!alwaysShow)return null;
+
     const end=new Date(parse(ws)); end.setDate(end.getDate()+4);
     const done=iso(end)<today;
-    const open=WKOPEN[ws]!==undefined?WKOPEN[ws]:!done;
+    const open=WKOPEN[ws]!==undefined?WKOPEN[ws]:defaultOpen;
 
-    const g=document.createElement("section"); g.className="wkgrp";
+    const g=document.createElement("section");
+    g.className="wkgrp"+(ws===thisWS?" now":"");
     const d=document.createElement("details"); d.open=open;
-    d.innerHTML=`<summary class="wkhd"><span class="tw"></span><h3>Week ${wi+1}</h3>
+    d.innerHTML=`<summary class="wkhd"><span class="tw"></span><h3>${esc(title)}</h3>
       <span class="rng">${fmt(ws)} – ${end.getDate()} ${MON[end.getMonth()]}</span>
       ${done?'<span class="wkdone">done</span>':''}
       <span class="cnt">${items.length} launching · ${acts.length} actions</span></summary>`;
@@ -799,6 +824,15 @@ function renderWeeks(){
       r.onclick=()=>campDrawer(c);
       rows.appendChild(r);
     });
+
+    if(!items.length&&!acts.length){
+      const p=document.createElement("p"); p.className="hempty";
+      p.style.cssText="margin:.9rem 0 .2rem";
+      p.textContent=filtering?"Nothing in this week matches those filters."
+                             :"Nothing launching and nothing scheduled.";
+      rows.appendChild(p);
+    }
+
     if(acts.length){
       const ad=document.createElement("details"); ad.style.cssText="background:var(--surface);border:1px solid var(--line);border-top:none;padding:.6rem .9rem";
       ad.innerHTML=`<summary style="cursor:pointer;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">${acts.length} scheduled actions this week</summary>`;
@@ -812,8 +846,45 @@ function renderWeeks(){
         t.appendChild(li)});
       ad.appendChild(t); rows.appendChild(ad);
     }
-    d.appendChild(rows); g.appendChild(d); host.appendChild(g);
-  });
+
+    d.appendChild(rows); g.appendChild(d);
+    return {el:g,items:items.length,acts:acts.length};
+  }
+
+  /* A collapsed archive of weeks, each still expandable on its own. */
+  function rollup(key,title,blurb,starts){
+    const made=starts.map(ws=>weekBlock(ws,idxOf(ws),"Week "+fmt(ws),false,false)).filter(Boolean);
+    if(!made.length)return null;
+    const ci=made.reduce((n,b)=>n+b.items,0), ca=made.reduce((n,b)=>n+b.acts,0);
+    const wrap=document.createElement("details"); wrap.className="rollup";
+    wrap.open=WKOPEN[key]!==undefined?WKOPEN[key]:false;
+    wrap.innerHTML=`<summary class="rollhd"><span class="tw"></span><h3>${esc(title)}</h3>
+      <span class="rng">${esc(blurb)}</span>
+      <span class="cnt">${made.length} week${made.length===1?"":"s"} · ${ci} launching · ${ca} actions</span></summary>`;
+    wrap.ontoggle=()=>{WKOPEN[key]=wrap.open;store.set(WKKEY,WKOPEN)};
+    made.forEach(b=>wrap.appendChild(b.el));
+    return wrap;
+  }
+
+  const past  = WEEK_STARTS.filter(ws=>ws<lastWS);
+  const future= WEEK_STARTS.filter(ws=>ws>nextWS);
+
+  /* Chronological, so it reads as a timeline: everything before, the three
+     weeks that matter, everything after. */
+  const pastRoll=rollup("past","Previous campaigns",
+    past.length?`${fmt(past[0])} – ${fmt(past[past.length-1])}`:"", past);
+  if(pastRoll)host.appendChild(pastRoll);
+
+  [[lastWS,"Last week",false],[thisWS,"Current week",true],[nextWS,"Next week",true]]
+    .forEach(([ws,title,dflt])=>{
+      const b=weekBlock(ws,idxOf(ws),title,dflt,!filtering);
+      if(b)host.appendChild(b.el);
+    });
+
+  const futureRoll=rollup("future","Future campaigns",
+    future.length?`${fmt(future[0])} onwards`:"", future);
+  if(futureRoll)host.appendChild(futureRoll);
+
   if(!host.children.length)host.innerHTML=`<p class="hempty" style="margin-top:1.4rem">Nothing matches those filters. <b>Reset filters</b> brings everything back.</p>`;
 }
 
