@@ -265,6 +265,15 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-fa
 .parkrow .pa{display:flex;gap:.35rem}
 @media(max-width:620px){.row{grid-template-columns:4.6rem 1fr auto!important}.row .cact{flex-direction:row}}
 
+/* ══════════ cloud state banner ══════════ */
+.cbanner{border-left:3px solid var(--warn);background:var(--warn-wash);color:var(--ink);
+  padding:.7rem 1rem;margin:0 0 1.1rem;font-size:.88rem;line-height:1.5;
+  display:flex;gap:.8rem;align-items:center;flex-wrap:wrap}
+.cbanner b{font-family:var(--f-display)}
+.cbanner.ok{border-left-color:var(--ok);background:var(--ok-wash)}
+.cbanner.busy{border-left-color:var(--cool);background:var(--cool-wash)}
+.cbanner .btn{margin-left:auto}
+
 /* ══════════ filter + sort bar ══════════ */
 .filters{border:1px solid var(--line);border-left:3px solid var(--line-strong);background:var(--surface);padding:.75rem .95rem;margin-top:1.4rem;display:flex;flex-direction:column;gap:.45rem}
 .frow2{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
@@ -275,48 +284,11 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-fa
 .frow2.last{border-top:1px dashed var(--line);padding-top:.55rem;margin-top:.15rem}
 .ccount{font-family:var(--f-mono);font-size:.66rem;color:var(--muted);margin-left:auto;padding-right:.4rem}
 .chip.sm2{font-size:.62rem;padding:.26rem .5rem}
-.filterwrap{border:1px solid var(--line);border-left:3px solid var(--line-strong);background:var(--surface);margin-top:1.4rem}
-summary.filterhd{display:flex;align-items:center;gap:.5rem;padding:.42rem .8rem;cursor:pointer;user-select:none;list-style:none}
-summary.filterhd::-webkit-details-marker{display:none}
-.filterhd .fh{font-family:var(--f-mono);font-size:.64rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
-.filterhd:hover .fh{color:var(--ink)}
-.filterhd .tw{font-family:var(--f-mono);font-weight:700;font-size:.85rem;color:var(--line-strong);width:.8rem;text-align:center;flex:none}
-details[open]>.filterhd .tw::after{content:"–"}
-details:not([open])>.filterhd .tw::after{content:"+"}
-.filterhd .fon{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
-.filterhd .ccount{margin-left:auto;padding-right:0}
-.fgrid{display:flex;flex-wrap:wrap;gap:.4rem 1.3rem;padding:.1rem .8rem .7rem;border-top:1px dashed var(--line)}
-.fg{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem}
-.fg.wide{flex:1 1 15rem}
-.fg>.lbl{font-family:var(--f-mono);font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);min-width:auto}
-.fg input[type=search],.fg input[type=date]{font-family:var(--f-body);font-size:.78rem;padding:.26rem .4rem;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:2px}
-.fg input[type=search]{flex:1;min-width:10rem}
-.fg input:focus{outline:none;border-color:var(--accent)}
-.ctrlbar{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem;margin-top:.5rem}
-.ctrlbar>.lbl{font-family:var(--f-mono);font-size:.62rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
-.ctrlbar select{font-family:var(--f-body);font-size:.78rem;padding:.26rem .4rem;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:2px}
-.ctrlbar select:focus{outline:none;border-color:var(--accent)}
-.ctrlbar .pushright{margin-left:auto}
 
 /* ══════════ collapsible weeks ══════════ */
 summary{list-style:none}
 summary::-webkit-details-marker{display:none}
 summary.wkhd{cursor:pointer;user-select:none}
-.rollup{margin-top:2.4rem;border-top:2px solid var(--line-strong)}
-summary.rollhd{display:flex;align-items:baseline;gap:.8rem;padding:.8rem 0;cursor:pointer;user-select:none;list-style:none}
-summary.rollhd::-webkit-details-marker{display:none}
-.rollhd h3{font-size:.95rem;font-weight:700;letter-spacing:.02em;color:var(--ink-2);margin:0}
-.rollhd:hover h3{color:var(--ink)}
-.rollhd .rng{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);letter-spacing:.04em}
-.rollhd .cnt{margin-left:auto;font-family:var(--f-mono);font-size:.68rem;color:var(--muted)}
-.rollhd .tw{font-family:var(--f-mono);font-weight:700;font-size:.95rem;color:var(--line-strong);width:.9rem;text-align:center;flex:none}
-details[open]>.rollhd .tw::after{content:"–"}
-details:not([open])>.rollhd .tw::after{content:"+"}
-.rollup .wkgrp{margin-top:1.1rem;padding-left:.9rem;border-left:2px solid var(--line)}
-.rollup .wkhd{border-bottom-width:1px}
-.rollup .wkhd h3{font-size:.9rem;font-weight:600}
-.wkgrp.now>details>.wkhd{border-bottom-color:var(--accent)}
-.wkgrp.now>details>.wkhd h3{color:var(--accent)}
 summary.wkhd:hover .tw{color:var(--accent)}
 .wkhd .tw{font-family:var(--f-mono);font-weight:700;font-size:.95rem;color:var(--line-strong);width:.9rem;text-align:center;flex:none}
 details[open]>.wkhd .tw::after{content:"–"}
@@ -356,6 +328,8 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
 
 <main class="wrap">
 
+<div class="cbanner" id="cloudbanner" hidden></div>
+
 <!-- ══════════ WEEK ══════════ -->
 <section class="view on" id="v-week">
   <div class="eyebrow">Weekly rhythm</div>
@@ -389,34 +363,29 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
 <section class="view" id="v-camp">
   <div class="eyebrow">Campaign runway</div>
   <h2 class="vh">What launches, week by week</h2>
-  <p class="lede"><span id="campcount">28</span> campaigns. <b>Current week</b> and <b>next week</b> are open below; earlier weeks roll up under <b>Previous campaigns</b> and later ones under <b>Future campaigns</b>. Expand any week for its day-by-day actions, or click a campaign for its audience, list source and dates.</p>
+  <p class="lede"><span id="campcount">18</span> campaigns across <span id="wkcount">8</span> weeks. Expand any week to see the day-by-day actions; click a campaign for its audience, list source and dates.</p>
+  <div class="note"><b>METSIM is parked.</b> EX-03, EX-07, HS-02, HS-06, PW-01 and PW-04 came out of the plan on 1 Sept and nothing below renders them. The two METSIM webinars still run on 8 Sept and 13 Oct, and PRE-01 and PRE-04 remind whoever registered on the LinkedIn events — so the sessions are not orphaned, but there is no METSIM invite, renewal or post-webinar activity while the programme is on hold. They are listed under <b>Parked</b> at the bottom of this tab and come back with one click.</div>
 
-  <details class="filterwrap" id="filterwrap">
-    <summary class="filterhd"><span class="tw"></span><span class="fh">Filters</span>
-      <span class="fon" id="factive"></span>
-      <span class="ccount" id="ccount"></span></summary>
-    <div class="fgrid">
-      <div class="fg wide"><span class="lbl">Find</span><input type="search" id="cq" placeholder="ID, name, audience, CTA or note…"></div>
-      <div class="fg"><span class="lbl">Brand</span><span id="fcamp"></span></div>
-      <div class="fg"><span class="lbl">Type</span><span id="ftype"></span></div>
-      <div class="fg"><span class="lbl">Stage</span><span id="fstage"></span></div>
-      <div class="fg"><span class="lbl">Status</span><span id="fstatus"></span></div>
-      <div class="fg"><span class="lbl">Launching</span><input type="date" id="cfrom"><span class="lbl" style="min-width:auto">to</span><input type="date" id="cto"><button class="rowbtn" id="cdclear">Clear dates</button></div>
+  <div class="filters">
+    <div class="frow2"><span class="lbl">Find</span><input type="search" id="cq" placeholder="ID, name, audience, list source, CTA or note…"></div>
+    <div class="frow2"><span class="lbl">Brand</span><span id="fcamp"></span></div>
+    <div class="frow2"><span class="lbl">Type</span><span id="ftype"></span></div>
+    <div class="frow2"><span class="lbl">Stage</span><span id="fstage"></span></div>
+    <div class="frow2"><span class="lbl">Status</span><span id="fstatus"></span></div>
+    <div class="frow2"><span class="lbl">Launching</span><input type="date" id="cfrom"><span class="lbl" style="margin:0">to</span><input type="date" id="cto"><button class="rowbtn" id="cdclear">Clear dates</button></div>
+    <div class="frow2 last">
+      <span class="lbl">View</span><span id="fview"></span>
+      <span class="lbl" style="margin-left:.8rem">Sort</span>
+      <select id="csort">
+        <option value="launch">Launch date</option><option value="ends">End date</option>
+        <option value="build">Build date</option><option value="id">Campaign ID</option>
+        <option value="name">Name</option><option value="brand">Brand</option>
+        <option value="status">Status</option><option value="steps">Steps</option>
+      </select>
+      <button class="rowbtn" id="cdir" title="Reverse the sort">↑ oldest first</button>
+      <span class="ccount" id="ccount"></span>
+      <button class="rowbtn" id="cclear">Reset filters</button>
     </div>
-  </details>
-
-  <div class="ctrlbar">
-    <span class="lbl">View</span><span id="fview"></span>
-    <span class="lbl" style="margin-left:.6rem">Sort</span>
-    <select id="csort">
-      <option value="launch">Launch date</option><option value="ends">End date</option>
-      <option value="build">Build date</option><option value="id">Campaign ID</option>
-      <option value="name">Name</option><option value="brand">Brand</option>
-      <option value="status">Status</option><option value="steps">Steps</option>
-    </select>
-    <button class="rowbtn" id="cdir" title="Reverse the sort">↑ oldest first</button>
-    <button class="rowbtn pushright" id="cclear">Reset filters</button>
-  </div>
   </div>
 
   <div class="campbar">
@@ -448,15 +417,20 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
 <section class="view" id="v-hist">
   <div class="eyebrow">Campaign history</div>
   <h2 class="vh">What each campaign actually did</h2>
-  <p class="lede">One record per campaign. LinkedIn numbers arrive live from Expandi as each action fires and email numbers from HubSpot, so there is nothing to import. Anything with no live feed — a hand-sent IM, a pre-webinar nudge — you type into the card yourself, and typed numbers always win.</p>
+  <p class="lede">One record per campaign, built from the files in its folder. Point Sync at the <b>Campaigns</b> folder once — one subfolder per campaign — and every sync re-reads the spreadsheets, picks up new screenshots and refreshes the numbers below. Anything you type by hand is kept and never overwritten by a sync.</p>
 
   <div class="syncbar">
+    <button class="btn" id="syncbtn">Sync campaigns</button>
+    <button class="btn ghost" id="pickbtn">Choose folder…</button>
     <div class="syncmeta" id="syncmeta"></div>
     <div class="pushright">
+      <button class="btn ghost sm" id="logbtn">Sync log</button>
       <button class="btn ghost sm" id="expbtn">Export JSON</button>
       <button class="btn ghost sm" id="claudebtn">Copy for Claude</button>
     </div>
+    <input type="file" id="fallbackpick" multiple webkitdirectory directory hidden>
   </div>
+  <div class="synclog" id="synclog"></div>
 
   <div class="stats" id="hstats"></div>
 
@@ -466,7 +440,6 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
     <div class="frow2"><span class="lbl">Type</span><span id="fhtype"></span></div>
     <div class="frow2 last"><span class="lbl">Sort</span>
       <select id="hsort">
-        <option value="near">Closest to now</option>
         <option value="launch">Launch date</option><option value="ends">End date</option>
         <option value="id">Campaign ID</option><option value="replies">Replies</option>
         <option value="reply_rate">Reply rate</option><option value="list">List size</option>
@@ -480,7 +453,7 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
 
   <div id="hlist"></div>
 
-  <div class="note" style="margin-top:2.2rem"><b>Where these numbers come from.</b> LinkedIn campaigns post every action out of Expandi as it happens — invite sent, accepted, message, reply — matched to a campaign by the code its name starts with. Email sequences come from HubSpot the same way. Anything sent by hand has no feed, so you type it into the card: open <b>Assign &amp; edit</b>, fill in what you know, and those numbers override the live ones and survive every sync. Use <b>Cloud → Sync now</b> to pull the latest.</div>
+  <div class="note" style="margin-top:2.2rem"><b>How the folder should look.</b> One folder per campaign inside <span class="ids" style="font-family:var(--f-mono)">Campaigns/</span>, named with the campaign ID where you have one — <span style="font-family:var(--f-mono)">EX-08 MetalTech Connect</span> matches EX-08 automatically. Drop the Expandi or HubSpot export (.xlsx or .csv) and the result screenshots straight in. Sync reads every spreadsheet for the metrics below, counts the list rows, and files every image as evidence against that campaign.</div>
 </section>
 
 <!-- ══════════ APPROVALS ══════════ -->
@@ -593,7 +566,7 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
 </main>
 
 <footer class="wrap">
-  Treo Group Holdings <span class="chev">»»»</span> Outreach Engine · <span id="footcount">18</span> campaigns · Q3–Q4 2026 · Data current to 1 Sept 2026 · campaign history is live from Expandi and HubSpot
+  Treo Group Holdings <span class="chev">»»»</span> Outreach Engine · <span id="footcount">18</span> campaigns · Q3–Q4 2026 · Data current to 1 Sept 2026 · campaign history syncs from the Campaigns folder
 </footer>
 
 <div class="scrim" id="scrim"></div>
@@ -779,7 +752,7 @@ const STAGE_LABEL={upcoming:"Upcoming",live:"Live now",ended:"Ended"};
 function campMatches(c){
   if(CF.brand.size){const b=c.btag||"";
     if(![...CF.brand].some(t=>b===t||b.split(" + ").includes(t)))return false}
-  if(CF.type.size&&!CF.type.has(actKey(c.act)))return false;
+  if(CF.type.size){const t=typeOf(c.id);if(!t||!CF.type.has(t.k))return false}
   if(CF.stage.size&&!CF.stage.has(stageOf(c)))return false;
   if(CF.status.size&&!CF.status.has(c.status))return false;
   if(CF.from&&(!c.launch||c.launch<CF.from))return false;
@@ -809,35 +782,20 @@ function renderWeeks(){
   const filtering=!!(CF.q||CF.brand.size||CF.type.size||CF.stage.size||CF.status.size||CF.from||CF.to);
   $("#ccount").textContent=`${shown.length} of ${CAMPAIGNS.length} campaigns${filtering?" match":""}`;
   const wk=$("#wkcount"); if(wk)wk.textContent=WEEK_STARTS.length;
-  const cc=$("#campcount"); if(cc)cc.textContent=CAMPAIGNS.length;
-  /* A filter that is on while the panel is shut is a trap — say so in the
-     summary, and open the panel so it can be seen and undone. */
-  const fa=$("#factive"); if(fa)fa.textContent=filtering?"· filtering":"";
-  const fw=$("#filterwrap"); if(fw&&filtering&&!fw.open)fw.open=true;
   if(CF.view==="list")return renderCampList(host,shown);
 
   const today=iso(new Date());
-  const thisWS=mondayOf(today);
-  const shift=(ws,n)=>{const d=parse(ws);d.setDate(d.getDate()+n);return iso(d)};
-  const lastWS=shift(thisWS,-7), nextWS=shift(thisWS,7);
-  const idxOf=ws=>WEEK_STARTS.indexOf(ws);
-
-  /* One week. Returns null when empty, unless the week is one of the three
-     named ones — those stay on screen even with nothing in them, because a
-     missing "This week" reads as a bug rather than as a quiet week. */
-  function weekBlock(ws,wi,title,defaultOpen,alwaysShow){
+  WEEK_STARTS.forEach((ws,wi)=>{
     const items=campSorted(shown.filter(c=>c.launch&&weekOf(c.launch)===wi));
     const acts=filtering?[]:SCHEDULE.filter(s=>weekOf(s.date)===wi);
-    if(!items.length&&!acts.length&&!alwaysShow)return null;
-
+    if(!items.length&&!acts.length)return;
     const end=new Date(parse(ws)); end.setDate(end.getDate()+4);
     const done=iso(end)<today;
-    const open=WKOPEN[ws]!==undefined?WKOPEN[ws]:defaultOpen;
+    const open=WKOPEN[ws]!==undefined?WKOPEN[ws]:!done;
 
-    const g=document.createElement("section");
-    g.className="wkgrp"+(ws===thisWS?" now":"");
+    const g=document.createElement("section"); g.className="wkgrp";
     const d=document.createElement("details"); d.open=open;
-    d.innerHTML=`<summary class="wkhd"><span class="tw"></span><h3>${esc(title)}</h3>
+    d.innerHTML=`<summary class="wkhd"><span class="tw"></span><h3>Week ${wi+1}</h3>
       <span class="rng">${fmt(ws)} – ${end.getDate()} ${MON[end.getMonth()]}</span>
       ${done?'<span class="wkdone">done</span>':''}
       <span class="cnt">${items.length} launching · ${acts.length} actions</span></summary>`;
@@ -857,15 +815,6 @@ function renderWeeks(){
       r.onclick=()=>campDrawer(c);
       rows.appendChild(r);
     });
-
-    if(!items.length&&!acts.length){
-      const p=document.createElement("p"); p.className="hempty";
-      p.style.cssText="margin:.9rem 0 .2rem";
-      p.textContent=filtering?"Nothing in this week matches those filters."
-                             :"Nothing launching and nothing scheduled.";
-      rows.appendChild(p);
-    }
-
     if(acts.length){
       const ad=document.createElement("details"); ad.style.cssText="background:var(--surface);border:1px solid var(--line);border-top:none;padding:.6rem .9rem";
       ad.innerHTML=`<summary style="cursor:pointer;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">${acts.length} scheduled actions this week</summary>`;
@@ -879,45 +828,8 @@ function renderWeeks(){
         t.appendChild(li)});
       ad.appendChild(t); rows.appendChild(ad);
     }
-
-    d.appendChild(rows); g.appendChild(d);
-    return {el:g,items:items.length,acts:acts.length};
-  }
-
-  /* A collapsed archive of weeks, each still expandable on its own. */
-  function rollup(key,title,blurb,starts){
-    const made=starts.map(ws=>weekBlock(ws,idxOf(ws),"Week "+fmt(ws),false,false)).filter(Boolean);
-    if(!made.length)return null;
-    const ci=made.reduce((n,b)=>n+b.items,0), ca=made.reduce((n,b)=>n+b.acts,0);
-    const wrap=document.createElement("details"); wrap.className="rollup";
-    wrap.open=WKOPEN[key]!==undefined?WKOPEN[key]:false;
-    wrap.innerHTML=`<summary class="rollhd"><span class="tw"></span><h3>${esc(title)}</h3>
-      <span class="rng">${esc(blurb)}</span>
-      <span class="cnt">${made.length} week${made.length===1?"":"s"} · ${ci} launching · ${ca} actions</span></summary>`;
-    wrap.ontoggle=()=>{WKOPEN[key]=wrap.open;store.set(WKKEY,WKOPEN)};
-    made.forEach(b=>wrap.appendChild(b.el));
-    return wrap;
-  }
-
-  const past  = WEEK_STARTS.filter(ws=>ws<lastWS);
-  const future= WEEK_STARTS.filter(ws=>ws>nextWS);
-
-  /* Chronological, so it reads as a timeline: everything before, the three
-     weeks that matter, everything after. */
-  const pastRoll=rollup("past","Previous campaigns",
-    past.length?`${fmt(past[0])} – ${fmt(past[past.length-1])}`:"", past);
-  if(pastRoll)host.appendChild(pastRoll);
-
-  [[lastWS,"Last week",false],[thisWS,"Current week",true],[nextWS,"Next week",true]]
-    .forEach(([ws,title,dflt])=>{
-      const b=weekBlock(ws,idxOf(ws),title,dflt,!filtering);
-      if(b)host.appendChild(b.el);
-    });
-
-  const futureRoll=rollup("future","Future campaigns",
-    future.length?`${fmt(future[0])} onwards`:"", future);
-  if(futureRoll)host.appendChild(futureRoll);
-
+    d.appendChild(rows); g.appendChild(d); host.appendChild(g);
+  });
   if(!host.children.length)host.innerHTML=`<p class="hempty" style="margin-top:1.4rem">Nothing matches those filters. <b>Reset filters</b> brings everything back.</p>`;
 }
 
@@ -970,7 +882,7 @@ function syncDirBtn(){
 }
 function buildCampChips(){
   chipset("#fcamp",["SERV","METSIM","TECH","ALL"],CF.brand);
-  chipset("#ftype",[["IM","IM"],["EMAIL","EMAIL"],["BOTH","BOTH"]],CF.type,"sm2");
+  chipset("#ftype",TYPES.map(t=>[t.k,t.k]),CF.type,"sm2");
   chipset("#fstage",[["upcoming","Upcoming"],["live","Live now"],["ended","Ended"]],CF.stage,"sm2");
   chipset("#fstatus",STATUSES.map(s=>[s,s]),CF.status,"sm2");
   const vb=$("#fview");vb.innerHTML="";vb.style.cssText="display:flex;gap:.35rem";
@@ -1040,10 +952,6 @@ const FIELDS=["id","brand","channel","name","aud","src","steps","cta","build","l
 let ALL_CAMPS=[], CAMPAIGNS=[], CDEL=new Set();
 
 function typeOf(id){const m=/^([A-Z]+)-/.exec(id||"");const t=m&&TYPES.find(t=>t.k===m[1]);return t||null}
-/* What a campaign actually did, not what its code starts with. Code
-   prefixes only covered EX/HS/PRE/PW, so anything else — the BAU
-   sequences, say — could not be filtered at all. */
-function actKey(act){return act==="EMAIL + IM"?"BOTH":act==="EMAIL"?"EMAIL":act==="IM"?"IM":""}
 function campSort(a,b){
   const oi=id=>{const m=/^([A-Z]+)-/.exec(id);const i=TYPES.findIndex(t=>t.k===(m?m[1]:""));return i<0?TYPES.length:i};
   const num=id=>{const m=/-(\d+)/.exec(id);return m?+m[1]:999};
@@ -1240,9 +1148,10 @@ $("#campreset").onclick=()=>{
   loadCamps();campsChanged()};
 
 /* ═══════════════════════════════════════════════════════════
-   CAMPAIGN HISTORY — live metrics, typed numbers, evidence gallery
+   CAMPAIGN HISTORY — folder sync, metrics, evidence gallery
    ═══════════════════════════════════════════════════════════ */
 
+const XLSX_CDN="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js";
 const HKEY="oe.history.v1";
 
 /* metrics we try to pull out of any spreadsheet */
@@ -1261,6 +1170,17 @@ const METRICS=[
  {k:"bounces",  g:"em", l:"Bounces",         a:["bounces","bounced","hard bounces","bounce","undelivered"]},
 ];
 const MBY=Object.fromEntries(METRICS.map(m=>[m.k,m]));
+/* How much to trust a number, by how it was found. A value read from an
+   explicit "Replies | 43" pair beats one inferred from a row count however
+   much bigger the latter is — "largest wins" is what let a LinkedIn URN in a
+   contacts export become a reply count of 1.2 billion. */
+const CONF={explicit:3,summaryCol:2,flagCount:1,rowCount:0};
+const MAX_COUNT=5000000;
+/* rate labels seen in exports — captured separately so "reply rate" never
+   lands in the "replies" count */
+const RATE_ALIAS={"accept rate":"acc","acceptance rate":"acc","connection accept rate":"acc",
+ "reply rate":"rep","response rate":"rep","open rate":"open","unique open rate":"open",
+ "click to open rate":"ctor","click-to-open rate":"ctor","ctor":"ctor","click rate":"clk","ctr":"clk"};
 /* warm audiences carry the 20% reply target, everything else 8% — KPIs tab */
 const WARM=["EX-01","EX-02","EX-09","EX-10","PRE-01","PRE-02","PRE-03","PRE-04","PW-02","PW-03"];
 const RATES=[
@@ -1317,19 +1237,265 @@ async function idbGet(s,k){const d=await idb();return new Promise((res,rej)=>{co
 async function idbSet(s,k,v){const d=await idb();return new Promise((res,rej)=>{const t=d.transaction(s,"readwrite").objectStore(s).put(v,k);t.onsuccess=()=>res();t.onerror=()=>rej(t.error)})}
 async function idbDel(s,k){const d=await idb();return new Promise((res)=>{const t=d.transaction(s,"readwrite").objectStore(s).delete(k);t.onsuccess=()=>res();t.onerror=()=>res()})}
 
+/* ─────────── sync log ─────────── */
+const LOG=[];
+function log(kind,msg){LOG.push({kind,msg});const box=$("#synclog");
+  box.innerHTML=LOG.map(l=>`<div class="lg-${l.kind}">${l.kind==="err"?"✕":l.kind==="ok"?"✓":l.kind==="warn"?"!":"·"} ${esc(l.msg)}</div>`).join("");
+  box.scrollTop=box.scrollHeight}
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 
-/* ─────────── rendering ─────────── */
-function renderHistMeta(){
-  const items=Object.values(HIST.items);
-  let live=0,typed=0,none=0;
-  items.forEach(it=>{
-    const hasLive=it.m&&METRICS.some(m=>it.m[m.k]!=null);
-    const hasTyped=it.man&&Object.keys(it.man).length>0;
-    if(hasLive)live++;else if(hasTyped)typed++;else none++;
+/* ─────────── value + label parsing ─────────── */
+function norm(s){return String(s).toLowerCase().replace(/[_–—]/g," ").replace(/[^a-z0-9%\s]/g," ").replace(/\s+/g," ").trim()}
+function aliasOf(label){const n=norm(label).replace(/\s*[:#]\s*$/,"");
+  if(!n||n.length>34)return null;
+  for(const m of METRICS){if(m.a.includes(n))return m.k}
+  return null}
+function rateAliasOf(label){const n=norm(label);return RATE_ALIAS[n]||null}
+function toNum(v){
+  if(v==null||v==="")return null;
+  if(typeof v==="number")return isFinite(v)?v:null;
+  let s=String(v).trim().replace(/ /g," ");
+  if(!/[0-9]/.test(s))return null;
+  const pct=/%/.test(s);
+  s=s.replace(/[%\s]/g,"").replace(/,(?=\d{3}\b)/g,"").replace(",",".");
+  const n=parseFloat(s);
+  if(!isFinite(n))return null;
+  return pct?n/100:n}
+function toPct(v){const n=toNum(v);if(n==null)return null;return n>1?n/100:n}
+const TRUTHY=/^(yes|y|true|1|accepted|replied|connected|opened|clicked|sent|delivered|bounced|unsubscribed|positive|interested)$/i;
+function truthy(v){if(v==null||v==="")return false;
+  if(typeof v==="number")return v>0;
+  if(v instanceof Date)return true;
+  const s=String(v).trim();
+  if(!s||/^(no|n|false|0|-|n\/a|na|pending|not sent|none)$/i.test(s))return false;
+  return true}
+
+/* ─────────── spreadsheet reader ─────────── */
+let _xlsx=null;
+function loadXLSX(){return _xlsx||(_xlsx=new Promise((res,rej)=>{
+  if(window.XLSX)return res(window.XLSX);
+  const tryLoad=(src,next)=>{const s=document.createElement("script");s.src=src;
+    s.onload=()=>window.XLSX?res(window.XLSX):next();
+    s.onerror=next;document.head.appendChild(s)};
+  /* shipped with the app so sync works offline; CDN only as a backstop */
+  tryLoad("xlsx.full.min.js",()=>tryLoad(XLSX_CDN,()=>rej(new Error("could not load the spreadsheet reader"))));
+}))}
+function colName(i){let s="";i++;while(i>0){const r=(i-1)%26;s=String.fromCharCode(65+r)+s;i=(i-r-1)/26}return s}
+
+function scanGrid(grid,label,rec){
+  const R=grid.length;
+  /* (a) label → value pairs — but only on rows SHAPED like a label and a
+     value. A 30-column row in a contacts export is data, and a cell in it
+     that happens to read "Replied" is not a label for the number beside it. */
+  for(let r=0;r<R;r++){
+    const row=grid[r]||[];
+    if(row.filter(x=>x!=null&&x!=="").length>3)continue;
+    for(let c=0;c<row.length;c++){
+      const cell=row[c];
+      if(typeof cell!=="string")continue;
+      const rk=rateAliasOf(cell);
+      if(rk){const v=toPct(row[c+1]!=null&&row[c+1]!==""?row[c+1]:((grid[r+1]||[])[c]));
+        if(v!=null&&v<=1.5)rec.rates[rk]={v,from:`${label} ${colName(c)}${r+1}`};continue}
+      const mk=aliasOf(cell);
+      if(!mk)continue;
+      let v=toNum(row[c+1]);
+      if(v==null)v=toNum(row[c+2]);
+      if(v==null)v=toNum((grid[r+1]||[])[c]);
+      if(v==null||v<0||v!==Math.round(v))continue;
+      rec.put(mk,v,`${label} ${colName(c)}${r+1}`,CONF.explicit);
+    }
+  }
+  /* (b) contact-list shape: header row, then one row per contact */
+  let hr=-1;
+  for(let r=0;r<Math.min(R,12);r++){
+    const row=(grid[r]||[]).filter(x=>typeof x==="string"&&x.trim());
+    if(row.length>=2){hr=r;break}
+  }
+  if(hr<0)return;
+  const heads=(grid[hr]||[]).map(h=>typeof h==="string"?h.trim():"");
+  const body=grid.slice(hr+1).filter(row=>(row||[]).some(x=>x!=null&&x!==""));
+  if(!body.length)return;
+  if(body.length>1)rec.put("list",body.length,`${label} — ${body.length} rows`,CONF.rowCount);
+  heads.forEach((h,c)=>{
+    if(!h)return;
+    const mk=aliasOf(h);const rk=rateAliasOf(h);
+    const vals=body.map(row=>(row||[])[c]);
+    if(rk){const nums=vals.map(toPct).filter(v=>v!=null);
+      if(nums.length===1)rec.rates[rk]={v:nums[0],from:`${label} col ${h}`};return}
+    if(!mk)return;
+    const nums=vals.map(toNum).filter(v=>v!=null&&v>=0);
+    if(body.length===1&&nums.length===1){rec.put(mk,nums[0],`${label} col ${h}`,CONF.summaryCol);return}
+    /* a flag column — count how many contacts it is true for */
+    const flagish=vals.every(v=>v==null||v===""||typeof v==="boolean"||v instanceof Date||(typeof v==="string"&&v.length<24)||(typeof v==="number"&&(v===0||v===1)));
+    if(flagish){const n=vals.filter(truthy).length;if(n>0)rec.put(mk,n,`${label} col ${h} — ${n} of ${body.length}`,CONF.flagCount)}
+    else if(nums.length===body.length&&body.length<=3){rec.put(mk,nums.reduce((a,b)=>a+b,0),`${label} col ${h} (summed)`,CONF.summaryCol)}
+  })
+}
+
+async function readSheet(file,rec){
+  /* A OneDrive or SharePoint file that has not been downloaded yet reads as
+     zero bytes, and handing an empty buffer to the spreadsheet reader takes
+     the whole page down rather than raising. Refuse it politely instead. */
+  if(!file.size)throw new Error("read as empty — if it lives in OneDrive it may not be downloaded to this machine yet. Open it once in Excel, then sync again.");
+  const XL=await loadXLSX();
+  const buf=await file.arrayBuffer();
+  if(!buf||buf.byteLength<64)throw new Error("too small to be a spreadsheet — probably a cloud placeholder rather than the real file");
+  let wb;
+  try{wb=XL.read(buf,{type:"array",cellDates:true})}
+  catch(e){throw new Error("could not be read as a spreadsheet ("+(e&&e.message||"parse failed")+")")}
+  if(!wb||!wb.SheetNames||!wb.SheetNames.length)throw new Error("has no sheets in it");
+  wb.SheetNames.forEach(sn=>{
+    const grid=XL.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:true,defval:null,blankrows:false});
+    if(!grid.length)return;
+    scanGrid(grid,`${file.name}${wb.SheetNames.length>1?" · "+sn:""}`,rec);
+  })
+}
+
+/* ─────────── folder → campaign matching ─────────── */
+function matchCampaign(folder){
+  const up=folder.toUpperCase().replace(/[^A-Z0-9]/g,"");
+  const byId=CAMPAIGNS.find(c=>up.includes(c.id.replace("-","")));
+  if(byId)return byId.id;
+  const f=norm(folder);
+  let best=null,bs=0;
+  CAMPAIGNS.forEach(c=>{
+    const toks=norm(c.name).split(" ").filter(w=>w.length>3);
+    if(!toks.length)return;
+    const s=toks.filter(w=>f.includes(w)).length/toks.length;
+    if(s>bs){bs=s;best=c.id}
   });
-  $("#syncmeta").innerHTML=`<span class="dot ${live?"ok":""}"></span>`+
-    `<b>${live}</b> on live data · <b>${typed}</b> typed in · <b>${none}</b> with nothing yet`;
+  return bs>=0.6?best:null}
+
+/* ─────────── the sync itself ─────────── */
+const IMG=/\.(png|jpe?g|gif|webp|bmp)$/i, SHEET=/\.(xlsx|xlsm|xls|csv|tsv)$/i;
+let syncing=false;
+
+async function collectFSA(dir,folder,out,depth){
+  for await(const [name,h] of dir.entries()){
+    if(name.startsWith("~$")||name==="desktop.ini"||name.startsWith("."))continue;
+    if(h.kind==="file"){out.push({folder,name,get:()=>h.getFile()})}
+    else if(depth<2){await collectFSA(h,folder,out,depth+1)}
+  }
+}
+
+async function runSync(handle){
+  if(syncing)return; syncing=true;
+  LOG.length=0; $("#synclog").classList.add("on");
+  $("#syncbtn").disabled=true; $("#syncbtn").textContent="Syncing…";
+  try{
+    if(await handle.queryPermission({mode:"read"})!=="granted"){
+      if(await handle.requestPermission({mode:"read"})!=="granted"){
+        log("err","Permission to read the folder was declined.");return}
+    }
+    log("dim",`Reading ${handle.name}/`);
+    const folders=[];
+    for await(const [name,h] of handle.entries()){
+      if(h.kind==="directory"&&!name.startsWith("."))folders.push([name,h]);
+    }
+    if(!folders.length)log("warn","No campaign subfolders found — create one folder per campaign inside this folder.");
+    for(const [name,h] of folders){
+      const files=[];
+      await collectFSA(h,name,files,0);
+      await ingestFolder(name,files);
+    }
+    HIST.rootName=handle.name; HIST.lastSync=new Date().toISOString();
+    saveHist(); renderHist();
+    log("ok",`Sync complete — ${folders.length} campaign folder${folders.length===1?"":"s"} read.`);
+  }catch(e){log("err",e.message||String(e))}
+  finally{syncing=false;$("#syncbtn").disabled=false;$("#syncbtn").textContent="Sync campaigns";renderSyncMeta()}
+}
+
+async function ingestFolder(folder,files){
+  const cid=matchCampaign(folder);
+  const key=cid||("folder:"+folder);
+  const prev=HIST.items[key]||{};
+  const it={key,cid:prev.cid!==undefined?(prev.cid||cid):cid,folder,
+            m:{},src:{},rates:{},man:prev.man||{},note:prev.note||"",
+            files:[],shots:prev.shots||[],synced:new Date().toISOString(),updated_at:stampNow(),
+            /* descriptive fields survive every sync */
+            name:prev.name,brand:prev.brand,act:prev.act,ran:prev.ran,meta:prev.meta};
+  if(prev.cid)it.cid=prev.cid;
+  if(prev.src)Object.assign(it.src,prev.src);
+  const conf={};
+  const rec={
+    put(k,v,from,c){
+      c=c==null?CONF.explicit:c;
+      if(!(v>=0)||v>MAX_COUNT||v!==Math.round(v))return;   /* no URNs, no ids */
+      if(conf[k]!=null){
+        if(conf[k]>c)return;                 /* a better-sourced value already stands */
+        if(conf[k]===c&&it.m[k]!=null)return; /* same confidence: first seen wins */
+      }
+      it.m[k]=v;it.src[k]=from;conf[k]=c;
+    },rates:it.rates};
+  let sheets=0,imgs=0;
+  const keptShots=[];
+  for(const f of files){
+    const file=await f.get();
+    it.files.push({name:f.name,size:file.size,kind:IMG.test(f.name)?"img":SHEET.test(f.name)?"sheet":"doc"});
+    if(SHEET.test(f.name)){
+      try{await readSheet(file,rec);sheets++;log("dim",`${folder}/${f.name} — read`)}
+      catch(e){log("warn",`${folder}/${f.name} — ${e.message}`)}
+    }else if(IMG.test(f.name)){
+      const id=folder+"/"+f.name;
+      const old=(prev.shots||[]).find(s=>s.id===id);
+      if(!old||old.size!==file.size){await idbSet("shots",id,file)}
+      keptShots.push({id,name:f.name,size:file.size});imgs++;
+    }
+  }
+  /* Anything many times bigger than the list is noise from some other file
+     that happens to share the folder — a different export, an old list. */
+  const L=it.m.list;
+  if(L>0)METRICS.forEach(m=>{
+    if(m.k!=="list"&&it.m[m.k]!=null&&it.m[m.k]>L*10){
+      log("warn",`${folder}: ignored ${m.l} of ${it.m[m.k]} — implausible against a list of ${L} (${it.src[m.k]||"unknown source"})`);
+      delete it.m[m.k];delete it.src[m.k];
+    }});
+  it.shots=keptShots;
+  /* drop images that are no longer in the folder */
+  (prev.shots||[]).forEach(s=>{if(!keptShots.some(k=>k.id===s.id))idbDel("shots",s.id)});
+  HIST.items[key]=it;
+  const found=METRICS.filter(m=>it.m[m.k]!=null).length;
+  log(found||imgs?"ok":"warn",`${folder} → ${it.cid||"unassigned"} · ${sheets} sheet${sheets===1?"":"s"}, ${imgs} screenshot${imgs===1?"":"s"}, ${found} metric${found===1?"":"s"} found`);
+}
+
+/* fallback for browsers without the folder picker (Safari, Firefox) */
+async function ingestFileList(fileList){
+  LOG.length=0;$("#synclog").classList.add("on");
+  const byFolder={};
+  [...fileList].forEach(f=>{
+    const parts=(f.webkitRelativePath||f.name).split("/");
+    if(parts.length<2)return;
+    const folder=parts.length>2?parts[1]:parts[0];
+    (byFolder[folder]=byFolder[folder]||[]).push({folder,name:f.name,get:async()=>f});
+  });
+  const names=Object.keys(byFolder);
+  if(!names.length){log("warn","Nothing readable in that folder.");return}
+  for(const n of names)await ingestFolder(n,byFolder[n]);
+  HIST.lastSync=new Date().toISOString();saveHist();renderHist();renderSyncMeta();
+  log("ok",`Sync complete — ${names.length} folder${names.length===1?"":"s"} read. This browser can't remember the folder, so you'll pick it again next time.`);
+}
+
+async function pickRoot(){
+  if(!window.showDirectoryPicker){$("#fallbackpick").click();return}
+  try{
+    const h=await window.showDirectoryPicker({id:"treo-campaigns",mode:"read",startIn:"documents"});
+    await idbSet("kv","root",h);
+    await runSync(h);
+  }catch(e){if(e.name!=="AbortError")log("err",e.message)}
+}
+async function doSync(){
+  const h=await idbGet("kv","root").catch(()=>null);
+  if(h)return runSync(h);
+  return pickRoot();
+}
+
+/* ─────────── rendering ─────────── */
+function renderSyncMeta(){
+  const n=Object.keys(HIST.items).length;
+  const when=HIST.lastSync?new Date(HIST.lastSync).toLocaleString("en-ZA",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}):null;
+  $("#syncmeta").innerHTML=when
+    ? `<span class="dot ok"></span>Last sync <b>${when}</b> · ${HIST.rootName?esc(HIST.rootName)+"/ · ":""}${n} folder${n===1?"":"s"}`
+    : `<span class="dot"></span>Not synced yet — choose your <b>Campaigns</b> folder to start`;
 }
 function itemFor(cid){return HIST.items[cid]||null}
 function pct(n,d){return (d&&n!=null&&d>0)?n/d:null}
@@ -1364,25 +1530,15 @@ function funnel(it,grp){
 }
 
 let HFILTER="all";
-const HF={brand:new Set(),type:new Set(),sort:"near",dir:1};
+const HF={brand:new Set(),type:new Set(),sort:"launch",dir:1};
 function histVal(it,c,k){
-  if(k==="near"){
-    /* 0 while a campaign is running, otherwise days to or since it. Sorts
-       the current week to the top and works outwards in both directions. */
-    const t=new Date();t.setHours(0,0,0,0);
-    const from=c&&c.launch?parse(c.launch):(it&&it.ran?parse(it.ran.from):null);
-    const to=c&&c.ends?parse(c.ends):from;
-    if(!from)return 9e9;
-    if(t>=from&&t<=(to||from))return 0;
-    return Math.round(Math.abs((t<from?from-t:t-(to||from))/86400000));
-  }
   if(k==="id"||k==="launch"||k==="ends")return c?(k==="id"?c.id:c[k]||"9999-99-99"):(it&&it.ran?it.ran.from:"9999-99-99");
   if(!it)return -1;
   if(k==="reply_rate"){const n=eff(it,"replies"),d=eff(it,"msgs")||eff(it,"list")||eff(it,"accepted");return (n!=null&&d)?n/d:-1}
   const v=eff(it,k);return v==null?-1:v;
 }
 function renderHist(){
-  renderHistMeta();
+  renderSyncMeta();
   const today=new Date();today.setHours(0,0,0,0);
   const rows=CAMPAIGNS.map(c=>{
     const it=itemFor(c.id)||Object.values(HIST.items).find(x=>x.cid===c.id)||null;
@@ -1393,7 +1549,7 @@ function renderHist(){
   const orphans=Object.values(HIST.items).filter(it=>!it.cid);
   let shown=rows.filter(r=>HFILTER==="all"||(HFILTER==="data"&&r.has)||(HFILTER==="ended"&&r.st==="done")||(HFILTER==="gap"&&r.st==="done"&&!r.has)||(HFILTER==="live"&&r.st==="live"));
   if(HF.brand.size)shown=shown.filter(r=>{const b=r.c.btag||"";return [...HF.brand].some(t=>b===t||b.split(" + ").includes(t))});
-  if(HF.type.size)shown=shown.filter(r=>HF.type.has(actKey(r.c.act)));
+  if(HF.type.size)shown=shown.filter(r=>{const t=typeOf(r.c.id);return t&&HF.type.has(t.k)});
   shown.sort((a,b)=>{const x=histVal(a.it,a.c,HF.sort),y=histVal(b.it,b.c,HF.sort);
     return (x<y?-1:x>y?1:0)*HF.dir||campSort(a.c,b.c)});
   const hc=$("#hcount");
@@ -1414,21 +1570,21 @@ function renderHist(){
       return v==null?"no denominator yet":`${fmtPct(v)} of ${d.toLocaleString("en-ZA")} contacted`})()],
     ["Emails delivered",sum("delivered"),(()=>{const v=pct(sum("opens"),sum("delivered"));return v==null?"no email data yet":`${fmtPct(v)} open rate · target 40%`})()],
     ["Meetings booked",sum("meetings"),"the number that pays for the plan"],
-    ["Ended, no data",rows.filter(r=>r.st==="done"&&!r.has).length,"campaigns with nothing recorded"],
+    ["Ended, no data",rows.filter(r=>r.st==="done"&&!r.has).length,"campaigns waiting on a folder"],
   ];
   $("#hstats").innerHTML=S.map(([l,v,n])=>`<div class="stat"><div class="sl">${l}</div><div class="sv">${(v||0).toLocaleString("en-ZA")}</div><div class="sn">${n}</div></div>`).join("");
 
   const cards=shown.map(({c,it,st,has})=>{
     const inner=has?`<div class="hbody">
-        <div class="fnl"><div class="ft">Outreach funnel</div>${funnel(it,"out")||'<p class="hempty">No outreach numbers yet.</p>'}<div class="rates">${rateChips(it,"out")}</div></div>
-        <div class="fnl"><div class="ft">Email funnel</div>${funnel(it,"em")||'<p class="hempty">No email numbers yet.</p>'}<div class="rates">${rateChips(it,"em")}</div></div>
+        <div class="fnl"><div class="ft">Outreach funnel</div>${funnel(it,"out")||'<p class="hempty">No outreach numbers in this folder yet.</p>'}<div class="rates">${rateChips(it,"out")}</div></div>
+        <div class="fnl"><div class="ft">Email funnel</div>${funnel(it,"em")||'<p class="hempty">No email numbers in this folder yet.</p>'}<div class="rates">${rateChips(it,"em")}</div></div>
         ${(it.shots||[]).length?`<div class="fnl" style="grid-column:1/-1"><div class="ft">Evidence — ${it.shots.length} screenshot${it.shots.length===1?"":"s"}</div><div class="shots" data-shots="${esc(it.key)}"></div></div>`:""}
         ${it.note?`<div class="fnl" style="grid-column:1/-1"><div class="ft">Notes</div><div class="hnote">${esc(it.note)}</div></div>`:""}
       </div>`
     :"";
     const emptyMsg=has?"":(st==="done"
         ?`Ended, nothing logged. Create <b style="font-family:var(--f-mono)">Campaigns/${c.id} ${esc(c.name.split("—")[0].trim())}</b> and sync.`
-        :st==="live"?"Running now — numbers appear as Expandi posts each action."
+        :st==="live"?"Running now — numbers appear once its folder has an export in it."
         :`Launches ${fmt(c.launch)}.`);
     return `<div class="hcard ${st}">
       <div class="hhd"><span class="hid">${c.id}</span><h3>${esc(c.name)}</h3>
@@ -1437,7 +1593,7 @@ function renderHist(){
         <span class="hdates">${fmt(c.launch)} → ${fmt(c.ends)}</span></div>
       ${inner}
       <div class="hft">
-        <span>${it&&it.folder?`📁 ${esc(it.folder)}`:""}</span>
+        <span>${it&&it.folder?`📁 ${esc(it.folder)}`:"No folder synced"}</span>
         ${emptyMsg?`<span style="color:var(--ink-2)">${emptyMsg}</span>`:""}
         ${it&&it.files&&it.files.length?it.files.slice(0,4).map(f=>`<span class="asset"><span class="ax">${f.kind==="sheet"?"▤":f.kind==="img"?"▣":"▪"}</span>${esc(f.name)}</span>`).join(""):""}
         ${it&&it.files&&it.files.length>4?`<span>+${it.files.length-4} more</span>`:""}
@@ -1447,10 +1603,10 @@ function renderHist(){
   const orphCards=(HFILTER==="all"||HFILTER==="data"||HFILTER==="ended")?orphans.map(it=>`<div class="hcard done">
       <div class="hhd"><span class="hid">${it.ran?"PRE-PLAN":"—"}</span><h3>${esc(it.name||it.folder)}</h3>
         ${it.brand?`<span class="tag brand">${esc(it.brand)}</span>`:""}${it.act?`<span class="tag ${tagClass(it.act)}">${it.act}</span>`:""}
-        <span class="pill ${it.ran?"p-med":"p-high"}">${it.ran?"Ended":"Unassigned record"}</span>
+        <span class="pill ${it.ran?"p-med":"p-high"}">${it.ran?"Ended":"Unassigned folder"}</span>
         <span class="hdates">${it.ran?`${fmt(it.ran.from)} → ${fmt(it.ran.to)}`:`synced ${new Date(it.synced||Date.now()).toLocaleDateString("en-ZA",{day:"numeric",month:"short"})}`}</span></div>
       <div class="hbody">
-        <div class="fnl"><div class="ft">Outreach funnel</div>${funnel(it,"out")||'<p class="hempty">No numbers recorded.</p>'}<div class="rates">${rateChips(it,"out")}</div></div>
+        <div class="fnl"><div class="ft">Outreach funnel</div>${funnel(it,"out")||'<p class="hempty">No numbers found in this folder.</p>'}<div class="rates">${rateChips(it,"out")}</div></div>
         <div class="fnl"><div class="ft">Email funnel</div>${funnel(it,"em")||'<p class="hempty">No email numbers found.</p>'}<div class="rates">${rateChips(it,"em")}</div>
           ${(it.meta||[]).length?`<div class="ft" style="margin-top:1rem">Setup</div>${it.meta.map(m=>`<div style="font-size:.8rem;color:var(--ink-2)">${esc(m)}</div>`).join("")}`:""}</div>
         ${(it.shots||[]).length?`<div class="fnl" style="grid-column:1/-1"><div class="ft">Evidence — ${it.shots.length} screenshot${it.shots.length===1?"":"s"}</div><div class="shots" data-shots="${esc(it.key)}"></div></div>`:""}
@@ -1493,18 +1649,18 @@ function openEdit(key){
   $("#ptitle").textContent=title;
   $("#pbody").innerHTML=`
     ${(it.shots||[]).length?`<h4>Screenshots — read the numbers off these</h4><div class="shots" data-shots="${esc(it.key)}"></div>`:""}
-    ${!camp?`<h4>Which campaign is this record?</h4><select id="p_cid" style="font-family:var(--f-mono);font-size:.8rem;padding:.4rem;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);width:100%;max-width:26rem">
+    ${!camp?`<h4>Which campaign is this folder?</h4><select id="p_cid" style="font-family:var(--f-mono);font-size:.8rem;padding:.4rem;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);width:100%;max-width:26rem">
         <option value="">— unassigned —</option>${CAMPAIGNS.map(c=>`<option value="${c.id}"${it.cid===c.id?" selected":""}>${c.id} · ${esc(c.name)}</option>`).join("")}</select>`:""}
     <div class="cols">
       <div><h4>Outreach funnel</h4>${METRICS.filter(m=>m.g==="out").map(field).join("")}</div>
       <div><h4>Email funnel</h4>${METRICS.filter(m=>m.g==="em").map(field).join("")}</div>
     </div>
     <h4>What we learned</h4><textarea id="p_note" placeholder="What worked, what to change next time.">${esc(it.note||"")}</textarea>
-    ${it.files&&it.files.length?`<h4>Files on record</h4><div style="display:flex;gap:.4rem;flex-wrap:wrap">${it.files.map(f=>`<span class="asset"><span class="ax">${f.kind==="sheet"?"▤":f.kind==="img"?"▣":"▪"}</span>${esc(f.name)}</span>`).join("")}</div>`:""}
+    ${it.files&&it.files.length?`<h4>Files in this folder</h4><div style="display:flex;gap:.4rem;flex-wrap:wrap">${it.files.map(f=>`<span class="asset"><span class="ax">${f.kind==="sheet"?"▤":f.kind==="img"?"▣":"▪"}</span>${esc(f.name)}</span>`).join("")}</div>`:""}
     <div style="display:flex;gap:.5rem;margin-top:1.5rem;flex-wrap:wrap">
       <button class="btn" id="p_save">Save</button>
       <button class="btn ghost" id="p_clear">Clear my edits</button>
-      <span class="syncmeta" style="align-self:center">Typed values win over the live feed and survive every sync.</span>
+      <span class="syncmeta" style="align-self:center">Typed values win over the spreadsheet and survive every sync.</span>
     </div>`;
   $$("#pbody .shots").forEach(paintShots);
   $("#p_save").onclick=()=>{
@@ -1522,9 +1678,8 @@ function closePanel(){$("#panel").classList.remove("on");$("#scrim").classList.r
 $("#pclose").onclick=closePanel;
 
 /* ─────────── toolbar wiring ─────────── */
-function syncHDir(){const d=["launch","ends"].includes(HF.sort), n=HF.sort==="near";
-  $("#hdir").textContent=HF.dir>0?(n?"↑ nearest first":d?"↑ oldest first":"↑ lowest first")
-                                 :(n?"↓ furthest first":d?"↓ newest first":"↓ highest first")}
+function syncHDir(){const d=["launch","ends"].includes(HF.sort);
+  $("#hdir").textContent=HF.dir>0?(d?"↑ oldest first":"↑ lowest first"):(d?"↓ newest first":"↓ highest first")}
 function buildHistChips(){
   const box=$("#fhist");box.innerHTML="";box.style.cssText="display:flex;gap:.35rem;flex-wrap:wrap";
   [["all","Everything"],["data","With results"],["gap","Ended, nothing logged"],["live","Live now"],["ended","All ended"]].forEach(([k,l])=>{
@@ -1532,23 +1687,27 @@ function buildHistChips(){
     b.setAttribute("aria-pressed",HFILTER===k);
     b.onclick=()=>{HFILTER=k;buildHistChips();renderHist()};box.appendChild(b)});
   chipset("#fhbrand",["SERV","METSIM","TECH","ALL"],HF.brand);
-  chipset("#fhtype",[["IM","IM"],["EMAIL","EMAIL"],["BOTH","BOTH"]],HF.type,"sm2");
+  chipset("#fhtype",TYPES.map(t=>[t.k,t.k]),HF.type,"sm2");
   /* chipset re-renders the campaign view by default — point these at history */
   $$("#fhbrand .chip, #fhtype .chip").forEach(b=>{const set=b.parentElement.id==="fhbrand"?HF.brand:HF.type;
     b.onclick=()=>{tog(set,b.dataset.t);buildHistChips();renderHist()}});
   $("#hsort").value=HF.sort;
   $("#hsort").onchange=e=>{HF.sort=e.target.value;syncHDir();renderHist()};
   $("#hdir").onclick=()=>{HF.dir*=-1;syncHDir();renderHist()};
-  $("#hclear").onclick=()=>{HFILTER="all";HF.brand.clear();HF.type.clear();HF.sort="near";HF.dir=1;buildHistChips();renderHist()};
+  $("#hclear").onclick=()=>{HFILTER="all";HF.brand.clear();HF.type.clear();HF.sort="launch";HF.dir=1;buildHistChips();renderHist()};
   syncHDir();
 }
 
+$("#syncbtn").onclick=doSync;
+$("#pickbtn").onclick=pickRoot;
+$("#logbtn").onclick=()=>$("#synclog").classList.toggle("on");
+$("#fallbackpick").onchange=e=>ingestFileList(e.target.files);
 $("#expbtn").onclick=()=>{
   const blob=new Blob([JSON.stringify({exported:new Date().toISOString(),...HIST},null,2)],{type:"application/json"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);
   a.download="treo-campaign-history.json";a.click();URL.revokeObjectURL(a.href)};
 $("#claudebtn").onclick=async()=>{
-  const lines=["Treo Outreach Engine — campaign history export","Fill in or correct any numbers from the screenshots on record.",""];
+  const lines=["Treo Outreach Engine — campaign history export","Fill in or correct any numbers from the screenshots in these folders.",""];
   Object.values(HIST.items).forEach(it=>{
     lines.push(`## ${it.cid||"(unassigned)"} — folder "${it.folder}"`);
     lines.push("files: "+(it.files||[]).map(f=>f.name).join(", ")||"none");
@@ -1680,11 +1839,12 @@ async function cloudSync(mode){
   if(syncingCloud)return;
   if(!cloudConfigured()){clog("err","Supabase is not configured. Paste the project URL and anon key above.");return}
   syncingCloud=true;CLOG.length=0;
+  let failure=null;
   const btns=$$("#pbody .btn");btns.forEach(b=>b.disabled=true);
   try{
     const client=await sb();
     const user=await cloudUser();
-    if(!user){clog("err","Sign in first — the tables are closed to anyone who is not signed in.");return}
+    if(!user){failure=new Error("not signed in");clog("err","Sign in first — the tables are closed to anyone who is not signed in.");return}
     const who=user.email||user.id;
     if(!/@(treogroup\.co\.za|psconsult\.co\.za)$/i.test(who))
       clog("warn",`${who} is not a Treo address. The database will refuse every read and write — that is the security policy doing its job, not a bug.`);
@@ -1715,12 +1875,26 @@ async function cloudSync(mode){
       clog("ok",`took ${m.adopted.length} newer campaign record${m.adopted.length===1?"":"s"} from Supabase`);
     }
     if(push){
-      const rows=ALL_CAMPS.map(c=>campToRow(c,who));
+      /* Never push a record this browser has not actually touched. An
+         untouched record still carries the epoch timestamp, and upserting it
+         would overwrite a colleague's real edit with the file's starting
+         data. Push-only has no pull to lean on, so it checks first. */
+      const stamp={};
+      if(pull){remoteCamps.forEach(r=>stamp[r.code]=r.updated_at)}
+      else{
+        const {data,error}=await client.from("campaigns").select("code,updated_at");
+        if(error)throw new Error("campaigns check: "+error.message);
+        (data||[]).forEach(r=>stamp[r.code]=r.updated_at);
+      }
+      const all=ALL_CAMPS.map(c=>campToRow(c,who));
+      const rows=all.filter(r=>stamp[r.code]==null||r.updated_at>stamp[r.code]);
+      const held=all.length-rows.length;
+      if(held)clog("dim",`held back ${held} campaign${held===1?"":"s"} this browser has not changed`);
       if(rows.length){
         const {error}=await client.from("campaigns").upsert(rows,{onConflict:"code"});
         if(error)throw new Error("campaigns push: "+error.message);
-        clog("ok",`pushed ${rows.length} campaigns`);
-      }
+        clog("ok",`pushed ${rows.length} campaign${rows.length===1?"":"s"}`);
+      }else clog("ok","no campaign changes to push");
       if(CDEL.size){
         const del=[...CDEL].map(code=>({code,name:"(deleted)",is_deleted:true,updated_at:stampNow(),updated_by:who}));
         const {error}=await client.from("campaigns").upsert(del,{onConflict:"code"});
@@ -1801,7 +1975,17 @@ async function cloudSync(mode){
       if(gained)clog("ok",`filled in ${gained} typed number${gained===1?"":"s"} from Supabase`);
     }
     if(push){
-      const items=Object.values(HIST.items);
+      const rstamp={};
+      if(pull){remoteRes.forEach(r=>rstamp[r.result_key]=r.updated_at)}
+      else{
+        const {data,error}=await client.from("campaign_results").select("result_key,updated_at");
+        if(error)throw new Error("results check: "+error.message);
+        (data||[]).forEach(r=>rstamp[r.result_key]=r.updated_at);
+      }
+      const all=Object.values(HIST.items);
+      const items=all.filter(it=>rstamp[it.key]==null||upAt(it)>rstamp[it.key]);
+      const held=all.length-items.length;
+      if(held)clog("dim",`held back ${held} result${held===1?"":"s"} this browser has not changed`);
       if(items.length){
         const rows=items.map(it=>resToRow(it,who));
         const {error}=await client.from("campaign_results").upsert(rows,{onConflict:"result_key"});
@@ -1811,8 +1995,8 @@ async function cloudSync(mode){
           const {error:me}=await client.from("campaign_metrics").upsert(mrows,{onConflict:"result_key,metric_key"});
           if(me)throw new Error("metrics push: "+me.message);
         }
-        clog("ok",`pushed ${rows.length} results and ${mrows.length} metrics`);
-      }
+        clog("ok",`pushed ${rows.length} result${rows.length===1?"":"s"} and ${mrows.length} metrics`);
+      }else clog("ok","no result changes to push");
     }
 
     /* ── evidence screenshots ── */
@@ -1825,9 +2009,11 @@ async function cloudSync(mode){
     store.set(CLKEY,CL);
     campsChanged();saveHist();renderHist();
     clog("ok","Done.");
-  }catch(e){clog("err",e.message||String(e))}
+  }catch(e){failure=e;clog("err",e.message||String(e))}
   finally{syncingCloud=false;$$("#pbody .btn").forEach(b=>b.disabled=false);
     const st=$("#clstate");if(st)st.innerHTML=cloudStateLine();paintCloudDot()}
+  if(failure)throw failure;
+  return true;
 }
 
 async function syncShots(client,who,pull,push){
@@ -1876,6 +2062,44 @@ function cloudStateLine(){
   const when=CL.lastSync?new Date(CL.lastSync).toLocaleString("en-ZA",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}):null;
   return `<span class="dot ok"></span>${esc(c.url.replace(/^https?:\/\//,""))}${c.fromFile?" (from the file)":" (this browser)"}${when?` · last sync <b>${when}</b>`:" · never synced"}`;
 }
+/* The whole point of Supabase is that a colleague opening the app sees the
+   team's data, not their own browser's copy. Requiring them to find and click
+   Sync guarantees they will not. So: pull once on load, quietly, whenever
+   there is a session. Pull only — never push on load, or an untouched browser
+   could shout its starting data at everyone. */
+let AUTOPULLED=false;
+async function cloudBoot(){
+  const bn=$("#cloudbanner");
+  if(!cloudConfigured()){bn.hidden=true;return}
+  const user=await cloudUser();
+  if(!user){
+    bn.className="cbanner";bn.hidden=false;
+    bn.innerHTML=`<span><b>You are seeing this browser's own copy.</b> Sign in to load what the team has synced — campaign edits and results live in Supabase, not in this page.</span>
+      <button class="btn sm" id="bn_signin">Sign in</button>`;
+    $("#bn_signin").onclick=openCloud;
+    return;
+  }
+  if(AUTOPULLED){return}
+  AUTOPULLED=true;
+  bn.className="cbanner busy";bn.hidden=false;
+  bn.innerHTML=`<span>Loading the team's latest data…</span>`;
+  try{
+    await cloudSync("pull");
+    const when=CL.lastPull?new Date(CL.lastPull).toLocaleString("en-ZA",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}):"just now";
+    bn.className="cbanner ok";
+    bn.innerHTML=`<span><b>Up to date.</b> Pulled the team's data at ${esc(when)}, signed in as ${esc(user.email||user.id)}. Your own changes reach everyone else when you press <b>Sync now</b>.</span>
+      <button class="btn ghost sm" id="bn_sync">Sync now</button>`;
+    $("#bn_sync").onclick=()=>{openCloud();};
+    setTimeout(()=>{if(bn.classList.contains("ok"))bn.hidden=true},9000);
+  }catch(e){
+    bn.className="cbanner";
+    bn.innerHTML=`<span><b>Could not reach Supabase.</b> You are seeing this browser's copy. ${esc(e.message||"")}</span>
+      <button class="btn ghost sm" id="bn_retry">Open Cloud</button>`;
+    const r=$("#bn_retry"); if(r)r.onclick=openCloud;
+  }
+  paintCloudDot();
+}
+
 let CLOUD_DOT=null;
 async function paintCloudDot(){
   const b=$("#cloudbtn");if(!b)return;
@@ -1903,15 +2127,21 @@ async function openCloud(){
         <span class="syncmeta">The anon key is meant to be public. The service_role key is not — never paste that here.</span></div>
       <div class="synclog" id="cllog"></div>`
     :user?`
-      <p class="hempty">Signed in as <b>${esc(user.email||user.id)}</b>. Sync pulls what other people changed, merges it with what you changed, then pushes the result. Per record, the later edit wins.</p>
+      <p class="hempty">Signed in as <b>${esc(user.email||user.id)}</b>. The app already pulled the team's data when this page loaded. Press <b>Sync now</b> when you have made changes you want everyone else to see.</p>
       <div class="formact" style="border-top:none;margin-top:1rem;padding-top:0">
         <button class="btn" id="cl_sync">Sync now</button>
-        <button class="btn ghost" id="cl_push">Push only</button>
-        <button class="btn ghost" id="cl_pull">Pull only</button>
         <button class="btn ghost" id="cl_out">Sign out</button>
       </div>
+      <p class="hempty" style="margin-top:.9rem">Sync only ever sends records <b>this browser changed</b> — anything you have not touched is held back rather than written over someone else's work. Per record, the later edit wins.</p>
+      <details style="margin-top:.9rem">
+        <summary style="cursor:pointer;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">One direction at a time</summary>
+        <div class="formact" style="border-top:none;padding-top:.7rem">
+          <button class="btn ghost sm" id="cl_pull">Get the team's data</button>
+          <button class="btn ghost sm" id="cl_push">Send my changes</button>
+        </div>
+      </details>
       <h4>What syncs</h4>
-      <p class="hempty">Campaigns, the day-by-day plan, webinars, campaign results and the typed-in numbers, and the evidence screenshots into the <span style="font-family:var(--f-mono)">campaign-evidence</span> bucket. What does not sync: which weeks you have collapsed — that stays local, it is yours.</p>
+      <p class="hempty">Campaigns, the day-by-day plan, webinars, campaign results and the typed-in numbers, and the evidence screenshots into the <span style="font-family:var(--f-mono)">campaign-evidence</span> bucket. What does not sync: which weeks you have collapsed and which folder you picked for the sync — those stay local, they are yours.</p>
       <div class="synclog" id="cllog"></div>`
     :`
       <p class="hempty">Sign in with your Treo email. Supabase sends a six-digit code — no password to remember, and the tables stay closed to anyone who is not signed in.</p>
@@ -1970,6 +2200,7 @@ $("#cloudbtn").onclick=openCloud;
 loadCamps();
 buildChips(); buildCampChips(); renderCal(); renderWeeks(); renderWebinars(); renderApprovals();
 buildHistChips(); renderHist(); renderParked(); renderCampMeta(); paintCloudDot();
+cloudBoot();
 $("#campcount").textContent=CAMPAIGNS.length; $("#footcount").textContent=CAMPAIGNS.length;
 $("#today").textContent=new Date().toLocaleDateString("en-ZA",{weekday:"short",day:"numeric",month:"short",year:"numeric"});
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}

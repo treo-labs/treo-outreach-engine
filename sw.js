@@ -24,7 +24,8 @@ self.addEventListener("fetch", e => {
     );
     return;
   }
-  // App shell: cache first, and keep what we fetch, so the app opens offline.
+  // App shell: cache first, and keep what we fetch (xlsx.full.min.js is loaded
+  // lazily on the first sync — caching it means sync works offline after that)
   e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).then(resp => {
     if (resp.ok && url.origin === self.location.origin) {
       const copy = resp.clone();
