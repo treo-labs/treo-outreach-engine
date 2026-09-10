@@ -1,0 +1,8 @@
+.DS_Store
+Thumbs.db
+
+# The plan itself must never be committed — that is the whole point of
+# emptying index.html. Keep bootstrap.json in SharePoint, not in git.
+bootstrap.json
+treo-campaigns.json
+treo-campaign-history.json

@@ -265,6 +265,20 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0;font-fa
 .parkrow .pa{display:flex;gap:.35rem}
 @media(max-width:620px){.row{grid-template-columns:4.6rem 1fr auto!important}.row .cact{flex-direction:row}}
 
+/* ══════════ sign-in gate ══════════ */
+.gate{position:fixed;inset:0;background:var(--ground);z-index:200;display:flex;align-items:center;justify-content:center;padding:1.4rem}
+/* a class with display:flex beats the hidden attribute, and an invisible
+   full-screen overlay swallows every click on the page */
+.gate[hidden]{display:none!important}
+.gatebox{max-width:27rem;width:100%;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--accent);padding:1.7rem 1.6rem 1.5rem}
+.gatebox .gbrand{font-family:var(--f-display);font-weight:800;text-transform:uppercase;letter-spacing:-.01em;font-size:.95rem;color:var(--ink)}
+.gatebox .gbrand small{display:block;font-family:var(--f-mono);font-size:.58rem;letter-spacing:.18em;color:var(--muted);font-weight:400;margin-top:.15rem}
+.gatebox h2{font-size:1.3rem;font-weight:700;letter-spacing:-.015em;margin:1.3rem 0 .5rem}
+.gatebox p{margin:0;font-size:.87rem;color:var(--muted);line-height:1.55}
+.gatebox .form{margin-top:1.2rem}
+.gatebox .formact{margin-top:1.2rem;padding-top:1.1rem}
+body.locked>main,body.locked>footer,body.locked nav.tabs,body.locked #cloudbtn,body.locked .today{display:none}
+
 /* ══════════ cloud state banner ══════════ */
 .cbanner{border-left:3px solid var(--warn);background:var(--warn-wash);color:var(--ink);
   padding:.7rem 1rem;margin:0 0 1.1rem;font-size:.88rem;line-height:1.5;
@@ -325,6 +339,23 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
     </nav>
   </div>
 </header>
+
+<div class="gate" id="gate" hidden>
+  <div class="gatebox">
+    <div class="gbrand">Treo Outreach Engine <span class="chev">»»</span><small>Sales &amp; marketing operating system</small></div>
+    <h2 id="g_title">Sign in</h2>
+    <p id="g_msg">The plan and its results live in Supabase, not in this page. Sign in with your Treo email — Supabase sends a six-digit code, so there is no password to remember.</p>
+    <div class="form">
+      <div class="fld fw"><label for="g_email">Email</label><input id="g_email" type="email" placeholder="you@treogroup.co.za"></div>
+      <div class="fld fw" id="g_codewrap" hidden><label for="g_code">Six-digit code</label><input id="g_code" inputmode="numeric" autocomplete="one-time-code" placeholder="123456"></div>
+    </div>
+    <div class="formact">
+      <button class="btn" id="g_send">Send code</button>
+      <button class="btn" id="g_verify" hidden>Verify and sign in</button>
+    </div>
+    <div class="synclog" id="g_log"></div>
+  </div>
+</div>
 
 <main class="wrap">
 
@@ -397,6 +428,8 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
     </div>
   </div>
   <div class="syncmeta" id="campmeta" style="margin-bottom:.4rem"></div>
+  <div class="cbanner" id="emptystate" hidden></div>
+  <input type="file" id="bootpick" accept=".json" hidden>
 
   <div id="weeks"></div>
 
@@ -599,12 +632,22 @@ table.ctable td.nm{color:var(--ink);font-weight:600;font-family:var(--f-display)
 const SUPABASE_URL  = "https://bejxvsxlbwpsxkkygske.supabase.co";
 const SUPABASE_ANON = "sb_publishable_6vNeTF31-z_bfUtoiH-KyA_dQ30JyeW";
 
-const CAMPAIGNS_SEED=[{"id": "EX-01", "brand": "Treo Services", "channel": "Expandi", "name": "Post-Webinar: CAS — Attendees", "aud": "Attended 28 Jul CAS webinar", "src": "HubSpot / Teams attendee report", "steps": 5, "cta": "Book CAS readiness review", "build": "2026-08-25", "launch": "2026-08-26", "ends": "2026-09-10", "status": "Not started", "note": "URGENT — webinar ran 4 weeks ago. Send this week.", "act": "IM", "btag": "SERV"}, {"id": "EX-02", "brand": "Treo Services", "channel": "Expandi", "name": "Post-Webinar: CAS — No-Shows", "aud": "Registered 28 Jul, did not attend", "src": "HubSpot / Teams attendee report", "steps": 5, "cta": "Send recording → readiness review", "build": "2026-08-25", "launch": "2026-08-26", "ends": "2026-09-11", "status": "Not started", "note": "URGENT — same as EX-01.", "act": "IM", "btag": "SERV"}, {"id": "EX-04", "brand": "Treo Services", "channel": "Expandi", "name": "Webinar Invite: Traffic Management", "aud": "Mine safety, SHEQ, mining engineers, ops mgrs", "src": "Sales Navigator", "steps": 4, "cta": "Register (15 Sept)", "build": "2026-08-26", "launch": "2026-08-27", "ends": "2026-09-17", "status": "Not started", "note": "MOVED UP to this week — T-19. Connect first, wait 3 days per contact, then the IM invite. Two short follow-ups after.", "act": "IM", "btag": "SERV"}, {"id": "EX-06", "brand": "Treo Services", "channel": "Expandi", "name": "ISO 45001 Certified → ISO 45001 Webinar", "aud": "Employees of ISO 45001 certified operations", "src": "Sales Navigator (manual company list)", "steps": 5, "cta": "Register (29 Sept) + ISO 45001 audit tool", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-10-06", "status": "Not started", "note": "Now points at its OWN webinar, not Traffic Management. A/B split 50/50 on message 1.", "act": "IM", "btag": "SERV + TECH"}, {"id": "EX-06b", "brand": "Treo Services", "channel": "Expandi", "name": "ISO 45001 Webinar — General Safety Audience", "aud": "Safety / SHEQ / risk roles NOT on the certified list", "src": "Sales Navigator", "steps": 5, "cta": "Register (29 Sept)", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-10-01", "status": "Not started", "note": "Suppress the EX-06 audience before launch or the two collide.", "act": "IM", "btag": "SERV"}, {"id": "EX-08", "brand": "Treo Tech", "channel": "Expandi", "name": "MetalTech — Connected, Never Messaged", "aud": "1st-degree connections, no message history", "src": "LinkedIn connections export", "steps": 4, "cta": "Open a conversation → qualify", "build": "2026-09-03", "launch": "2026-09-08", "ends": "2026-09-26", "status": "Not started", "note": "No connection-request step — already connected. COLLISION: HS-08 emails the same MetalTech audience on 2 Sept. Suppress every HS-08 recipient from this list before launch, or push the launch to 23 Sept. Guardrail 2.", "act": "IM", "btag": "TECH"}, {"id": "EX-09", "brand": "Treo Tech", "channel": "Expandi", "name": "MetalTech — Connected & Messaged (warm)", "aud": "Prior message history, engaged, no deal", "src": "LinkedIn + HubSpot cross-ref", "steps": 4, "cta": "Book 30-min MetalTech demo", "build": "2026-08-26", "launch": "2026-08-27", "ends": "2026-09-16", "status": "Not started", "note": "MOVED UP to this week. Small list — personalise opener manually. Worth the time.", "act": "IM", "btag": "TECH"}, {"id": "EX-10", "brand": "All", "channel": "Expandi", "name": "Closed-Lost Revival", "aud": "Closed-lost, email follow-up unanswered", "src": "HubSpot deals", "steps": 5, "cta": "Re-open scoping conversation", "build": "2026-09-04", "launch": "2026-09-08", "ends": "2026-09-29", "status": "Not started", "note": "MOVED to w/c 7 Sept. Suppress anyone lost on price in last 90 days.", "act": "IM", "btag": "ALL"}, {"id": "HS-03", "brand": "Treo Services", "channel": "HubSpot", "name": "Webinar Invite: Traffic Management", "aud": "Safety / SHEQ / operations contacts with consent", "src": "HubSpot active list", "steps": 4, "cta": "Register (15 Sept)", "build": "2026-08-28", "launch": "2026-09-01", "ends": "2026-09-15", "status": "Not started", "note": "Invite T-14, reminders T-7 / T-1 / T-0 08:00.", "act": "EMAIL", "btag": "SERV"}, {"id": "HS-05a", "brand": "Treo Services", "channel": "HubSpot", "name": "ISO 45001 Webinar — Opted-in Safety DB", "aud": "Safety / SHEQ / risk contacts with consent", "src": "HubSpot active list", "steps": 4, "cta": "Register (29 Sept)", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-29", "status": "Not started", "note": "Invite T-13, reminders T-7 / T-1 / T-0 08:00. Not blocked — this list is opted in.", "act": "EMAIL", "btag": "SERV + TECH"}, {"id": "HS-05b", "brand": "Treo Services", "channel": "HubSpot", "name": "ISO 45001 Webinar — Certified-Company List", "aud": "ISO 45001 certified operations, enriched emails", "src": "Sales Nav enrichment → HubSpot", "steps": 2, "cta": "Register (29 Sept) + audit tool", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-23", "status": "BLOCKED", "note": "POPIA: needs lawful-basis sign-off before send. If unresolved, run EX-06 on LinkedIn only.", "act": "EMAIL", "btag": "SERV + TECH"}, {"id": "HS-08", "brand": "Treo Tech", "channel": "HubSpot", "name": "MetalTech — Website Visit → Demo Booking", "aud": "MetalTech target contacts with lawful basis to email", "src": "HubSpot CRM export — campaign targets (27 Aug 2026)", "steps": 3, "cta": "Read the MetalTech page → book a 30-min demo", "build": "2026-09-01", "launch": "2026-09-02", "ends": "2026-09-16", "status": "Not started", "note": "NEW this week. Three emails — 2, 9 and 16 Sept — each landing on the MetalTech page with one CTA: book a 30-minute demo. Franco has to sign off before Wednesday's build slot; MetalTech content does not send without him. COLLISION: EX-08 puts the same MetalTech offer on LinkedIn on 8 Sept, six days after email 1. Build EX-08's list to exclude everyone who receives this, or move EX-08 to 23 Sept. Guardrail 2 covers it.", "act": "EMAIL", "btag": "TECH"}, {"id": "PRE-01", "brand": "METSIM", "channel": "Expandi", "name": "Pre-Webinar Reminder: METSIM Model Audits", "aud": "LinkedIn event registrants, 8 Sept session", "src": "LinkedIn event 7493248019019186176", "steps": 3, "cta": "Confirm attendance + email address for the recording", "build": "2026-09-02", "launch": "2026-09-03", "ends": "2026-09-08", "status": "Not started", "note": "LinkedIn event registration hands you a profile, not an email address — so without this campaign the recording has nowhere to go. Three touches: T-5 reminder that asks for the address, T-1 last call with the joining link, day-of 08:00. Every address captured goes onto the HubSpot contact before the session starts, which is the only thing that makes a post-webinar sequence possible.", "act": "IM", "btag": "METSIM"}, {"id": "PRE-02", "brand": "Treo Services", "channel": "Expandi", "name": "Pre-Webinar Reminder: Traffic Management", "aud": "LinkedIn event registrants, 15 Sept session", "src": "LinkedIn event + HS-03 registration list (for suppression)", "steps": 3, "cta": "Confirm attendance + email address for the recording", "build": "2026-09-09", "launch": "2026-09-10", "ends": "2026-09-15", "status": "Not started", "note": "HS-03 already holds email addresses for everyone who registered by email, so this leg works the LinkedIn side only. Suppress the HubSpot registrants — they get the T-7 and T-1 email reminders and do not need both channels chasing them about the same session.", "act": "IM", "btag": "SERV"}, {"id": "PRE-03", "brand": "Treo Services", "channel": "Expandi", "name": "Pre-Webinar Reminder: ISO 45001", "aud": "LinkedIn event registrants, 29 Sept session", "src": "LinkedIn event + HS-05a registration list (for suppression)", "steps": 3, "cta": "Confirm attendance + email address for the recording", "build": "2026-09-23", "launch": "2026-09-24", "ends": "2026-09-29", "status": "Not started", "note": "Same split as PRE-02 — LinkedIn registrants only, HubSpot registrants excluded. This is the coldest of the four audiences, so the reminder will do more work than the invite did. Attendance, not registration, is the number that matters here.", "act": "IM", "btag": "SERV + TECH"}, {"id": "PRE-04", "brand": "METSIM", "channel": "Expandi", "name": "Pre-Webinar Reminder: Simulation 4.0", "aud": "LinkedIn event registrants, 13 Oct session", "src": "LinkedIn event 7493607657983873024", "steps": 3, "cta": "Confirm attendance + email address for the recording", "build": "2026-10-07", "launch": "2026-10-08", "ends": "2026-10-13", "status": "Not started", "note": "Last session of the quarter, and the only live METSIM activity while the METSIM programme is parked. Capture addresses even from people who never attend — that list is the starting point for whatever restarts METSIM in Q1 2027.", "act": "IM", "btag": "METSIM"}, {"id": "PW-02", "brand": "Treo Services", "channel": "Both", "name": "Post-Webinar: Traffic Management", "aud": "Attendees + registered no-shows, 15 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Traffic management review", "build": "2026-09-10", "launch": "2026-09-16", "ends": "2026-09-25", "status": "Not started", "note": "Bridges to the ISO 45001 webinar on 29 Sept. Send from Samuel where possible.", "act": "EMAIL + IM", "btag": "SERV"}, {"id": "PW-03", "brand": "Treo Services", "channel": "Both", "name": "Post-Webinar: ISO 45001", "aud": "Attendees + registered no-shows, 29 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "ISO 45001 audit tool demo", "build": "2026-09-24", "launch": "2026-09-30", "ends": "2026-10-09", "status": "Not started", "note": "No further safety session — bridge to the tool demo, not another webinar.", "act": "EMAIL + IM", "btag": "SERV + TECH"}];
+/* ═══════════════════════════════════════════════════════════════════
+   No campaign data ships in this file any more. It used to, and that
+   meant anyone who opened the page — or pressed Ctrl-U — read the whole
+   plan: every audience, list source, approver and result. The data now
+   lives only in Supabase, behind a sign-in.
+
+   These stay as empty arrays so the app has something to render before
+   the first pull. A cold start with an empty database imports
+   bootstrap.json from the Campaigns tab.
+   ═══════════════════════════════════════════════════════════════════ */
+const CAMPAIGNS_SEED=[];
 /* METSIM programme parked 1 Sept 2026 — kept here so it can be restored
    by moving entries back into CAMPAIGNS. Nothing renders from PARKED. */
-const PARKED_SEED=[{"id": "EX-03", "brand": "METSIM", "channel": "Expandi", "name": "METSIM Two-Session Series", "aud": "MCL active + worked webform inbound + Sales Nav METSIM targets", "src": "MCL + HubSpot forms + Sales Navigator", "steps": 6, "cta": "Register 8 Sept + 13 Oct", "build": "2026-08-31", "launch": "2026-09-02", "ends": "2026-10-06", "status": "Not started", "note": "MOVED to w/c 31 Aug. Merges old EX-03 + EX-05 + EX-12. LinkedIn events: 7493248019019186176 (8 Sep) + 7493607657983873024 (13 Oct). MCL lapsed excluded.", "act": "IM", "btag": "METSIM"}, {"id": "EX-07", "brand": "METSIM", "channel": "Expandi", "name": "METSIM Licence Expired", "aud": "Lapsed METSIM licence holders", "src": "METSIM client list (licence DB)", "steps": 5, "cta": "Renewal quote / 15-min call", "build": "2026-09-28", "launch": "2026-10-01", "ends": "2026-10-19", "status": "Not started", "note": "Pushed to 1 Oct to stay a clear week behind HS-06, which now ends 24 Sept.", "act": "IM", "btag": "METSIM"}, {"id": "HS-02", "brand": "METSIM", "channel": "HubSpot", "name": "METSIM Two-Session Series", "aud": "MCL active + webform inbound + opted-in METSIM contacts", "src": "MCL + HubSpot active list", "steps": 9, "cta": "Register 8 Sept + 13 Oct", "build": "2026-08-28", "launch": "2026-09-02", "ends": "2026-10-13", "status": "Not started", "note": "MOVED to w/c 31 Aug. Merges old HS-02 + HS-04 + HS-07. Use the LinkedIn event links for both sessions. Registration removes from that session's reminders only.", "act": "EMAIL", "btag": "METSIM"}, {"id": "HS-06", "brand": "METSIM", "channel": "HubSpot", "name": "METSIM Licence Expired", "aud": "Lapsed licence holders with valid email", "src": "METSIM licence DB → HubSpot", "steps": 3, "cta": "Renewal quote / 15-min call", "build": "2026-09-04", "launch": "2026-09-10", "ends": "2026-09-24", "status": "Not started", "note": "MOVED to w/c 7 Sept. Day 0 / +7 / +14 — 10, 17, 24 Sept. EX-07 follows on 1 Oct.", "act": "EMAIL", "btag": "METSIM"}, {"id": "PW-01", "brand": "METSIM", "channel": "Both", "name": "Post-Webinar: METSIM Model Audits", "aud": "Attendees + registered no-shows, 8 Sept", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Model audit engagement", "build": "2026-09-03", "launch": "2026-09-09", "ends": "2026-09-18", "status": "Not started", "note": "Build the week BEFORE the webinar. Live within 24h. Send from Calvin where possible.", "act": "EMAIL + IM", "btag": "METSIM"}, {"id": "PW-04", "brand": "METSIM", "channel": "Both", "name": "Post-Webinar: Simulation 4.0", "aud": "Attendees + registered no-shows, 13 Oct", "src": "Teams attendee report → HubSpot", "steps": 4, "cta": "Scoped AI pilot or model build", "build": "2026-10-08", "launch": "2026-10-14", "ends": "2026-10-23", "status": "Not started", "note": "Last session of the quarter. Bridge to Q1 2027, not another invite.", "act": "EMAIL + IM", "btag": "METSIM"}];
-const SCHEDULE=[{"date": "2026-08-26", "week": "W1", "id": "EX-01/02", "ch": "Expandi", "action": "Post-webinar CAS — attendee + no-show sequences (LinkedIn only)", "pri": "CRITICAL"}, {"date": "2026-08-27", "week": "W1", "id": "EX-04", "ch": "Expandi", "action": "Launch — Traffic Management connection requests (invite fires 3 days after each accept)", "pri": "High"}, {"date": "2026-08-27", "week": "W1", "id": "EX-09", "ch": "Expandi", "action": "Launch — MetalTech warm signals (MOVED UP)", "pri": "High"}, {"date": "2026-09-01", "week": "W2", "id": "HS-03", "ch": "HubSpot", "action": "Invite send — Traffic Management, email leg (T-14)", "pri": "High"}, {"date": "2026-09-01", "week": "W2", "id": "HS-08", "ch": "HubSpot", "action": "BUILD + Franco sign-off — MetalTech email campaign (gate for tomorrow's send)", "pri": "High"}, {"date": "2026-09-02", "week": "W2", "id": "HS-08", "ch": "HubSpot", "action": "LAUNCH — MetalTech email 1 → website + demo booking", "pri": "High"}, {"date": "2026-09-02", "week": "W2", "id": "PRE-01", "ch": "Expandi", "action": "BUILD pre-webinar reminder — METSIM Model Audits", "pri": "High"}, {"date": "2026-09-03", "week": "W2", "id": "PRE-01", "ch": "Expandi", "action": "LAUNCH — Model Audits T-5 reminder + email capture", "pri": "High"}, {"date": "2026-09-07", "week": "W3", "id": "PRE-01", "ch": "Expandi", "action": "T-1 last call + email capture — Model Audits", "pri": "High"}, {"date": "2026-09-08", "week": "W3", "id": "EX-08", "ch": "Expandi", "action": "Launch — MetalTech cold sequence", "pri": "Medium"}, {"date": "2026-09-08", "week": "W3", "id": "EX-10", "ch": "Expandi", "action": "Launch — closed-lost revival", "pri": "Medium"}, {"date": "2026-09-08", "week": "W3", "id": "HS-03", "ch": "HubSpot", "action": "Reminder T-7 — Traffic Management", "pri": "High"}, {"date": "2026-09-08", "week": "W3", "id": "PRE-01", "ch": "Expandi", "action": "Day-of 08:00 — joining link, last ask for the address", "pri": "CRITICAL"}, {"date": "2026-09-08", "week": "W3", "id": "—", "ch": "Webinar", "action": "LIVE 10:00 — METSIM Model Audits (Calvin Morrison)", "pri": "CRITICAL"}, {"date": "2026-09-09", "week": "W3", "id": "HS-08", "ch": "HubSpot", "action": "MetalTech email 2 — demo booking", "pri": "Medium"}, {"date": "2026-09-09", "week": "W3", "id": "PRE-02", "ch": "Expandi", "action": "BUILD pre-webinar reminder — Traffic Management", "pri": "High"}, {"date": "2026-09-10", "week": "W3", "id": "PRE-02", "ch": "Expandi", "action": "LAUNCH — Traffic Management T-5 reminder + email capture", "pri": "High"}, {"date": "2026-09-10", "week": "W3", "id": "PW-02", "ch": "Both", "action": "BUILD post-webinar sequence — Traffic Management", "pri": "High"}, {"date": "2026-09-14", "week": "W4", "id": "HS-03", "ch": "HubSpot", "action": "Reminder T-1 — Traffic Management", "pri": "High"}, {"date": "2026-09-14", "week": "W4", "id": "PRE-02", "ch": "Expandi", "action": "T-1 last call + email capture — Traffic Management", "pri": "High"}, {"date": "2026-09-15", "week": "W4", "id": "HS-03", "ch": "HubSpot", "action": "Day-of send 08:00 — Traffic Management", "pri": "High"}, {"date": "2026-09-15", "week": "W4", "id": "PRE-02", "ch": "Expandi", "action": "Day-of 08:00 — joining link, last ask for the address", "pri": "CRITICAL"}, {"date": "2026-09-15", "week": "W4", "id": "—", "ch": "Webinar", "action": "LIVE 10:00 — Traffic Management (Samuel Pieterse)", "pri": "CRITICAL"}, {"date": "2026-09-16", "week": "W4", "id": "EX-06/06b", "ch": "Expandi", "action": "Launch — ISO 45001 invite, certified list + general safety", "pri": "High"}, {"date": "2026-09-16", "week": "W4", "id": "HS-05a", "ch": "HubSpot", "action": "Invite send — ISO 45001: Conformance ≠ Compliance (T-13)", "pri": "High"}, {"date": "2026-09-16", "week": "W4", "id": "HS-05b", "ch": "HubSpot", "action": "ISO 45001 certified-company email — HOLD until POPIA sign-off", "pri": "BLOCKED"}, {"date": "2026-09-16", "week": "W4", "id": "HS-08", "ch": "HubSpot", "action": "MetalTech email 3 — final demo push", "pri": "Medium"}, {"date": "2026-09-16", "week": "W4", "id": "PW-02", "ch": "Both", "action": "POST-WEBINAR LIVE — Traffic Management, bridges to ISO 45001", "pri": "CRITICAL"}, {"date": "2026-09-22", "week": "W5", "id": "HS-05a", "ch": "HubSpot", "action": "Reminder T-7 — ISO 45001", "pri": "High"}, {"date": "2026-09-23", "week": "W5", "id": "PRE-03", "ch": "Expandi", "action": "BUILD pre-webinar reminder — ISO 45001", "pri": "High"}, {"date": "2026-09-24", "week": "W5", "id": "PRE-03", "ch": "Expandi", "action": "LAUNCH — ISO 45001 T-5 reminder + email capture", "pri": "High"}, {"date": "2026-09-24", "week": "W5", "id": "PW-03", "ch": "Both", "action": "BUILD post-webinar sequence — ISO 45001", "pri": "High"}, {"date": "2026-09-28", "week": "W6", "id": "HS-05a", "ch": "HubSpot", "action": "Reminder T-1 — ISO 45001", "pri": "High"}, {"date": "2026-09-28", "week": "W6", "id": "PRE-03", "ch": "Expandi", "action": "T-1 last call + email capture — ISO 45001", "pri": "High"}, {"date": "2026-09-29", "week": "W6", "id": "HS-05a", "ch": "HubSpot", "action": "Day-of send 08:00 — ISO 45001", "pri": "High"}, {"date": "2026-09-29", "week": "W6", "id": "PRE-03", "ch": "Expandi", "action": "Day-of 08:00 — joining link, last ask for the address", "pri": "CRITICAL"}, {"date": "2026-09-29", "week": "W6", "id": "—", "ch": "Webinar", "action": "LIVE 10:00 — ISO 45001: Conformance ≠ Compliance", "pri": "CRITICAL"}, {"date": "2026-09-30", "week": "W6", "id": "PW-03", "ch": "Both", "action": "POST-WEBINAR LIVE — ISO 45001, bridges to the audit tool", "pri": "CRITICAL"}, {"date": "2026-10-07", "week": "W7", "id": "PRE-04", "ch": "Expandi", "action": "BUILD pre-webinar reminder — Simulation 4.0", "pri": "High"}, {"date": "2026-10-08", "week": "W7", "id": "PRE-04", "ch": "Expandi", "action": "LAUNCH — Simulation 4.0 T-5 reminder + email capture", "pri": "High"}, {"date": "2026-10-12", "week": "W8", "id": "PRE-04", "ch": "Expandi", "action": "T-1 last call + email capture — Simulation 4.0", "pri": "High"}, {"date": "2026-10-13", "week": "W8", "id": "PRE-04", "ch": "Expandi", "action": "Day-of 08:00 — joining link, last ask for the address", "pri": "CRITICAL"}, {"date": "2026-10-13", "week": "W8", "id": "—", "ch": "Webinar", "action": "LIVE 10:00 — Simulation 4.0: Where METSIM Meets AI", "pri": "CRITICAL"}];
-const WEBINARS=[{"name": "Collision Avoidance in Mining: Barriers to Implementation in African Mining", "brand": "Treo Services", "speaker": "Samuel Pieterse", "date": "2026-07-28", "time": "10:00–11:00", "status": "RAN — follow-up overdue", "feeds": "EX-01, EX-02 (LinkedIn only)"}, {"name": "METSIM Model Audits: Best Practice", "brand": "METSIM", "speaker": "Calvin Morrison", "date": "2026-09-08", "time": "10:00–11:00", "status": "Upcoming", "feeds": "PRE-01 (LinkedIn event registrants)"}, {"name": "Traffic Management: Saving Millions, Preventing Losses", "brand": "Treo Services", "speaker": "Samuel Pieterse", "date": "2026-09-15", "time": "10:00–11:00", "status": "Upcoming", "feeds": "EX-04, HS-03 → PRE-02 → PW-02"}, {"name": "ISO 45001: Conformance ≠ Compliance", "brand": "Treo Services", "speaker": "TBC", "date": "2026-09-29", "time": "10:00–11:00", "status": "Upcoming", "feeds": "EX-06, EX-06b, HS-05a/b → PRE-03 → PW-03"}, {"name": "Simulation 4.0: Where METSIM Meets AI", "brand": "METSIM", "speaker": "TBC", "date": "2026-10-13", "time": "10:00–11:00", "status": "Upcoming", "feeds": "PRE-04 (LinkedIn event registrants)"}];
+const PARKED_SEED=[];
+const SCHEDULE=[];
+const WEBINARS=[];
 
 /* ─────────── weekly admin calendar ─────────── */
 const BLOCKS=[
@@ -985,6 +1028,7 @@ function saveCamps(){store.set(CKEY,{v:CAMP_SEED_VERSION,list:ALL_CAMPS,deleted:
 function campsChanged(){
   syncCampArrays();saveCamps();
   renderWeeks();renderParked();renderCampMeta();renderHist();
+  if(typeof renderEmptyState==="function")renderEmptyState();
   $("#campcount").textContent=CAMPAIGNS.length;$("#footcount").textContent=CAMPAIGNS.length;
 }
 function nextId(pre){
@@ -1192,24 +1236,9 @@ const RATES=[
  {k:"ctor",l:"CTOR",    n:"clicks",   d:"opens",    t:()=>0.10, g:"em"},
 ];
 
-/* Campaigns that ran before this plan started, read off the Expandi
-   screenshots in their folder. Seeded once; a sync updates them in place. */
-const SEED=[{
-  key:"folder:Metaltech Connect Campaign", cid:null,
-  folder:"Metaltech Connect Campaign",
-  name:"Metaltech connect campaign", brand:"Treo Tech", act:"IM",
-  ran:{from:"2026-07-21",to:"2026-08-12"},
-  meta:["Lead list: Metaltech Leads | Kyle","Sent from calvin@psconsult.co.za","Sentiment untagged — 0 positive / 0 neutral / 0 negative"],
-  m:{},rates:{},
-  man:{list:132,invites:132,accepted:68,replies:43},
-  src:{list:"Overview.png — 132 people in campaign",invites:"Overview.png — Initiated 132 of 132",
-       accepted:"Overview.png — Connected 51.52%, 68 of 132",replies:"Overview.png — Replied 32.58%, 43 of 132"},
-  note:"Ran 21 Jul – 12 Aug 2026, before this plan started. Accept rate of 51.5% is well clear of the 30% benchmark, and 43 replies off 68 connections is a 63% reply rate among people who accepted — the strongest signal in anything recorded so far. Nothing was sentiment-tagged in Expandi, so positive replies and meetings are unknown: worth going back through the inbox and filling those in, because that is the number that decides whether MetalTech gets more list.",
-  files:[{name:"Metaltech Connect CampaignLeads List.csv",size:119000,kind:"sheet"},
-         {name:"Overview.png",size:32100,kind:"img"},
-         {name:"History.png",size:74700,kind:"img"},
-         {name:"Chart Stats.png",size:104000,kind:"img"}],
-  shots:[],seeded:true}];
+/* The Metaltech record lived here too, carrying a sender address and the
+   campaign's results. It is in Supabase now, like everything else. */
+const SEED=[];
 
 let HIST=store.get(HKEY,{rootName:"",lastSync:"",items:{}});
 const saveHist=()=>store.set(HKEY,HIST);
@@ -2070,15 +2099,14 @@ function cloudStateLine(){
 let AUTOPULLED=false;
 async function cloudBoot(){
   const bn=$("#cloudbanner");
-  if(!cloudConfigured()){bn.hidden=true;return}
-  const user=await cloudUser();
-  if(!user){
-    bn.className="cbanner";bn.hidden=false;
-    bn.innerHTML=`<span><b>You are seeing this browser's own copy.</b> Sign in to load what the team has synced — campaign edits and results live in Supabase, not in this page.</span>
-      <button class="btn sm" id="bn_signin">Sign in</button>`;
-    $("#bn_signin").onclick=openCloud;
-    return;
+  if(!cloudConfigured()){
+    /* No Supabase configured — the app runs as a local-only tool, so there is
+       nothing to sign in to and nothing to gate. */
+    bn.hidden=true;unlockApp();renderEmptyState();return;
   }
+  const user=await cloudUser();
+  if(!user){lockApp();$("#g_email").value=store.get("oe.cloud.email","")||"";return}
+  unlockApp();
   if(AUTOPULLED){return}
   AUTOPULLED=true;
   bn.className="cbanner busy";bn.hidden=false;
@@ -2091,14 +2119,86 @@ async function cloudBoot(){
       <button class="btn ghost sm" id="bn_sync">Sync now</button>`;
     $("#bn_sync").onclick=()=>{openCloud();};
     setTimeout(()=>{if(bn.classList.contains("ok"))bn.hidden=true},9000);
+    renderEmptyState();
   }catch(e){
     bn.className="cbanner";
     bn.innerHTML=`<span><b>Could not reach Supabase.</b> You are seeing this browser's copy. ${esc(e.message||"")}</span>
       <button class="btn ghost sm" id="bn_retry">Open Cloud</button>`;
     const r=$("#bn_retry"); if(r)r.onclick=openCloud;
+    renderEmptyState();
   }
   paintCloudDot();
 }
+
+/* ─────────── the gate ─────────── */
+function glog(kind,msg){const b=$("#g_log");if(!b)return;
+  b.classList.add("on");
+  b.innerHTML=`<div class="lg-${kind}">${kind==="err"?"✕":kind==="ok"?"✓":"·"} ${esc(msg)}</div>`}
+function lockApp(){document.body.classList.add("locked");$("#gate").hidden=false}
+function unlockApp(){document.body.classList.remove("locked");$("#gate").hidden=true}
+
+$("#g_send").onclick=async()=>{
+  const email=$("#g_email").value.trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return glog("err","That is not an email address.");
+  store.set("oe.cloud.email",email);
+  $("#g_send").disabled=true;
+  try{
+    const {error}=await (await sb()).auth.signInWithOtp({email,options:{shouldCreateUser:false}});
+    if(error)throw error;
+    $("#g_codewrap").hidden=false;$("#g_verify").hidden=false;$("#g_send").textContent="Resend code";
+    glog("ok",`Code sent to ${email}. It expires in an hour.`);
+    $("#g_code").focus();
+  }catch(e){
+    const m=e.message||String(e);
+    glog("err",/signups? not allowed|user not found|not found/i.test(m)
+      ? `${email} has no account on this project. Ask Kelly for an invite — the app cannot create one.`
+      : m);
+  }finally{$("#g_send").disabled=false}
+};
+$("#g_verify").onclick=async()=>{
+  const email=$("#g_email").value.trim(), token=$("#g_code").value.trim();
+  $("#g_verify").disabled=true;
+  try{
+    const {error}=await (await sb()).auth.verifyOtp({email,token,type:"email"});
+    if(error)throw error;
+    glog("ok","Signed in. Loading the plan…");
+    unlockApp();AUTOPULLED=false;await cloudBoot();
+  }catch(e){glog("err",e.message||String(e))}
+  finally{$("#g_verify").disabled=false}
+};
+$("#g_code").onkeydown=e=>{if(e.key==="Enter")$("#g_verify").click()};
+$("#g_email").onkeydown=e=>{if(e.key==="Enter")$("#g_send").click()};
+
+/* ─────────── cold start ─────────── */
+function renderEmptyState(){
+  const bn=$("#emptystate");if(!bn)return;
+  if(ALL_CAMPS.length){bn.hidden=true;return}
+  bn.hidden=false;bn.className="cbanner";
+  bn.innerHTML=`<span><b>Nothing here yet.</b> No campaigns in Supabase and none in this browser. Either pull again, or load <span style="font-family:var(--f-mono)">bootstrap.json</span> to seed the plan — then Sync to put it in Supabase for everyone.</span>
+    <button class="btn sm" id="es_import">Load bootstrap.json</button>`;
+  $("#es_import").onclick=()=>$("#bootpick").click();
+}
+$("#bootpick").onchange=async e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  try{
+    const o=JSON.parse(await f.text());
+    const list=[];
+    (o.campaigns||[]).forEach(c=>{if(c&&c.id)list.push({...c,parked:!!c.parked})});
+    (o.parked||[]).forEach(c=>{if(c&&c.id)list.push({...c,parked:true})});
+    if(!list.length)throw new Error("no campaigns in that file");
+    const now=stampNow();
+    ALL_CAMPS=list.map(c=>({...c,custom:true,edited:true,updated_at:c.updated_at||now}));
+    if(Array.isArray(o.schedule)&&o.schedule.length){SCHEDULE.length=0;o.schedule.forEach(a=>SCHEDULE.push(a))}
+    if(Array.isArray(o.webinars)&&o.webinars.length){WEBINARS.length=0;o.webinars.forEach(w=>WEBINARS.push(w))}
+    campsChanged();renderWebinars();renderEmptyState();
+    const bn=$("#emptystate");bn.hidden=false;bn.className="cbanner ok";
+    bn.innerHTML=`<span><b>Loaded ${list.length} campaigns from that file.</b> They are in this browser only until you press Sync — do that now so everyone else gets them.</span>`;
+  }catch(err){
+    const bn=$("#emptystate");bn.hidden=false;bn.className="cbanner";
+    bn.innerHTML=`<span><b>Could not read that file.</b> ${esc(err.message||"")}</span>`;
+  }
+  e.target.value="";
+};
 
 let CLOUD_DOT=null;
 async function paintCloudDot(){
@@ -2189,7 +2289,10 @@ async function openCloud(){
   if($("#cl_pull"))$("#cl_pull").onclick=()=>cloudSync("pull");
   if($("#cl_out"))$("#cl_out").onclick=async()=>{
     try{await (await sb()).auth.signOut()}catch(e){}
-    await paintCloudDot();openCloud()};
+    await paintCloudDot();closePanel();AUTOPULLED=false;lockApp();
+    $("#g_email").value=store.get("oe.cloud.email","")||"";
+    $("#g_codewrap").hidden=true;$("#g_verify").hidden=true;$("#g_send").textContent="Send code";
+    glog("dim","Signed out.")};
 
   $("#panel").classList.add("on");$("#scrim").classList.add("on");
 }
@@ -2200,6 +2303,8 @@ $("#cloudbtn").onclick=openCloud;
 loadCamps();
 buildChips(); buildCampChips(); renderCal(); renderWeeks(); renderWebinars(); renderApprovals();
 buildHistChips(); renderHist(); renderParked(); renderCampMeta(); paintCloudDot();
+/* Lock before the async check so the plan never flashes up unauthenticated. */
+if(cloudConfigured())lockApp();
 cloudBoot();
 $("#campcount").textContent=CAMPAIGNS.length; $("#footcount").textContent=CAMPAIGNS.length;
 $("#today").textContent=new Date().toLocaleDateString("en-ZA",{weekday:"short",day:"numeric",month:"short",year:"numeric"});
